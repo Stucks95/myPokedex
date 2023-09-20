@@ -1,0 +1,7 @@
+{
+  "name": "myPokedex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
