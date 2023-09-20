@@ -63,4 +63,9 @@ export class HomePage implements OnInit {
     */
   }
 
+  refreshPage(): void {
+    console.log('refreshPage! ');
+    window.location.reload();
+  }
+
 }
