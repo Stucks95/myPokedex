@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -7,17 +8,21 @@ import { map } from 'rxjs/operators';
 })
 
 export class PokemonService {
-  baseUrl = 'https://pokeapi.co/api/v2';
-  imageUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
-  pokemonUrl = 'https://pokeapi.co/api/v2/pokemon-species';  // u can find species, generations, description ecc..
 
-  constructor(private http: HttpClient) {
-  }
+  baseUrl: string = 'https://pokeapi.co/api/v2'
+  imageUrl: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+  pokemonUrl: string = 'https://pokeapi.co/api/v2/pokemon-species'  // u can find species, description ecc..
+  generationUrl: string = 'https://pokeapi.co/api/v2/generation'
+  totalPokemons: number = 1292
+  pokemonsByGen: Array<Object> = []
 
-  getAllPokemons(offset: number = 0, limit: number = 1281) {
+  constructor(private http: HttpClient) {}
+
+  getAllPokemons(offset: number = 0, limit = this.totalPokemons): Observable<any> {
     return this.http.get(`${this.baseUrl}/pokemon?offset=${offset}&limit=${limit}`).pipe(
       map((result: Object) => {
-        return Object.values(result)[3];
+        console.log(result)
+        return Object.values(result)[3]
       }),
       map((pokemons: any) => {
         return pokemons.map((poke: any, index: any) => {
@@ -27,6 +32,14 @@ export class PokemonService {
         })
       })
     )
+  }
+
+  getGeneration() {
+    this.http.get(`${this.generationUrl}/1`).subscribe((res: Object) => {
+      this.pokemonsByGen = Object.values(res)[6]
+      console.log('this.pokemonsByGen', this.pokemonsByGen)
+      return this.pokemonsByGen
+    })
   }
 
   getPokemon(offset: number = 0, limit: number = 25) {
