@@ -1,37 +1,78 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
-import { IonInfiniteScroll } from '@ionic/angular';
-import { Observable, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, AfterViewInit {
-  offset = 0;
-  pokemons: any = [];
+export class HomePage implements OnInit, OnDestroy {
+  
+  appVersion: string = this.pokeService.appVersion
+  offset: number
+  subInitPokemon: Subscription
+  subAllPokemon: Subscription
+  pokemons: { index: number, name: string, url: string, image: string }[]
+  allPokemons: { index: number, name: string, url: string, image: string }[]
+  regions: { idGen: number, region: string }[]
 
-  @ViewChild(IonInfiniteScroll) infinite!: IonInfiniteScroll;
+  // for searching
+  searchText: string = ""
+  searchingPokemon: boolean = false
+
+  customPopoverOptions = {
+    header: 'Regions',
+  };
 
   constructor(private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.loadPokemons()
+    this.loadPokemonsInit()
+    this.regions = this.pokeService.getRegions()
   }
 
-  ngAfterViewInit(): void {
-  }  
+  isSearching(): void {
+    if(this.searchText !== '') {
+      this.searchingPokemon = true
+    }
+    else {
+      this.searchingPokemon = false
+    }
+  }
 
-  loadGen1() {
-    let arr: Array<Object> = []
-    console.log(this.pokeService.getGeneration())
+  loadPokemonsInit(): void {
+    this.subAllPokemon = this.pokeService.getPokemons(0, this.pokeService.totalPokemons, 1)
+    .subscribe((poke: any) => {
+      this.allPokemons = [...poke]
+    })
+    this.subInitPokemon = this.pokeService.getPokemons(0, 50, 1)
+    .subscribe((poke: any) => {
+      this.pokemons = [...poke]
+    })
+  }
+
+  loadGen(e: Event): void {
+    let objGen: Object = (<HTMLInputElement>e.target).value
+    let idGen: number = Object.values(objGen)[0]
+    this.subInitPokemon = this.pokeService.getPokeByGeneration(idGen)
+    .subscribe((poke: any) => {
+      this.pokemons = [...poke]
+    })
   }
 
   refreshPage(): void {
     window.location.reload();
   }
 
+  ngOnDestroy(): void {
+    this.subInitPokemon.unsubscribe()
+    this.subAllPokemon.unsubscribe()
+  }
+
+}
+
+/* 
   loadPokemons(loadMore = false, event?: any): void {
     if(loadMore) {
       this.offset += 25
@@ -49,22 +90,4 @@ export class HomePage implements OnInit, AfterViewInit {
         console.log('infinite disable? ', this.infinite.disabled)
       }
     })
-  }
-
-  onSearchChange(e: any): void {
-    let value = e.detail.value
-
-    if(value=='') {
-      this.offset = 0;
-      this.loadPokemons()
-      return
-    }
-
-    this.pokeService.findPokemon(value).subscribe(res => {
-      this.pokemons = [res];
-    }, err => {
-      this.pokemons = [];
-    })
-  }
-
-}
+  } */

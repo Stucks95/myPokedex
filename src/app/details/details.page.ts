@@ -34,32 +34,29 @@ export class DetailsPage implements OnInit {
 
   ngOnInit() {
     // get INDEX
-    this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'));
+    this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
 
     this.pokeService.getPokeDetails(this.details.pokeIndex).subscribe((det: any) => {
       // get pokemon's name
-      this.details.name = det['name'];
+      this.details.name = det['name']
 
       // get home sprite
-      this.details.homeSprite = det['sprites']['other']['home']['front_default'];
-        
+      this.details.homeSprite = det['sprites']['other']['home']['front_default']
       
       // get the 4 sprites
-      this.details.sprites[0] = det['sprites']['front_default'];
-      this.details.sprites[1] = det['sprites']['back_default'];
-      this.details.sprites[2] = det['sprites']['front_shiny'];
-      this.details.sprites[3] = det['sprites']['back_shiny'];
+      this.details.sprites[0] = det['sprites']['front_default']
+      this.details.sprites[1] = det['sprites']['back_default']
+      this.details.sprites[2] = det['sprites']['front_shiny']
+      this.details.sprites[3] = det['sprites']['back_shiny']
 
       // get types
       det['types'].forEach((type: any) => {
-        this.details.types.push(type['type']['name']);
+        this.details.types.push(type['type']['name'])
       });
     })
 
     this.pokeService.getSpecies(this.details.pokeIndex).subscribe((spec : any) => {
-      this.details.description = spec['flavor_text_entries'][21]['flavor_text'];
-      this.details.gen = spec['generation']['name'];
-      console.log('spec: ', spec);
+      this.details.description = spec['flavor_text_entries'][21]['flavor_text']
     });
     
   }

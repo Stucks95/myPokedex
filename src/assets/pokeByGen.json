@@ -1,0 +1,94 @@
+{
+    "byGen": [
+        {
+            "idGen": 1,
+            "region": "kanto",
+            "gen": "Gen 1",
+            "poke_count": 151,
+            "first_pokeindex": 1,
+            "last_pokeindex": 151,
+            "name_first_poke": "bulbasaur",
+            "name_last_poke": "mew"
+        },
+        {
+            "idGen": 2,
+            "region": "johto",
+            "gen": "Gen 2",
+            "poke_count": 99,
+            "first_pokeindex": 152,
+            "last_pokeindex": 251,
+            "name_first_poke": "chikorita",
+            "name_last_poke": "celebi"
+        },
+        {
+            "idGen": 3,
+            "region": "hoenn",
+            "gen": "Gen 3",
+            "poke_count": 134,
+            "first_pokeindex": 252,
+            "last_pokeindex": 386,
+            "name_first_poke": "treecko",
+            "name_last_poke": "deoxys-normal"
+        },
+        {
+            "idGen": 4,
+            "region": "sinnoh",
+            "gen": "Gen 4",
+            "poke_count": 106,
+            "first_pokeindex": 387,
+            "last_pokeindex": 493,
+            "name_first_poke": "turtwig",
+            "name_last_poke": "arceus"
+        },
+        {
+            "idGen": 5,
+            "region": "unima - unova",
+            "gen": "Gen 5",
+            "poke_count": 155,
+            "first_pokeindex": 494,
+            "last_pokeindex": 649,
+            "name_first_poke": "victini",
+            "name_last_poke": "genesect"
+        },
+        {
+            "idGen": 6,
+            "region": "kalos",
+            "gen": "Gen 6",
+            "poke_count": 71,
+            "first_pokeindex": 650,
+            "last_pokeindex": 721,
+            "name_first_poke": "chespin",
+            "name_last_poke": "volcanion"
+        },
+        {
+            "idGen": 7,
+            "region": "alola",
+            "gen": "Gen 7",
+            "poke_count": 87,
+            "first_pokeindex": 722,
+            "last_pokeindex": 809,
+            "name_first_poke": "rowlet",
+            "name_last_poke": "melmetal"
+        },
+        {
+            "idGen": 8,
+            "region": "galar",
+            "gen": "Gen 8",
+            "poke_count": 95,
+            "first_pokeindex": 810,
+            "last_pokeindex": 905,
+            "name_first_poke": "grookey",
+            "name_last_poke": "enamorus-incarnate"
+        },
+        {
+            "idGen": 9,
+            "region": "paldea",
+            "gen": "Gen 9",
+            "poke_count": 111,
+            "first_pokeindex": 906,
+            "last_pokeindex": 1017,
+            "name_first_poke": "sprigatito",
+            "name_last_poke": "ogerpon"
+        }
+    ]
+}

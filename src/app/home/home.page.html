@@ -2,38 +2,71 @@
   <ion-toolbar color="primary">
     <ion-title> 
       <ion-button expand="block" shape="round" color="tertiary" size="large" (click)="refreshPage()"> 
-        myPokedex v1.0 
+        myPokedex v{{appVersion}}
       </ion-button>
     </ion-title>
+    <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" [(ngModel)]="searchText"
+    (ionInput)="isSearching()">
+    </ion-searchbar>
+    <ion-item>
+      <ion-select label="Generations" [interfaceOptions]="customPopoverOptions" interface="popover" 
+      placeholder="Select One" (ionChange)="loadGen($event)">
+        <ion-select-option *ngFor="let r of regions" [value]="r">
+          {{ r.region | uppercase }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar placeholder="Search Pokemon" (ionChange)="onSearchChange($event)"></ion-searchbar>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="loadGen1()" fill="solid">
-        GEN 1
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
 
-  <ion-list>
-    <ion-item *ngFor="let poke of pokemons;" [routerLink]="poke['pokeIndex']">
+  <ng-template *ngIf="searchingPokemon; then searchPokemon else noSearch"></ng-template>
+
+  <ng-template #searchPokemon>
+    <ion-list>
+      <ion-item *ngFor="let pokemon of allPokemons | appFilter: searchText" [routerLink]="pokemon.index.toString()">
+        <ion-avatar slot="start">
+          <img [src]="pokemon.image" style="background: #f2f2f2;">
+        </ion-avatar>
+        <ion-label class="ion-text-capitalize">
+          <h2>{{ pokemon.name }}</h2>
+          <p>#{{ pokemon.index }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+  <ng-template #noSearch>
+    <ion-list>
+      <ion-item *ngFor="let pokemon of pokemons" [routerLink]="pokemon.index.toString()">
+        <ion-avatar slot="start">
+          <img [src]="pokemon.image" style="background: #f2f2f2;">
+        </ion-avatar>
+        <ion-label class="ion-text-capitalize">
+          <h2>{{ pokemon.name }}</h2>
+          <p>#{{ pokemon.index }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+<!--   <ion-list>
+    <ion-item *ngFor="let pokemon of pokemons | appFilter: searchText" [routerLink]="pokemon.index.toString()">
       <ion-avatar slot="start">
-        <img [src]="poke['image']" style="background: #f2f2f2;">
+        <img [src]="pokemon.image" style="background: #f2f2f2;">
       </ion-avatar>
-
       <ion-label class="ion-text-capitalize">
-        <h2>{{ poke['name'] }}</h2>
-        <p>#{{ poke['pokeIndex'] }}</p>
+        <h2>{{ pokemon.name }}</h2>
+        <p>#{{ pokemon.index }}</p>
       </ion-label>
     </ion-item>
-  </ion-list>
-
+  </ion-list> -->
+  
+<!-- 
   <ion-infinite-scroll (ionInfinite)="loadPokemons(true, $event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more Pokemon..">
     </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll> -->
     
 </ion-content>
