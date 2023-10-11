@@ -15,7 +15,7 @@ export class PokemonService {
   readonly pokemonUrl: string = "https://pokeapi.co/api/v2/pokemon/"
   readonly imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
   readonly speciesUrl: string = "https://pokeapi.co/api/v2/pokemon-species"  // u can find species, description ecc..
-  readonly pokedexUrl: string = "https://pokeapi.co/api/v2/pokedex/"
+  readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
   
   readonly totalPokemons: number = 1017
   pokemonsByGen: Array<Object>
@@ -47,6 +47,14 @@ export class PokemonService {
     return this.http.get(`${this.baseUrl}/pokemon/${index}`).pipe(
       map((poke: Object) => {
         return poke;
+      })
+    )
+  }
+
+  getEvolutions(index: number) {
+    return this.http.get(`${this.evolutionUrl}/${index}`).pipe(
+      map((evo: Object) => {
+        return evo;
       })
     )
   }

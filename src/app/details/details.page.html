@@ -39,6 +39,14 @@
                     </ion-row>
                 </ion-grid>
             </div>
+            <div class="evo">
+                <ion-card-title>
+                    <ion-text class="ion-text-capitalize">Evolves to: </ion-text>
+                </ion-card-title>
+                <ion-text [routerLink]="details.evoID.toString()">
+                    {{ details.evoName | uppercase }}
+                </ion-text>
+            </div>
         </ion-card>
     </div>
 </ion-content>

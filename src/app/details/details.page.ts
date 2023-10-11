@@ -19,6 +19,8 @@ export class DetailsPage implements OnInit {
     types: string[]
     stats: { name: string, base_stat: number }[],
     totStats: number | null
+    evoName: string,
+    evoID: number
   } = {
     pokeIndex: null,
     name: '',
@@ -28,7 +30,9 @@ export class DetailsPage implements OnInit {
     sprites: [],
     types: [],
     stats: [],
-    totStats: null
+    totStats: null,
+    evoName: '',
+    evoID: 0
   }
 
   constructor(
@@ -64,7 +68,15 @@ export class DetailsPage implements OnInit {
         this.details.stats.push({name: cleanName, base_stat: s.base_stat})
         this.details.totStats += s.base_stat 
       })
-      console.log(this.details.stats)
+    })
+
+    this.pokeService.getEvolutions(this.details.pokeIndex)
+    .subscribe((evo: any) => {
+      this.details.evoName = evo.chain.evolves_to[0].species.name
+      this.pokeService.findPokemon(this.details.evoName)
+      .subscribe((poke: any) => {
+        this.details.evoID = poke.id
+      })
     })
     
   }
