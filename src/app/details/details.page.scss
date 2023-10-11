@@ -1,3 +1,35 @@
-.ion-card {
-    margin: 50px
+.grid-stats {
+    padding-inline: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.stats {
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+.poke-img {
+    max-width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom: 2%;
+}
+
+.last-grid-row {
+    background-color: #2A5C99;
+    color: #ffffff;
+}
+
+.grid-rows {
+    font-size: large;
+    font-weight: bold;
+    --padding-start: 0%;
+    --inner-padding-end: 0%;
+}
+
+.card-header{
+    margin-left: 2%;
 }

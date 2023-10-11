@@ -12,21 +12,33 @@
 <ion-content>
     <div class="ion-align-items-center">
         <ion-card>
-            <img alt="{{ details.name }}" src="{{ details.homeSprite }}" class="center" />
-            <ion-card-header>
+            <div class="card-header">
+                <img alt="{{ details.name }}" src="{{ details.homeSprite }}" class="poke-img" />
                 <ion-card-title>
-                    <ion-text class="ion-text-capitalize">{{ details.name }}</ion-text> -> {{ details.gen }}
-                </ion-card-title>
-                <ion-card-subtitle>
+                    <ion-text class="ion-text-capitalize">{{ details.name }}: </ion-text>
                     <ion-text *ngFor="let type of details.types;" class="ion-text-uppercase">
                         {{ type }}
                     </ion-text>
-                </ion-card-subtitle>
-            </ion-card-header>
-            
-            <ion-card-content>
-                {{ details.description }}
-            </ion-card-content>
+                </ion-card-title>
+            </div>
+
+            <div class="stats">
+                <ion-card-title>
+                    <ion-text class="ion-text-capitalize">Stats: </ion-text>
+                </ion-card-title>
+                <ion-grid class="grid-stats">
+                        <ion-row *ngFor="let stat of details.stats">
+                            <ion-item-divider class="grid-rows">
+                                <ion-col>{{ stat.name | uppercase }}</ion-col>
+                                <ion-col>{{ stat.base_stat }}</ion-col>
+                            </ion-item-divider>
+                        </ion-row>
+                    <ion-row class="last-grid-row grid-rows">
+                        <ion-col>TOTAL</ion-col>
+                        <ion-col>{{ details.totStats }}</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
         </ion-card>
     </div>
 </ion-content>

@@ -5,12 +5,14 @@
         myPokedex v{{appVersion}}
       </ion-button>
     </ion-title>
-    <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" [(ngModel)]="searchText"
-    (ionInput)="isSearching()">
+    <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" 
+      [(ngModel)]="searchText"
+      (ionInput)="isSearching()">
     </ion-searchbar>
+
     <ion-item>
       <ion-select label="Generations" [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="Select One" (ionChange)="loadGen($event)">
+        placeholder="Select One" (ionChange)="loadGen($event)">
         <ion-select-option *ngFor="let r of regions" [value]="r">
           {{ r.region | uppercase }}
         </ion-select-option>
