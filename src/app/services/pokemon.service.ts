@@ -38,7 +38,11 @@ export class PokemonService {
     }))
   }
 
-  getTypes(pokeIndex: number) {
+  getMoves(pokeIndex: number): Observable<Object> {
+    return this.http.get(this.pokemonUrl+pokeIndex)
+  }
+
+  getTypes(pokeIndex: number): Observable<Object> {
     return this.http.get(this.pokemonUrl+pokeIndex)
   }
 

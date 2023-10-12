@@ -14,6 +14,7 @@ export class DetailsPage {
   evoSub: Subscription
   findSub: Subscription
   detailsSub: Subscription
+  movesSub: Subscription
 
   appVersion: string = this.pokeService.appVersion
   details: {
@@ -28,7 +29,8 @@ export class DetailsPage {
     totStats: number | null
     evoName: string,
     evoID: number,
-    evoImg: string
+    evoImg: string,
+    learnedMoves: { name: string, level: number }[],
   } = {
     pokeIndex: null,
     name: '',
@@ -41,8 +43,10 @@ export class DetailsPage {
     totStats: null,
     evoName: '',
     evoID: 0,
-    evoImg: ''
+    evoImg: '',
+    learnedMoves: []
   }
+  versionsMove: []
 
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
@@ -50,6 +54,7 @@ export class DetailsPage {
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.getDetails(this.details.pokeIndex)
     this.getEvo(this.details.pokeIndex)
+    this.getMoves(this.details.pokeIndex)
   }
 
   ngOnDestroy(): void {
@@ -57,6 +62,23 @@ export class DetailsPage {
     this.evoSub.unsubscribe()
     this.findSub.unsubscribe()
     this.detailsSub.unsubscribe()
+  }
+
+  getMoves(index: number) {
+    this.movesSub = this.pokeService.getMoves(index)
+    .subscribe((poke: any) => {
+      poke.moves.forEach((allMoves: any) => {
+        let nameMove = allMoves.move.name
+        this.versionsMove = allMoves.version_group_details
+
+        // last version of the move 'brilliant-diamond-and-shining-pearl'
+        if(this.versionsMove[this.versionsMove.length-1] != 0) {
+          let levelLearned = this.versionsMove[this.versionsMove.length-1]
+          this.details.learnedMoves.push({name: nameMove, level: levelLearned})
+        }
+      });
+    })
+    console.log(this.details.learnedMoves)
   }
 
   getEvo(index: number): void {

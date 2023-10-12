@@ -13,7 +13,7 @@ export class HomePage implements OnInit, OnDestroy {
   options: AnimationOptions = {
     path: '../../assets/animation_pokemon.json'
   }
-  animationEnd: boolean = false
+  animationEnd: boolean = true
 
   appVersion: string = this.pokeService.appVersion
   offset: number
