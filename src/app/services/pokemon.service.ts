@@ -18,8 +18,6 @@ export class PokemonService {
   readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
   
   readonly totalPokemons: number = 1017
-  pokemonsByGen: Array<Object>
-  pokemons: any
 
   constructor(private http: HttpClient) {}
 
@@ -51,10 +49,23 @@ export class PokemonService {
     )
   }
 
-  getEvolutions(index: number) {
-    return this.http.get(`${this.evolutionUrl}/${index}`).pipe(
-      map((evo: Object) => {
-        return evo;
+  getEvolutions(index: number): Observable<any> {
+    return this.getSpecies(index).pipe(
+      map((spec: any) => {
+      return this.http.get(spec.evolution_chain.url).pipe(
+        map((evo: any) => {
+          evo.evo1Name = evo.chain.evolves_to[0].species.name
+          evo.evo2Name = evo.chain.evolves_to[0].evolves_to[0].species.name
+          return evo
+        })
+      )}
+    ))
+  }
+
+  getSpecies(pokeIndex: any) {
+    return this.http.get(`${this.speciesUrl}/${pokeIndex}`).pipe(
+      map((spec: any) => {
+        return spec
       })
     )
   }
@@ -80,14 +91,6 @@ export class PokemonService {
       regions.push({idGen: gen.idGen, region: gen.region})
     })
     return regions
-  }
-
-  getSpecies(pokeIndex: any) {
-    return this.http.get(`${this.speciesUrl}/${pokeIndex}`).pipe(
-      map((spec: any) => {
-        return spec;
-      })
-    )
   }
 
   findPokemon(search: string) {

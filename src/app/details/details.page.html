@@ -1,11 +1,14 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-buttons slot="start">
+        <ion-buttons>
             <ion-back-button defaultHref="home"></ion-back-button>
+            <ion-title> 
+                <ion-button expand="block" shape="round" color="tertiary" size="large" 
+                [routerLink]="'/home'"> 
+                  myPokedex v{{appVersion}}
+                </ion-button>
+            </ion-title>
         </ion-buttons>
-      <ion-title class="ion-text-capitalize"> 
-        {{ details.name }} 
-      </ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -39,13 +42,22 @@
                     </ion-row>
                 </ion-grid>
             </div>
-            <div class="evo">
+            <div class="evo" *ngIf="details.evoName !== ''">
                 <ion-card-title>
                     <ion-text class="ion-text-capitalize">Evolves to: </ion-text>
                 </ion-card-title>
-                <ion-text [routerLink]="details.evoID.toString()">
+                <ion-item [routerLink]="'/home/'+details.evoID.toString()">
+                    <ion-avatar slot="start">
+                        <img [src]="details.evoImg" style="background: #f2f2f2;">
+                    </ion-avatar>
+                    <ion-label class="ion-text-capitalize">
+                    <h2>{{ details.evoName | uppercase }}</h2>
+                    <p>#{{ details.evoID }}</p>
+                    </ion-label>
+                </ion-item>
+                <!-- <ion-text [routerLink]="'/home/'+details.evoID.toString()">
                     {{ details.evoName | uppercase }}
-                </ion-text>
+                </ion-text> -->
             </div>
         </ion-card>
     </div>
