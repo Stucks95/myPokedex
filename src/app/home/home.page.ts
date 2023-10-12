@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,11 @@ import { Subscription } from 'rxjs';
 })
 export class HomePage implements OnInit, OnDestroy {
   
+  options: AnimationOptions = {
+    path: '../../assets/animation_pokemon.json'
+  }
+  animationEnd: boolean = false
+
   appVersion: string = this.pokeService.appVersion
   offset: number
   subInitPokemon: Subscription
@@ -28,6 +34,11 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private pokeService: PokemonService) {}
 
   ngOnInit(): void {
+    // timeout for LOGO ANIMATION
+    setTimeout(() => {
+      this.animationEnd = true
+    }, 5000);
+
     this.loadPokemonsInit()
     this.regions = this.pokeService.getRegions()
   }

@@ -6,14 +6,15 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { FilterPipe } from '../pipes/filter.pipe';
-
+import { LottieModule } from 'ngx-lottie'
 
 @NgModule({
   imports: [
+    LottieModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
   ],
   declarations: [HomePage, FilterPipe]
 })

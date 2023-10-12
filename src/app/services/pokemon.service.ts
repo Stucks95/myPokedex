@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import pokeByGen from '../../assets/pokeByGen.json';
+import pokeByGen from './pokeByGen.json';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import pokeByGen from '../../assets/pokeByGen.json';
 export class PokemonService {
 
   // ENDPOINT API
-  readonly appVersion: string = "1.0"
+  readonly appVersion: string = environment.version
   readonly baseUrl: string = "https://pokeapi.co/api/v2"
   readonly pokemonUrl: string = "https://pokeapi.co/api/v2/pokemon/"
   readonly imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
@@ -54,8 +55,22 @@ export class PokemonService {
       map((spec: any) => {
       return this.http.get(spec.evolution_chain.url).pipe(
         map((evo: any) => {
-          evo.evo1Name = evo.chain.evolves_to[0].species.name
-          evo.evo2Name = evo.chain.evolves_to[0].evolves_to[0].species.name
+          var firstEvolveTo = evo.chain.evolves_to[0]
+          // 1 EVO Poke
+          if(firstEvolveTo) {
+            evo.evo1Name = evo.chain.evolves_to[0].species.name
+            evo.evo2Name = ''
+            var secondEvolveTo = evo.chain.evolves_to[0].evolves_to[0]
+            // 2 EVO Poke
+            if(secondEvolveTo) {
+              evo.evo2Name = evo.chain.evolves_to[0].evolves_to[0].species.name
+            }
+          }
+          // NO EVO Poke
+          else {
+            evo.evo1Name = ''
+            evo.evo2Name = ''
+          }
           return evo
         })
       )}
@@ -88,7 +103,9 @@ export class PokemonService {
   getRegions(): any[] {
     let regions: { idGen: number, region: string }[] = []
     pokeByGen.byGen.forEach((gen: any) => {
-      regions.push({idGen: gen.idGen, region: gen.region})
+      if(gen.idGen != 9) {
+        regions.push({idGen: gen.idGen, region: gen.region})
+      }
     })
     return regions
   }
