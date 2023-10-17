@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-    <div class="ion-align-items-center">
+    <div class="content">
         <ion-card>
             <div class="card-header">
                 <img alt="{{ details.name }}" src="{{ details.homeSprite }}" class="poke-img" />
@@ -22,28 +22,12 @@
                     <ion-text *ngFor="let type of details.types;" class="ion-text-uppercase">
                         {{ type }}
                     </ion-text>
+                    <ion-text class="ion-text-capitalize">GEN: {{details.gen.name}}</ion-text>
                 </ion-card-title>
             </div>
 
-            <div class="stats">
-                <ion-card-title>
-                    <ion-text class="ion-text-capitalize">Base Stats: </ion-text>
-                </ion-card-title>
-                <ion-grid class="grid-stats">
-                        <ion-row *ngFor="let stat of details.stats">
-                            <ion-item-divider class="grid-rows">
-                                <ion-col>{{ stat.name | uppercase }}</ion-col>
-                                <ion-col>{{ stat.base_stat }}</ion-col>
-                            </ion-item-divider>
-                        </ion-row>
-                    <ion-row class="last-grid-row grid-rows">
-                        <ion-col>TOTAL</ion-col>
-                        <ion-col>{{ details.totStats }}</ion-col>
-                    </ion-row>
-                </ion-grid>
-            </div>
             <div class="evo" *ngIf="details.evoName !== ''">
-                <ion-card-title>
+                <ion-card-title class="center">
                     <ion-text class="ion-text-capitalize">Evolves to: </ion-text>
                 </ion-card-title>
                 <ion-item [routerLink]="'/home/'+details.evoID.toString()">
@@ -55,10 +39,62 @@
                     <p>#{{ details.evoID }}</p>
                     </ion-label>
                 </ion-item>
-                <!-- <ion-text [routerLink]="'/home/'+details.evoID.toString()">
-                    {{ details.evoName | uppercase }}
-                </ion-text> -->
             </div>
+
+            <div class="stats">
+                <ion-card-title class="center">
+                    <ion-text class="ion-text-capitalize little-margin">Base Stats</ion-text>
+                    <ion-fab (click)="statsOnClick()" class="my-fabs" #stats>
+                        <ion-fab-button>
+                            <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                        <ion-fab-list side="end"></ion-fab-list>
+                    </ion-fab>
+                </ion-card-title>
+                <ion-grid class="grid-stats" *ngIf="statsClicked">
+                    <ion-row class="special-grid-row grid-rows">
+                        <ion-col>TYPE</ion-col>
+                        <ion-col>POINTS</ion-col>
+                    </ion-row>
+                    <ion-row *ngFor="let stat of details.stats">
+                        <ion-item-divider class="grid-rows">
+                            <ion-col>{{ stat.name | uppercase }}</ion-col>
+                            <ion-col>{{ stat.base_stat }}</ion-col>
+                        </ion-item-divider>
+                    </ion-row>
+                    <ion-row class="grid-rows">
+                        <ion-col>TOTAL</ion-col>
+                        <ion-col>{{ details.totStats }}</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+
+            <div class="movesets">
+                <ion-card-title class="center">
+                    <ion-text class="ion-text-capitalize" class="little-margin">Moveset</ion-text>
+                    <ion-fab (click)="movesetOnClick()" class="my-fabs" #moveset>
+                        <ion-fab-button>
+                            <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                        <ion-fab-list side="end"></ion-fab-list>
+                    </ion-fab>
+                </ion-card-title>
+                <ion-grid class="grid-moveset" *ngIf="movesetClicked">
+                    <ion-row class="special-grid-row grid-rows">
+                        <ion-col>NAME</ion-col>
+                        <ion-col>TYPE</ion-col>
+                        <ion-col>LEVEL</ion-col>
+                    </ion-row>
+                    <ion-row *ngFor="let move of details.movesByLevel">
+                        <ion-item-divider class="grid-rows">
+                            <ion-col>{{ move.name | uppercase }}</ion-col>
+                            <ion-col>{{ move.type }}</ion-col>
+                            <ion-col>{{ move.level }}</ion-col>
+                        </ion-item-divider>
+                    </ion-row>
+                </ion-grid>
+            </div>
+
         </ion-card>
     </div>
 </ion-content>

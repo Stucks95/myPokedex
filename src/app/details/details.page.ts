@@ -1,7 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
+import { IonFabButton } from '@ionic/angular';
+
+interface Move {
+  name: string, 
+  level: number, 
+  type: string
+}
+
+interface Stat {
+  name: string, 
+  base_stat: number
+}
+
+interface Gen {
+  name: string, 
+  id: number
+}
 
 @Component({
   selector: 'app-details',
@@ -9,32 +26,35 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage {
+  @ViewChildren('moveset') movesetFab: QueryList<IonFabButton>
+  @ViewChildren('stats') statsFab: QueryList<IonFabButton>
 
   specSub: Subscription
   evoSub: Subscription
   findSub: Subscription
   detailsSub: Subscription
   movesSub: Subscription
+  detailsMoveSub: Subscription
 
   appVersion: string = this.pokeService.appVersion
   details: {
     pokeIndex: number | null
     name: string
-    gen: string
+    gen: {name: string, id: number | null}
     description: string
     homeSprite: string
     sprites: string[]
     types: string[]
-    stats: { name: string, base_stat: number }[],
+    stats: Stat[],
     totStats: number | null
     evoName: string,
     evoID: number,
     evoImg: string,
-    learnedMoves: { name: string, level: number }[],
+    movesByLevel: Move[],
   } = {
     pokeIndex: null,
     name: '',
-    gen: '',
+    gen: {name: '', id: null},
     description: '',
     homeSprite: '',
     sprites: [],
@@ -44,9 +64,10 @@ export class DetailsPage {
     evoName: '',
     evoID: 0,
     evoImg: '',
-    learnedMoves: []
+    movesByLevel: []
   }
-  versionsMove: []
+  movesetClicked: boolean = false
+  statsClicked: boolean = false
 
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
@@ -62,23 +83,48 @@ export class DetailsPage {
     this.evoSub.unsubscribe()
     this.findSub.unsubscribe()
     this.detailsSub.unsubscribe()
+    this.detailsMoveSub.unsubscribe()
   }
 
-  getMoves(index: number) {
+  getMoves(index: number): void {
     this.movesSub = this.pokeService.getMoves(index)
     .subscribe((poke: any) => {
       poke.moves.forEach((allMoves: any) => {
-        let nameMove = allMoves.move.name
-        this.versionsMove = allMoves.version_group_details
-
-        // last version of the move 'brilliant-diamond-and-shining-pearl'
-        if(this.versionsMove[this.versionsMove.length-1] != 0) {
-          let levelLearned = this.versionsMove[this.versionsMove.length-1]
-          this.details.learnedMoves.push({name: nameMove, level: levelLearned})
-        }
-      });
+        allMoves.version_group_details.forEach((move: any) => {
+          // find moveset by level up AND brilliant-diamond version
+          if(move.move_learn_method.name == 'level-up' && 
+          move.version_group.name == 'sword-shield') {
+            this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
+            .subscribe((detailsMove: any) => {
+              this.details.movesByLevel.push({
+                name: detailsMove.name.replace('-', ' '), 
+                level: move.level_learned_at, 
+                type: detailsMove.type.name
+              })
+            })
+          }
+        })
+      })
     })
-    console.log(this.details.learnedMoves)
+  }
+
+  movesetOnClick(): void {
+    this.details.movesByLevel.sort((a: Move, b: Move) => a.level - b.level)
+    if(this.movesetFab.first.activated) {
+      this.movesetClicked = true
+    }
+    else {
+      this.movesetClicked = false
+    }
+  }
+
+  statsOnClick() {
+    if(this.statsFab.first.activated) {
+      this.statsClicked = true
+    }
+    else {
+      this.statsClicked = false
+    }
   }
 
   getEvo(index: number): void {
@@ -113,6 +159,7 @@ export class DetailsPage {
       this.details.name = det.name
       this.details.homeSprite = det.sprites.other.home.front_default
 
+      console.log(this.pokeService.findPokeGen(index))
       this.getSprites(det)
       this.getTypes(det)
       this.getStats(det)

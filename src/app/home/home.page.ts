@@ -13,7 +13,7 @@ export class HomePage implements OnInit, OnDestroy {
   options: AnimationOptions = {
     path: '../../assets/animation_pokemon.json'
   }
-  animationEnd: boolean = true
+  animationEnd: boolean = false
 
   appVersion: string = this.pokeService.appVersion
   offset: number
@@ -37,7 +37,7 @@ export class HomePage implements OnInit, OnDestroy {
     // timeout for LOGO ANIMATION
     setTimeout(() => {
       this.animationEnd = true
-    }, 5000);
+    }, 4000);
 
     this.loadPokemonsInit()
     this.regions = this.pokeService.getRegions()

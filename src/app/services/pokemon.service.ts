@@ -14,6 +14,7 @@ export class PokemonService {
   readonly appVersion: string = environment.version
   readonly baseUrl: string = "https://pokeapi.co/api/v2"
   readonly pokemonUrl: string = "https://pokeapi.co/api/v2/pokemon/"
+  readonly moveUrl: string = "https://pokeapi.co/api/v2/move/"
   readonly imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
   readonly speciesUrl: string = "https://pokeapi.co/api/v2/pokemon-species"  // u can find species, description ecc..
   readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
@@ -40,6 +41,10 @@ export class PokemonService {
 
   getMoves(pokeIndex: number): Observable<Object> {
     return this.http.get(this.pokemonUrl+pokeIndex)
+  }
+
+  getDetailsMove(urlMove: string): Observable<Object> {
+    return this.http.get(urlMove)
   }
 
   getTypes(pokeIndex: number): Observable<Object> {
@@ -98,6 +103,16 @@ export class PokemonService {
     } else {
       return this.getPokemons(first_pokeindex-1, poke_count+1, first_pokeindex)
     }
+  }
+
+  findPokeGen(pokeIndex: number) {
+    return pokeByGen.byGen.forEach((gen: any) => {
+      if(pokeIndex >= gen.first_pokeindex && pokeIndex <= gen.last_pokeindex) {
+        console.log('si è un poke di gen ', gen.idGen)
+        return {name: gen.region, id: gen.idGen}
+      }
+      return {name: '', id: null}
+    })
   }
 
   getPokeImage(index: number): string {
