@@ -7,53 +7,30 @@
         myPokedex v{{appVersion}}
       </ion-button>
     </ion-title>
-    <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" 
-      [(ngModel)]="searchText"
-      (ionInput)="isSearching()">
-    </ion-searchbar>
-
-    <ion-item>
-      <ion-select label="Generations" [interfaceOptions]="customPopoverOptions" interface="popover" 
-        placeholder="Select One" (ionChange)="loadGen($event)">
-        <ion-select-option *ngFor="let r of regions" [value]="r">
-          {{ r.region | uppercase }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="animationEnd">
+<ion-content *ngIf="animationEnd" #container>
 
-  <ng-template *ngIf="searchingPokemon; then searchPokemon else noSearch"></ng-template>
-
-  <ng-template #searchPokemon>
-    <ion-list>
-      <ion-item *ngFor="let pokemon of allPokemons | appFilter: searchText" 
-      [routerLink]="pokemon.index.toString()">
-        <ion-avatar slot="start">
-          <img [src]="pokemon.image" style="background: #f2f2f2;">
-        </ion-avatar>
-        <ion-label class="ion-text-capitalize">
-          <h2>{{ pokemon.name }}</h2>
-          <p>#{{ pokemon.index }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ng-template>
-
-  <ng-template #noSearch>
-    <ion-list>
-      <ion-item *ngFor="let pokemon of pokemons" [routerLink]="pokemon.index.toString()">
-        <ion-avatar slot="start">
-          <img [src]="pokemon.image" style="background: #f2f2f2;">
-        </ion-avatar>
-        <ion-label class="ion-text-capitalize">
-          <h2>{{ pokemon.name }}</h2>
-          <p>#{{ pokemon.index }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ng-template>
+  <ion-list>
+    <ion-list-header>
+      <h2>SEARCH POKEMON BY: </h2>
+    </ion-list-header>
+    <ion-item [routerLink]="'/by-all'">
+      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
+        ALL
+      </ion-button>
+    </ion-item>
+    <ion-item [routerLink]="'/by-gen'">
+      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
+        GENERATION
+      </ion-button>
+    </ion-item>
+    <ion-item [routerLink]="'/by-type'">
+      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
+        TYPE
+      </ion-button>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

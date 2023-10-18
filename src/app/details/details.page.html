@@ -16,13 +16,20 @@
     <div class="content">
         <ion-card>
             <div class="card-header">
-                <img alt="{{ details.name }}" src="{{ details.homeSprite }}" class="poke-img" />
+                <ion-img alt="{{ details.name }}" src="{{ details.homeSprite }}" 
+                class="poke-img"></ion-img>
+                <ion-title class="ion-text-capitalize poke-title">{{ details.name }}</ion-title>
                 <ion-card-title>
-                    <ion-text class="ion-text-capitalize">{{ details.name }}: </ion-text>
+                    <ion-text class="ion-text-capitalize">Type: </ion-text>
                     <ion-text *ngFor="let type of details.types;" class="ion-text-uppercase">
                         {{ type }}
                     </ion-text>
-                    <ion-text class="ion-text-capitalize">GEN: {{details.gen.name}}</ion-text>
+                </ion-card-title>
+                <ion-card-title>
+                    <ion-text class="ion-text-capitalize">Gen: {{details.gen.id}}</ion-text>
+                </ion-card-title>
+                <ion-card-title>
+                    <ion-text class="ion-text-capitalize">Region: {{details.gen.region}}</ion-text>
                 </ion-card-title>
             </div>
 
@@ -52,17 +59,17 @@
                     </ion-fab>
                 </ion-card-title>
                 <ion-grid class="grid-stats" *ngIf="statsClicked">
-                    <ion-row class="special-grid-row grid-rows">
+                    <ion-row class="special-grid-row grid-rows-stats">
                         <ion-col>TYPE</ion-col>
                         <ion-col>POINTS</ion-col>
                     </ion-row>
                     <ion-row *ngFor="let stat of details.stats">
-                        <ion-item-divider class="grid-rows">
+                        <ion-item-divider class="grid-rows-stats">
                             <ion-col>{{ stat.name | uppercase }}</ion-col>
                             <ion-col>{{ stat.base_stat }}</ion-col>
                         </ion-item-divider>
                     </ion-row>
-                    <ion-row class="grid-rows">
+                    <ion-row class="grid-rows-stats">
                         <ion-col>TOTAL</ion-col>
                         <ion-col>{{ details.totStats }}</ion-col>
                     </ion-row>
@@ -71,7 +78,9 @@
 
             <div class="movesets">
                 <ion-card-title class="center">
-                    <ion-text class="ion-text-capitalize" class="little-margin">Moveset</ion-text>
+                    <ion-text class="ion-text-capitalize" class="little-margin">
+                        Moveset ({{details.movesetGen}}th Gen)
+                    </ion-text>
                     <ion-fab (click)="movesetOnClick()" class="my-fabs" #moveset>
                         <ion-fab-button>
                             <ion-icon name="add"></ion-icon>
@@ -80,16 +89,20 @@
                     </ion-fab>
                 </ion-card-title>
                 <ion-grid class="grid-moveset" *ngIf="movesetClicked">
-                    <ion-row class="special-grid-row grid-rows">
+                    <ion-row class="special-grid-row">
                         <ion-col>NAME</ion-col>
                         <ion-col>TYPE</ion-col>
+                        <ion-col>POWER</ion-col>
+                        <ion-col>ACCURACY</ion-col>
                         <ion-col>LEVEL</ion-col>
                     </ion-row>
-                    <ion-row *ngFor="let move of details.movesByLevel">
-                        <ion-item-divider class="grid-rows">
-                            <ion-col>{{ move.name | uppercase }}</ion-col>
-                            <ion-col>{{ move.type }}</ion-col>
-                            <ion-col>{{ move.level }}</ion-col>
+                    <ion-row class="grid-rows" *ngFor="let move of details.movesByLevel">
+                        <ion-item-divider>
+                            <ion-col class="ion-text-capitalize">{{ move.name}}</ion-col>
+                            <ion-col>{{move.type | uppercase}}</ion-col>
+                            <ion-col style="padding-left: 3%;">{{ move.power}}</ion-col>
+                            <ion-col style="padding-left: 3%;">{{ move.accuracy}}</ion-col>
+                            <ion-col style="padding-left: 3%;">{{ move.level}}</ion-col>
                         </ion-item-divider>
                     </ion-row>
                 </ion-grid>

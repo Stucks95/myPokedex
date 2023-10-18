@@ -19,7 +19,7 @@ export class PokemonService {
   readonly speciesUrl: string = "https://pokeapi.co/api/v2/pokemon-species"  // u can find species, description ecc..
   readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
   
-  readonly totalPokemons: number = 1017
+  readonly totalPokemons: number = 905 // untill 8th gen
 
   constructor(private http: HttpClient) {}
 
@@ -105,14 +105,16 @@ export class PokemonService {
     }
   }
 
-  findPokeGen(pokeIndex: number) {
-    return pokeByGen.byGen.forEach((gen: any) => {
+  findPokeGen(pokeIndex: number): any {
+    let objGen = {region: '', id: null}
+    pokeByGen.byGen.forEach((gen: any) => {
       if(pokeIndex >= gen.first_pokeindex && pokeIndex <= gen.last_pokeindex) {
-        console.log('si è un poke di gen ', gen.idGen)
-        return {name: gen.region, id: gen.idGen}
+        objGen = {region: gen.region, id: gen.idGen}
+        return objGen
       }
-      return {name: '', id: null}
+      return objGen
     })
+    return objGen
   }
 
   getPokeImage(index: number): string {

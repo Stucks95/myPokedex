@@ -7,6 +7,9 @@ import { IonFabButton } from '@ionic/angular';
 interface Move {
   name: string, 
   level: number, 
+  power: number,
+  damage: string,
+  accuracy: number,
   type: string
 }
 
@@ -29,6 +32,9 @@ export class DetailsPage {
   @ViewChildren('moveset') movesetFab: QueryList<IonFabButton>
   @ViewChildren('stats') statsFab: QueryList<IonFabButton>
 
+  movesetClicked: boolean
+  statsClicked: boolean
+
   specSub: Subscription
   evoSub: Subscription
   findSub: Subscription
@@ -40,7 +46,7 @@ export class DetailsPage {
   details: {
     pokeIndex: number | null
     name: string
-    gen: {name: string, id: number | null}
+    gen: {region: string, id: number | null}
     description: string
     homeSprite: string
     sprites: string[]
@@ -51,10 +57,11 @@ export class DetailsPage {
     evoID: number,
     evoImg: string,
     movesByLevel: Move[],
+    movesetGen: number | null
   } = {
     pokeIndex: null,
     name: '',
-    gen: {name: '', id: null},
+    gen: {region: '', id: null},
     description: '',
     homeSprite: '',
     sprites: [],
@@ -64,18 +71,26 @@ export class DetailsPage {
     evoName: '',
     evoID: 0,
     evoImg: '',
-    movesByLevel: []
+    movesByLevel: [],
+    movesetGen: null
   }
-  movesetClicked: boolean = false
-  statsClicked: boolean = false
 
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
   ngOnInit(): void {
+    this.statsFab = new QueryList<IonFabButton>()
+    this.movesetFab = new QueryList<IonFabButton>() 
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.getDetails(this.details.pokeIndex)
     this.getEvo(this.details.pokeIndex)
     this.getMoves(this.details.pokeIndex)
+  }
+
+  ngAfterViewInit(): void {
+    this.movesetFab.first.activated = false
+    this.statsFab.first.activated = true
+    this.movesetClicked = false
+    this.statsClicked = true
   }
 
   ngOnDestroy(): void {
@@ -84,28 +99,58 @@ export class DetailsPage {
     this.findSub.unsubscribe()
     this.detailsSub.unsubscribe()
     this.detailsMoveSub.unsubscribe()
+    this.movesSub.unsubscribe()
   }
 
-  getMoves(index: number): void {
-    this.movesSub = this.pokeService.getMoves(index)
+  // get 8th gen moveset
+  getMoves(pokeIndex: number): void {
+    this.movesSub = this.pokeService.getMoves(pokeIndex)
     .subscribe((poke: any) => {
       poke.moves.forEach((allMoves: any) => {
         allMoves.version_group_details.forEach((move: any) => {
-          // find moveset by level up AND brilliant-diamond version
-          if(move.move_learn_method.name == 'level-up' && 
-          move.version_group.name == 'sword-shield') {
-            this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
-            .subscribe((detailsMove: any) => {
-              this.details.movesByLevel.push({
-                name: detailsMove.name.replace('-', ' '), 
-                level: move.level_learned_at, 
-                type: detailsMove.type.name
+          // find moveset by level up AND last poke version with results
+          if(move.move_learn_method.name == 'level-up' && move.level_learned_at != 0) {
+            if(move.version_group.name == 'brilliant-diamond-and-shining-pearl') {
+              this.details.movesetGen = 8
+              this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
+              .subscribe((detailsMove: any) => {
+                this.details.movesByLevel.push({
+                  name: detailsMove.name.replace('-', ' '), 
+                  level: move.level_learned_at, 
+                  power: detailsMove.power,
+                  damage: detailsMove.damage_class.name,
+                  accuracy: detailsMove.accuracy,
+                  type: detailsMove.type.name
+                })
               })
-            })
+            }
+            else if(move.version_group.name == 'ultra-sun-ultra-moon') {
+              this.details.movesetGen = 7
+              this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
+              .subscribe((detailsMove: any) => {
+                this.details.movesByLevel.push({
+                  name: detailsMove.name.replace('-', ' '), 
+                  level: move.level_learned_at, 
+                  damage: detailsMove.damage_class.name,
+                  accuracy: detailsMove.accuracy,
+                  power: detailsMove.power,
+                  type: detailsMove.type.name
+                })
+              })
+            }
           }
         })
       })
     })
+  }
+
+  statsOnClick() {
+    if(this.statsFab.first.activated) {
+      this.statsClicked = true
+    }
+    else {
+      this.statsClicked = false
+    }
   }
 
   movesetOnClick(): void {
@@ -115,15 +160,6 @@ export class DetailsPage {
     }
     else {
       this.movesetClicked = false
-    }
-  }
-
-  statsOnClick() {
-    if(this.statsFab.first.activated) {
-      this.statsClicked = true
-    }
-    else {
-      this.statsClicked = false
     }
   }
 
@@ -158,8 +194,7 @@ export class DetailsPage {
     .subscribe((det: any) => {
       this.details.name = det.name
       this.details.homeSprite = det.sprites.other.home.front_default
-
-      console.log(this.pokeService.findPokeGen(index))
+      this.details.gen = this.pokeService.findPokeGen(index)
       this.getSprites(det)
       this.getTypes(det)
       this.getStats(det)

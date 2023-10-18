@@ -23,6 +23,13 @@
     margin-bottom: 2%;
 }
 
+.poke-title {
+    color: black;
+    padding-left: unset;
+    margin-bottom: 2%;
+    font-size: xx-large;
+}
+
 .home-btn {
     display: block;
 }
@@ -30,10 +37,18 @@
 .special-grid-row {
     background-color: #2A5C99;
     color: #ffffff;
+    padding: 2%;
 }
 
 .grid-rows {
-    font-size: large;
+    font-size: medium;
+    font-weight: bold;
+    --padding-start: 0%;
+    --inner-padding-end: 0%;
+}
+
+.grid-rows-stats {
+    font-size: x-large;
     font-weight: bold;
     --padding-start: 0%;
     --inner-padding-end: 0%;

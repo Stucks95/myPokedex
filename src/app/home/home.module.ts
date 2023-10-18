@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { FilterPipe } from '../pipes/filter.pipe';
 import { LottieModule } from 'ngx-lottie'
 
 @NgModule({
@@ -16,6 +15,6 @@ import { LottieModule } from 'ngx-lottie'
     IonicModule,
     HomePageRoutingModule,
   ],
-  declarations: [HomePage, FilterPipe]
+  declarations: [HomePage]
 })
 export class HomePageModule {}
