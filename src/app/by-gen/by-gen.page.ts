@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-by-gen',
@@ -9,10 +10,15 @@ import { Subscription } from 'rxjs';
 })
 export class ByGenPage {
 
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
+
   subRegionPokemon: Subscription
   subInitPokemon: Subscription
   pokemons: { index: number, name: string, url: string, image: string }[]
   regions: { idGen: number, region: string }[]
+  offset: number = 0
+  skeletonLoad: boolean = true
+  skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]
   customPopoverOptions = {
     header: 'Regions',
   }
@@ -29,10 +35,17 @@ export class ByGenPage {
     this.subRegionPokemon.unsubscribe()
   }
 
+  ngAfterViewInit(): void {
+    // skeleton fx 2sec
+    setTimeout(() => {
+      this.skeletonLoad = false
+    }, 2000);
+  }
+
   loadKantoPokemon() {
     this.subInitPokemon = this.pokeService.getPokeByGeneration(1)
-    .subscribe((poke: any) => {
-      this.pokemons = [...poke]
+    .subscribe((res: any) => {
+      this.pokemons = [...res]
     })
   }
 
@@ -40,9 +53,8 @@ export class ByGenPage {
     let objGen: Object = (<HTMLInputElement>e.target).value
     let idGen: number = Object.values(objGen)[0]
     this.subRegionPokemon = this.pokeService.getPokeByGeneration(idGen)
-    .subscribe((poke: any) => {
-      this.pokemons = [...poke]
-      console.log(this.pokemons)
+    .subscribe((res: any) => {
+      this.pokemons = [...res]
     })
   }
 

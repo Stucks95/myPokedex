@@ -13,6 +13,8 @@ export class ByAllPage {
   subInitPokemon: Subscription
   pokemons: { index: number, name: string, url: string, image: string }[]
   allPokemons: { index: number, name: string, url: string, image: string }[]
+  skeletonLoad: boolean = true
+  skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]
   // for searching
   searchText: string = ""
   searchingPokemon: boolean = false
@@ -21,6 +23,18 @@ export class ByAllPage {
 
   ngOnInit(): void {
     this.loadPokemonsInit()
+  }
+
+  ngAfterViewInit(): void {
+    // skeleton fx 2sec
+    setTimeout(() => {
+      this.skeletonLoad = false
+    }, 2000);
+  }
+
+  ngOnDestroy(): void {
+    this.subAllPokemon.unsubscribe()
+    this.subInitPokemon.unsubscribe()
   }
 
   isSearching(): void {

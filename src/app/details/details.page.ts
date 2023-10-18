@@ -108,12 +108,15 @@ export class DetailsPage {
     .subscribe((poke: any) => {
       poke.moves.forEach((allMoves: any) => {
         allMoves.version_group_details.forEach((move: any) => {
+          let eightGenMoveset = false
           // find moveset by level up AND last poke version with results
           if(move.move_learn_method.name == 'level-up' && move.level_learned_at != 0) {
             if(move.version_group.name == 'brilliant-diamond-and-shining-pearl') {
+              eightGenMoveset = true
               this.details.movesetGen = 8
               this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
               .subscribe((detailsMove: any) => {
+                console.log('move 8 gen',detailsMove.name)
                 this.details.movesByLevel.push({
                   name: detailsMove.name.replace('-', ' '), 
                   level: move.level_learned_at, 
@@ -124,10 +127,12 @@ export class DetailsPage {
                 })
               })
             }
-            else if(move.version_group.name == 'ultra-sun-ultra-moon') {
+            else if(move.version_group.name == 'ultra-sun-ultra-moon' && 
+            eightGenMoveset == false) {
               this.details.movesetGen = 7
               this.detailsMoveSub = this.pokeService.getDetailsMove(allMoves.move.url)
               .subscribe((detailsMove: any) => {
+                console.log('move 7 gen',detailsMove.name)
                 this.details.movesByLevel.push({
                   name: detailsMove.name.replace('-', ' '), 
                   level: move.level_learned_at, 

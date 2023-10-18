@@ -16,10 +16,27 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- SKELETON FX -->
+  <ion-list *ngIf="skeletonLoad">
+    <ion-item *ngFor="let i of skeletonArray">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h2>
+          <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+        </h2>
+        <p>
+          <ion-skeleton-text animated style="width: 20%;"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
   <ng-template *ngIf="searchingPokemon; then searchPokemon else noSearch"></ng-template>
 
   <ng-template #searchPokemon>
-    <ion-list>
+    <ion-list *ngIf="!skeletonLoad">
       <ion-item *ngFor="let pokemon of allPokemons | appFilter: searchText" 
       [routerLink]="'/details/'+pokemon.index.toString()">
         <ion-avatar>
@@ -34,7 +51,7 @@
   </ng-template>
 
   <ng-template #noSearch>
-    <ion-list>
+    <ion-list *ngIf="!skeletonLoad">
       <ion-item *ngFor="let pokemon of allPokemons" 
       [routerLink]="'/details/'+pokemon.index.toString()">
         <ion-avatar>

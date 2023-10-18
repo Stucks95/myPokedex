@@ -7,3 +7,13 @@ ion-avatar {
 ion-label {
     font-size: large;
 }
+
+ion-select {
+    position: fixed;
+    left: 75%;
+    padding-left: 5%;
+    font-weight: bold;
+    color: black;
+    background: #f4f5f8;
+    border-radius: 10px;
+}
