@@ -37,7 +37,7 @@
                 <ion-card-title class="center">
                     <ion-text class="ion-text-capitalize">Evolves to: </ion-text>
                 </ion-card-title>
-                <ion-item [routerLink]="'/home/'+details.evoID.toString()">
+                <ion-item [routerLink]="'/details/'+details.evoID.toString()">
                     <ion-avatar slot="start">
                         <img [src]="details.evoImg" style="background: #f2f2f2;">
                     </ion-avatar>
@@ -93,14 +93,16 @@
                         <ion-col>NAME</ion-col>
                         <ion-col>TYPE</ion-col>
                         <ion-col>POWER</ion-col>
+                        <ion-col>DAMAGE</ion-col>
                         <ion-col>ACCURACY</ion-col>
                         <ion-col>LEVEL</ion-col>
                     </ion-row>
-                    <ion-row class="grid-rows" *ngFor="let move of details.movesByLevel">
+                    <ion-row class="grid-rows" *ngFor="let move of details.levelUpMoveset">
                         <ion-item-divider>
                             <ion-col class="ion-text-capitalize">{{ move.name}}</ion-col>
                             <ion-col>{{move.type | uppercase}}</ion-col>
                             <ion-col style="padding-left: 3%;">{{ move.power}}</ion-col>
+                            <ion-col style="padding-left: 3%;">{{ move.damage}}</ion-col>
                             <ion-col style="padding-left: 3%;">{{ move.accuracy}}</ion-col>
                             <ion-col style="padding-left: 3%;">{{ move.level}}</ion-col>
                         </ion-item-divider>

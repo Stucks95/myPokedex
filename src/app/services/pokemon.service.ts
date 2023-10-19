@@ -29,7 +29,6 @@ export class PokemonService {
       map((data: Object) => {
       let results: Object[] = Object.values(data)[3]
       let i: number = first_index
-      //console.log(this.getTypes(1))
       return results.map((poke: any) => {
         poke.index = i
         poke.image = this.getPokeImage(poke.index)
@@ -39,8 +38,11 @@ export class PokemonService {
     }))
   }
 
-  getMoves(pokeIndex: number): Observable<Object> {
-    return this.http.get(this.pokemonUrl+pokeIndex)
+  getMoves(pokeIndex: number) {
+    return this.http.get(this.pokemonUrl+pokeIndex).pipe(
+      map((poke: any) => {
+        return poke.moves
+    }))
   }
 
   getDetailsMove(urlMove: string): Observable<Object> {
@@ -54,7 +56,7 @@ export class PokemonService {
   getPokeDetails(index: number): Observable<Object> {
     return this.http.get(`${this.baseUrl}/pokemon/${index}`).pipe(
       map((poke: Object) => {
-        return poke;
+        return poke
       })
     )
   }
