@@ -18,50 +18,58 @@
 
   <!-- SKELETON FX -->
   <ion-list *ngIf="skeletonLoad">
-    <ion-item *ngFor="let i of skeletonArray">
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h2>
-          <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
-        </h2>
-        <p>
-          <ion-skeleton-text animated style="width: 20%;"></ion-skeleton-text>
+    <div class="poke-item" *ngFor="let i of skeletonArray">
+      <div class="poke-avatar">
+        <ion-avatar class="poke-img">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+      </div>
+      <ion-label class="skeleton-label">
+        <p class="poke-name">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <p class="poke-index">
+          <ion-skeleton-text animated></ion-skeleton-text>
         </p>
       </ion-label>
-    </ion-item>
+    </div>
   </ion-list>
 
   <ng-template *ngIf="searchingPokemon; then searchPokemon else noSearch"></ng-template>
 
   <ng-template #searchPokemon>
+    <!-- POKE LIST (u are searching pokemon) -->
     <ion-list *ngIf="!skeletonLoad">
-      <ion-item *ngFor="let pokemon of allPokemons | appFilter: searchText" 
+      <div class="poke-item" *ngFor="let pokemon of pokemons" 
       [routerLink]="'/details/'+pokemon.index.toString()">
-        <ion-avatar>
-          <img [src]="pokemon.image" style="background: #f2f2f2;">
-        </ion-avatar>
+        <div class="poke-avatar">
+          <ion-avatar class="poke-img">
+            <img [src]="pokemon.image">
+          </ion-avatar>
+        </div>
         <ion-label class="ion-text-capitalize">
-          <h2>{{ pokemon.name }}</h2>
-          <p>#{{ pokemon.index }}</p>
+          <p class="poke-name">{{ pokemon.name }}</p>
+          <p class="poke-index">#{{ pokemon.index }}</p>
         </ion-label>
-      </ion-item>
+      </div>
     </ion-list>
   </ng-template>
 
   <ng-template #noSearch>
+    <!-- POKE LIST (no searching) -->
     <ion-list *ngIf="!skeletonLoad">
-      <ion-item *ngFor="let pokemon of allPokemons" 
+      <div class="poke-item" *ngFor="let pokemon of pokemons" 
       [routerLink]="'/details/'+pokemon.index.toString()">
-        <ion-avatar>
-          <img [src]="pokemon.image" style="background: #f2f2f2;">
-        </ion-avatar>
+        <div class="poke-avatar">
+          <ion-avatar class="poke-img">
+            <img [src]="pokemon.image">
+          </ion-avatar>
+        </div>
         <ion-label class="ion-text-capitalize">
-          <h2>{{ pokemon.name }}</h2>
-          <p>#{{ pokemon.index }}</p>
+          <p class="poke-name">{{ pokemon.name }}</p>
+          <p class="poke-index">#{{ pokemon.index }}</p>
         </ion-label>
-      </ion-item>
+      </div>
     </ion-list>
   </ng-template>
 

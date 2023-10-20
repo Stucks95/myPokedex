@@ -36,7 +36,6 @@ export class DetailsPage {
   statsClicked: boolean
   appVersion: string = this.pokeService.appVersion
 
-  //homeViewSubscriptions.forEach(subscription => subscription.unsubscribe());
   allSubs: {}[] = []
   detailsMoveSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   moves8thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}

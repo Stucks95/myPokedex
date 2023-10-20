@@ -8,7 +8,7 @@
       </ion-button>
 
       <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="KANTO" (ionChange)="loadGen($event)" toggleIcon="add">
+      placeholder="KANTO" (ionChange)="loadGen($event)" toggleIcon="add" class="top-select">
         <ion-select-option *ngFor="let r of regions" [value]="r">
           {{ r.region | uppercase }}
         </ion-select-option>
@@ -19,35 +19,40 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <!-- SKELETON FX -->
   <ion-list *ngIf="skeletonLoad">
-    <ion-item *ngFor="let i of skeletonArray">
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h2>
-          <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
-        </h2>
-        <p>
-          <ion-skeleton-text animated style="width: 20%;"></ion-skeleton-text>
+    <div class="poke-item" *ngFor="let i of skeletonArray">
+      <div class="poke-avatar">
+        <ion-avatar class="poke-img">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+      </div>
+      <ion-label class="skeleton-label">
+        <p class="poke-name">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <p class="poke-index">
+          <ion-skeleton-text animated></ion-skeleton-text>
         </p>
       </ion-label>
-    </ion-item>
+    </div>
   </ion-list>
 
   <!-- POKE LIST -->
   <ion-list *ngIf="!skeletonLoad">
-    <ion-item *ngFor="let pokemon of pokemons" 
+    <div class="poke-item" *ngFor="let pokemon of pokemons" 
     [routerLink]="'/details/'+pokemon.index.toString()">
-      <ion-avatar>
-        <img [src]="pokemon.image" style="background: #f2f2f2;">
-      </ion-avatar>
+      <div class="poke-avatar">
+        <ion-avatar class="poke-img">
+          <img [src]="pokemon.image">
+        </ion-avatar>
+      </div>
       <ion-label class="ion-text-capitalize">
-        <h2>{{ pokemon.name }}</h2>
-        <p>#{{ pokemon.index }}</p>
+        <p class="poke-name">{{ pokemon.name }}</p>
+        <p class="poke-index">#{{ pokemon.index }}</p>
       </ion-label>
-    </ion-item>
+    </div>
   </ion-list>
 
 </ion-content>

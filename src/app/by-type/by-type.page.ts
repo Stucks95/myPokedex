@@ -2,6 +2,7 @@ import { Component, ViewChildren, QueryList } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { ActivatedRoute } from '@angular/router';
 import { IonSelect } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-by-type',
@@ -11,6 +12,11 @@ import { IonSelect } from '@ionic/angular';
 export class ByTypePage {
   @ViewChildren('type_select') typeSelect: QueryList<IonSelect>
 
+  allSubs: {}[] = []
+  subTypes: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  subPokemonByType: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  subPokemonInfo: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+
   pokemons: {index: number, name: string, image: string}[] = []
   lastPokeIndex: number = this.pokeService.totalPokemons
   pokeIndex: number
@@ -18,6 +24,8 @@ export class ByTypePage {
   customPopoverOptions = {
     header: 'Types',
   }
+  skeletonLoad: boolean = true
+  skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]
 
   constructor(private pokeService: PokemonService, private route: ActivatedRoute) { }
 
@@ -28,41 +36,71 @@ export class ByTypePage {
     this.loadNormalPokemon()
   }
 
+  ngAfterViewInit(): void {
+    // skeleton fx 3sec
+    setTimeout(() => {
+      this.skeletonLoad = false
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAll()
+  }
+
+  unsubscribeAll(): void {
+    this.allSubs.forEach((objSub: any) => {
+      if(objSub.subscribed == true) {
+        objSub.sub.unsubscribe()
+      }
+    })
+  }
+
   getAllTypes(): void {
-    this.pokeService.getTypes().subscribe((types: any) => {
+    this.subTypes.sub = this.pokeService.getTypes()
+    .subscribe((types: any) => {
+      this.subTypes.subscribed = true
       this.types = types
     })
+    this.allSubs.push(this.subTypes)
   }
 
-  loadNormalPokemon() {
-    this.pokeService.getPokemonByType("normal")
+  loadNormalPokemon(): void {
+    this.subPokemonByType.sub = this.pokeService.getPokemonByType("normal")
     .subscribe((pokemons: any) => {
+      this.subPokemonByType.subscribed = true
       pokemons.forEach((poke: any) => {
-        this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
+        this.subPokemonInfo.sub = this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
         .subscribe((res: any) => {
+          this.subPokemonInfo.subscribed = true
           if(res.index != 0) {
             this.pokemons.push(res)
           }
         })
       });
     })
+    this.allSubs.push(this.subPokemonByType)
+    this.allSubs.push(this.subPokemonInfo)
   }
 
-  loadPokeByType() {
+  loadPokeByType(): void {
     this.pokemons = []
     let typeSelected = this.typeSelect.first.value
-    console.log('typeSelected', typeSelected)
-    this.pokeService.getPokemonByType(typeSelected.name)
+    
+    this.subPokemonByType.sub = this.pokeService.getPokemonByType(typeSelected.name)
     .subscribe((pokemons: any) => {
+      this.subPokemonByType.subscribed = true
       pokemons.forEach((poke: any) => {
-        this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
+        this.subPokemonInfo.sub = this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
         .subscribe((res: any) => {
+          this.subPokemonInfo.subscribed = true
           if(res.index != 0) {
             this.pokemons.push(res)
           }
         })
       });
     })
+    this.allSubs.push(this.subPokemonByType)
+    this.allSubs.push(this.subPokemonInfo)
   }
 
   refreshPage(): void {

@@ -12,8 +12,10 @@ export class ByGenPage {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
 
-  subRegionPokemon: Subscription
-  subInitPokemon: Subscription
+  allSubs: {}[] = []
+  subRegionPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  
   pokemons: { index: number, name: string, url: string, image: string }[]
   regions: { idGen: number, region: string }[]
   offset: number = 0
@@ -31,31 +33,42 @@ export class ByGenPage {
   }
 
   ngOnDestroy(): void {
-    this.subInitPokemon.unsubscribe()
-    this.subRegionPokemon.unsubscribe()
+    this.unsubscribeAll()
   }
 
   ngAfterViewInit(): void {
-    // skeleton fx 2sec
+    // skeleton fx 2.5sec
     setTimeout(() => {
       this.skeletonLoad = false
-    }, 2000);
+    }, 2500);
+  }
+
+  unsubscribeAll(): void {
+    this.allSubs.forEach((objSub: any) => {
+      if(objSub.subscribed == true) {
+        objSub.sub.unsubscribe()
+      }
+    })
   }
 
   loadKantoPokemon() {
-    this.subInitPokemon = this.pokeService.getPokeByGeneration(1)
+    this.subInitPokemon.sub = this.pokeService.getPokeByGeneration(1)
     .subscribe((res: any) => {
+      this.subInitPokemon.subscribed = true
       this.pokemons = [...res]
     })
+    this.allSubs.push(this.subInitPokemon)
   }
 
   loadGen(e: Event): void {
     let objGen: Object = (<HTMLInputElement>e.target).value
     let idGen: number = Object.values(objGen)[0]
-    this.subRegionPokemon = this.pokeService.getPokeByGeneration(idGen)
+    this.subRegionPokemon.sub = this.pokeService.getPokeByGeneration(idGen)
     .subscribe((res: any) => {
+      this.subRegionPokemon.subscribed = true
       this.pokemons = [...res]
     })
+    this.allSubs.push(this.subRegionPokemon)
   }
 
   refreshPage(): void {

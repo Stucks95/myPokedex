@@ -9,10 +9,13 @@ import { Subscription } from 'rxjs';
 })
 export class ByAllPage {
 
-  subAllPokemon: Subscription
-  subInitPokemon: Subscription
-  pokemons: { index: number, name: string, url: string, image: string }[]
+  allSubs: {}[] = []
+  subAllPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  
+  pokemons: { index: number, name: string, image: string }[]
   allPokemons: { index: number, name: string, url: string, image: string }[]
+
   skeletonLoad: boolean = true
   skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]
   // for searching
@@ -26,15 +29,22 @@ export class ByAllPage {
   }
 
   ngAfterViewInit(): void {
-    // skeleton fx 2sec
+    // skeleton fx 3sec
     setTimeout(() => {
       this.skeletonLoad = false
-    }, 2000);
+    }, 3000);
   }
 
   ngOnDestroy(): void {
-    this.subAllPokemon.unsubscribe()
-    this.subInitPokemon.unsubscribe()
+    this.unsubscribeAll()
+  }
+
+  unsubscribeAll(): void {
+    this.allSubs.forEach((objSub: any) => {
+      if(objSub.subscribed == true) {
+        objSub.sub.unsubscribe()
+      }
+    })
   }
 
   isSearching(): void {
@@ -47,12 +57,14 @@ export class ByAllPage {
   }
 
   loadPokemonsInit(): void {
-    this.subAllPokemon = this.pokeService.getPokemons(0, this.pokeService.totalPokemons, 1)
+    this.subAllPokemon.sub = this.pokeService.getPokemons(0, this.pokeService.totalPokemons, 1)
     .subscribe((poke: any) => {
+      this.subAllPokemon.subscribed = true
       this.allPokemons = [...poke]
     })
-    this.subInitPokemon = this.pokeService.getPokemons(0, 50, 1)
+    this.subInitPokemon.sub = this.pokeService.getPokemons(0, 50, 1)
     .subscribe((poke: any) => {
+      this.subInitPokemon.subscribed = true
       this.pokemons = [...poke]
     })
   }
