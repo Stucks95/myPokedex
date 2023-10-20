@@ -6,11 +6,33 @@
       (click)="refreshPage()"> 
         Pokemon by Type
       </ion-button>
+
+      <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
+      placeholder="NORMAL" (ionChange)="loadPokeByType()" toggleIcon="add" #type_select>
+        <ion-select-option *ngFor="let t of types.results" [value]="t">
+          {{ t.name | uppercase }}
+        </ion-select-option>
+      </ion-select>
+
     </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <!-- POKE LIST -->
+  <ion-list>
+    <ion-item *ngFor="let pokemon of pokemons" 
+    [routerLink]="'/details/'+pokemon.index.toString()">
+      <ion-avatar>
+        <img [src]="pokemon.image" style="background: #f2f2f2;">
+      </ion-avatar>
+      <ion-label class="ion-text-capitalize">
+        <h2>{{ pokemon.name }}</h2>
+        <p>#{{ pokemon.index }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

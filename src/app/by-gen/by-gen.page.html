@@ -8,7 +8,7 @@
       </ion-button>
 
       <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="Kanto" (ionChange)="loadGen($event)" toggleIcon="add">
+      placeholder="KANTO" (ionChange)="loadGen($event)" toggleIcon="add">
         <ion-select-option *ngFor="let r of regions" [value]="r">
           {{ r.region | uppercase }}
         </ion-select-option>

@@ -14,6 +14,7 @@ export class PokemonService {
   readonly appVersion: string = environment.version
   readonly baseUrl: string = "https://pokeapi.co/api/v2"
   readonly pokemonUrl: string = "https://pokeapi.co/api/v2/pokemon/"
+  readonly typesUrl: string = "https://pokeapi.co/api/v2/type/" // + id or name
   readonly moveUrl: string = "https://pokeapi.co/api/v2/move/"
   readonly imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
   readonly speciesUrl: string = "https://pokeapi.co/api/v2/pokemon-species"  // u can find species, description ecc..
@@ -49,14 +50,43 @@ export class PokemonService {
     return this.http.get(urlMove)
   }
 
-  getTypes(pokeIndex: number): Observable<Object> {
-    return this.http.get(this.pokemonUrl+pokeIndex)
+  getTypes(): Observable<{count: number, results: {name:string, url: string}[]}> {
+    let types: {count: number, results: {name:string, url: string}[]} = {count: 0, results: []}
+    return this.http.get(this.typesUrl).pipe(
+      map((res: any) => {
+        types.count = res.count
+        types.results = res.results
+        return types
+    }))
+  }
+
+  getPokemonByType(type: string) {
+    return this.http.get(this.typesUrl+type).pipe(
+      map((res: any) => {
+        return res.pokemon
+    }))
   }
 
   getPokeDetails(index: number): Observable<Object> {
     return this.http.get(`${this.baseUrl}/pokemon/${index}`).pipe(
       map((poke: Object) => {
         return poke
+      })
+    )
+  }
+
+  getPokemonInfo(name: string, lastPokeIndex: number): Observable<Object> {
+    let pokemon: {index: number, name: string, image: string} = {index: 0, name: '', image: ''}
+    return this.http.get(this.pokemonUrl+name).pipe(
+      map((poke: any) => {
+        if(poke.id <= lastPokeIndex) {
+          pokemon.index = poke.id
+          pokemon.name = poke.name
+          pokemon.image = this.getPokeImage(pokemon.index)
+          return pokemon
+        } else {
+          return pokemon
+        }
       })
     )
   }

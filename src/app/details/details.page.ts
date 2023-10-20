@@ -19,8 +19,8 @@ interface Stat {
 }
 
 interface Gen {
-  name: string, 
-  id: number
+  region: string, 
+  id: number | null
 }
 
 @Component({
@@ -34,17 +34,22 @@ export class DetailsPage {
 
   movesetClicked: boolean
   statsClicked: boolean
-
-  allSubs: {sub: Subscription, subscribed?: boolean}[] =
-  [
-    {}
-  ]
-
   appVersion: string = this.pokeService.appVersion
+
+  //homeViewSubscriptions.forEach(subscription => subscription.unsubscribe());
+  allSubs: {}[] = []
+  detailsMoveSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  moves8thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  moves7thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  pokeDetailsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  specEvoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  evoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  findPokeSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+
   details: {
     pokeIndex: number | null
     name: string
-    gen: {region: string, id: number | null}
+    gen: Gen,
     description: string
     homeSprite: string
     sprites: string[]
@@ -92,21 +97,21 @@ export class DetailsPage {
   }
 
   ngOnDestroy(): void {
-    // unsubscribe everything
-    /* this.specSub.unsubscribe()
-    this.evoSub.unsubscribe()
-    this.findSub.unsubscribe()
-    this.detailsSub.unsubscribe()
-    this.detailsMoveSub.unsubscribe()
-    this.movesSub.unsubscribe() */
+    this.unsubscribeAll()
+  }
+
+  unsubscribeAll(): void {
+    this.allSubs.forEach((objSub: any) => {
+      if(objSub.subscribed == true) {
+        objSub.sub.unsubscribe()
+      }
+    })
   }
 
   // get 8th or 7th gen moveset
   getMoves(pokeIndex: number): void {
-    /* this.movesSub =  */
     let levelUp8thGenMoves = this.get8thGenMoveset(pokeIndex)
     let levelUp7thGenMoves = this.get7thGenMoveset(pokeIndex)
-
     // if there's no 7th gen moveset let's set the 8th gen moveset
     setTimeout(() => {
       let levelUpMoves: {move: {}, version:{}}[]
@@ -122,9 +127,10 @@ export class DetailsPage {
   }
 
   getDetailsMoves(levelUpMoves: {move: {}, version: {}}[]) {
-    levelUpMoves.forEach((move: any) => {   
-      this.pokeService.getDetailsMove(move.move.url)
+    levelUpMoves.forEach((move: any) => {  
+      this.detailsMoveSub.sub = this.pokeService.getDetailsMove(move.move.url)
       .subscribe((detMove: any) => {
+        this.detailsMoveSub.subscribed = true
         this.details.levelUpMoveset.push({
           name: detMove.name, 
           type: detMove.type.name,
@@ -135,13 +141,15 @@ export class DetailsPage {
         })
       })
     });
+    this.allSubs.push(this.detailsMoveSub)
   }
   
   // moveset 8th gen
   get8thGenMoveset(pokeIndex: number) {
     let levelUp8thGenMoves: {move:{}, version: {}}[] = []
-    this.pokeService.getMoves(pokeIndex)
+    this.moves8thGenSub.sub = this.pokeService.getMoves(pokeIndex)
     .subscribe((moves: any) => {
+      this.moves8thGenSub.subscribed = true
       moves.forEach((move: any) => {
         move.version_group_details.forEach((ver: any) => {
           if(ver.move_learn_method.name == 'level-up' && 
@@ -152,14 +160,16 @@ export class DetailsPage {
         });
       });
     })
+    this.allSubs.push(this.moves8thGenSub)
     return levelUp8thGenMoves
   }
 
   // moveset 7th gen
   get7thGenMoveset(pokeIndex: number) {
     let levelUp7thGenMoves: {move:{}, version: {}}[] = []
-    this.pokeService.getMoves(pokeIndex)
+    this.moves7thGenSub.sub = this.pokeService.getMoves(pokeIndex)
     .subscribe((moves: any) => {
+      this.moves7thGenSub.subscribed = true
       moves.forEach((move: any) => {
         move.version_group_details.forEach((ver: any) => {
           if(ver.move_learn_method.name == 'level-up' && 
@@ -170,57 +180,47 @@ export class DetailsPage {
         });
       });
     })
+    this.allSubs.push(this.moves7thGenSub)
     return levelUp7thGenMoves
   }
 
-  statsOnClick() {
-    if(this.statsFab.first.activated) {
-      this.statsClicked = true
-    }
-    else {
-      this.statsClicked = false
-    }
-  }
-
-  movesetOnClick(): void {
-    this.details.levelUpMoveset.sort((a: Move, b: Move) => a.level - b.level)
-    if(this.movesetFab.first.activated) {
-      this.movesetClicked = true
-    }
-    else {
-      this.movesetClicked = false
-    }
-  }
-
   getEvo(index: number): void {
-    this.specSub = this.pokeService.getEvolutions(index)
-    .subscribe((spec: any) => {
-      this.evoSub = spec.subscribe((evo: any) => {
-        this.details.evoID = evo.id
-        // i'm in the intermediate pokemon's page
-        if(this.details.name == evo.evo1Name) {
-          this.details.evoName = evo.evo2Name
-        }
-        // i'm in the last evo pokemon's page
-        else if(this.details.name == evo.evo2Name) {
-          this.details.evoName = ''
-        }
-        // i'm in the pre-evo pokemon's page
-        else {
-          this.details.evoName = evo.evo1Name
-        }
-        this.findSub = this.pokeService.findPokemon(this.details.evoName)
-        .subscribe((poke: any) => {
-          this.details.evoID = poke.id
-          this.details.evoImg = this.pokeService.getPokeImage(poke.id)
+      this.evoSub.sub = this.pokeService.getEvolutions(index)
+      .subscribe((spec: any) => {
+        this.evoSub.subscribed = true
+        this.specEvoSub.sub = spec.subscribe((evo: any) => {
+          this.specEvoSub.subscribed = true
+          this.details.evoID = evo.id
+          // i'm in the intermediate pokemon's page
+          if(this.details.name == evo.evo1Name) {
+            this.details.evoName = evo.evo2Name
+          }
+          // i'm in the last evo pokemon's page
+          else if(this.details.name == evo.evo2Name) {
+            this.details.evoName = ''
+          }
+          // i'm in the pre-evo pokemon's page
+          else {
+            this.details.evoName = evo.evo1Name
+          }
+          this.findPokeSub.sub = this.pokeService.findPokemon(this.details.evoName)
+          .subscribe((poke: any) => {
+            this.findPokeSub.subscribed = true
+            this.details.evoID = poke.id
+            this.details.evoImg = this.pokeService.getPokeImage(poke.id)
+          })
         })
-      })
-    })
+      }
+    )
+    this.allSubs.push(this.evoSub)
+    this.allSubs.push(this.specEvoSub)
+    this.allSubs.push(this.findPokeSub)
   }
 
   getDetails(index: number): void {
-    this.detailsSub = this.pokeService.getPokeDetails(index)
+    this.pokeDetailsSub.sub = this.pokeService.getPokeDetails(index)
     .subscribe((det: any) => {
+      this.pokeDetailsSub.subscribed = true
       this.details.name = det.name
       this.details.homeSprite = det.sprites.other.home.front_default
       this.details.gen = this.pokeService.findPokeGen(index)
@@ -228,6 +228,7 @@ export class DetailsPage {
       this.getTypes(det)
       this.getStats(det)
     })
+    this.allSubs.push(this.pokeDetailsSub)
   }
 
   getSprites(det: any): void {
@@ -249,5 +250,28 @@ export class DetailsPage {
       this.details.stats.push({name: cleanName, base_stat: s.base_stat})
       this.details.totStats += s.base_stat 
     })
+  }
+
+  statsOnClick() {
+    if(this.statsFab.first.activated) {
+      this.statsClicked = true
+    }
+    else {
+      this.statsClicked = false
+    }
+  }
+
+  movesetOnClick(): void {
+    this.details.levelUpMoveset.sort((a: Move, b: Move) => a.level - b.level)
+    if(this.movesetFab.first.activated) {
+      this.movesetClicked = true
+    }
+    else {
+      this.movesetClicked = false
+    }
+  }
+
+  refreshPage(): void {
+    window.location.reload()
   }
 }

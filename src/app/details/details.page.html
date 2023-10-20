@@ -3,8 +3,8 @@
         <ion-buttons>
             <ion-back-button defaultHref="home"></ion-back-button>
             <ion-title> 
-                <ion-button expand="block" shape="round" color="tertiary" size="large" 
-                [routerLink]="'/home'"> 
+                <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" 
+                (click)="refreshPage()"> 
                   myPokedex v{{appVersion}}
                 </ion-button>
             </ion-title>
@@ -79,7 +79,7 @@
             <div class="movesets">
                 <ion-card-title class="center">
                     <ion-text class="ion-text-capitalize" class="little-margin">
-                        Moveset ({{details.movesetGen}}th Gen) - !TOFIX!
+                        Moveset ({{details.movesetGen}}th Gen)
                     </ion-text>
                     <ion-fab (click)="movesetOnClick()" class="my-fabs" #moveset>
                         <ion-fab-button>
