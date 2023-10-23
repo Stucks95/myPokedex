@@ -1,5 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
-import { IonFabButton } from '@ionic/angular';
+import { Component, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +14,8 @@ interface Stat {
   styleUrls: ['./base-stat.page.scss'],
 })
 export class BaseStatPage {
-  @ViewChildren('stats') statsFab: QueryList<IonFabButton>
 
+  appVersion: string = this.pokeService.appVersion
   stats: Stat[] = []
   totStats: number | null = 0
   pokeIndex: number
@@ -24,12 +23,17 @@ export class BaseStatPage {
   allSubs: {}[] = []
   pokeDetailsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
-  constructor(private route: ActivatedRoute,private pokeService: PokemonService) {}
+  constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.statsFab = new QueryList<IonFabButton>()
-    this.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
+    //this.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
+    this.pokeIndex = this.pokeService.getCurrentIdPoke()
+    console.log('getCurrentIdPoke',this.pokeIndex)
     this.getDetails(this.pokeIndex)
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('on changes', changes)
   }
 
   ngOnDestroy(): void {
@@ -59,6 +63,10 @@ export class BaseStatPage {
       this.stats.push({name: cleanName, base_stat: s.base_stat})
       this.totStats += s.base_stat 
     })
+  }
+
+  refreshPage(): void {
+    window.location.reload()
   }
 
 }

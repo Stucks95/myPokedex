@@ -1,6 +1,14 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>base-stat</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons>
+        <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
+          <ion-title> 
+              <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" 
+              (click)="refreshPage()"> 
+                myPokedex v{{appVersion}}
+              </ion-button>
+          </ion-title>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

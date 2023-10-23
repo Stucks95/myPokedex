@@ -1,12 +1,16 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="details">
-      <ion-icon name="radio"></ion-icon>
+    <ion-tab-button [tab]="'details/'+pokeIndex">
+      <ion-icon name="home-outline"></ion-icon>
       Details
     </ion-tab-button>
-    <ion-tab-button tab="base-stat">
-      <ion-icon name="play-circle"></ion-icon>
+    <ion-tab-button [tab]="'base-stat/'+pokeIndex">
+      <ion-icon name="stats-chart-outline"></ion-icon>
       Base Stat
+    </ion-tab-button>
+    <ion-tab-button [tab]="'moveset/'+pokeIndex">
+      <ion-icon name="move-outline"></ion-icon>
+      Moveset
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

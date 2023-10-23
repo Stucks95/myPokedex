@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
-import { Subscription } from 'rxjs';
 import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
@@ -32,7 +31,6 @@ export class HomePage implements OnInit, OnDestroy {
     window.location.reload();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
 }

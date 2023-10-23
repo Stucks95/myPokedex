@@ -21,8 +21,17 @@ export class PokemonService {
   readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
   
   readonly totalPokemons: number = 905 // untill 8th gen
+  currentPokeID: number
 
   constructor(private http: HttpClient) {}
+
+  updateCurrentIdPoke(pokeId: number): void {
+    this.currentPokeID = pokeId
+  }
+
+  getCurrentIdPoke(): number {
+    return this.currentPokeID
+  }
 
   getPokemons(offset: number, limit: number, first_index: number): Observable<Object> {
     return this.http.get(this.pokemonUrl+"?offset="+offset+"&limit="+limit)

@@ -20,7 +20,7 @@ export class ByAllPage {
   subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   
   pokemons: pokeBaseInfo[]
-  allPokemons: { index: number, name: string, url: string, image: string }[]
+  allPokemons: pokeBaseInfo[]
 
   skeletonLoad: boolean = true
   skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]

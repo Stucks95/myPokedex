@@ -4,15 +4,6 @@ import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
 import { IonFabButton } from '@ionic/angular';
 
-interface Move {
-  name: string, 
-  type: string,
-  power: number,
-  damage: string,
-  accuracy: number,
-  level: number
-}
-
 interface Gen {
   region: string, 
   id: number | null
@@ -24,15 +15,11 @@ interface Gen {
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage {
-  @ViewChildren('moveset') movesetFab: QueryList<IonFabButton>
 
   movesetClicked: boolean
   appVersion: string = this.pokeService.appVersion
 
   allSubs: {}[] = []
-  detailsMoveSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
-  moves8thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
-  moves7thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   pokeDetailsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   specEvoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   evoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
@@ -49,8 +36,6 @@ export class DetailsPage {
     evoName: string,
     evoID: number,
     evoImg: string,
-    levelUpMoveset: Move[],
-    movesetGen: number | null
   } = {
     pokeIndex: null,
     name: '',
@@ -62,26 +47,17 @@ export class DetailsPage {
     evoName: '',
     evoID: 0,
     evoImg: '',
-    levelUpMoveset: [],
-    movesetGen: null
   }
 
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.movesetFab = new QueryList<IonFabButton>() 
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.getDetails(this.details.pokeIndex)
     this.getEvo(this.details.pokeIndex)
-    this.getMoves(this.details.pokeIndex)
   }
 
-  ngAfterViewInit(): void {
-    this.movesetFab.first.activated = false
-    //this.statsFab.first.activated = true
-    this.movesetClicked = false
-    //this.statsClicked = true
-  }
+  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribeAll()
@@ -95,80 +71,9 @@ export class DetailsPage {
     })
   }
 
-  // get 8th or 7th gen moveset
-  getMoves(pokeIndex: number): void {
-    let levelUp8thGenMoves = this.get8thGenMoveset(pokeIndex)
-    let levelUp7thGenMoves = this.get7thGenMoveset(pokeIndex)
-    // if there's no 7th gen moveset let's set the 8th gen moveset
-    setTimeout(() => {
-      let levelUpMoves: {move: {}, version:{}}[]
-      if(levelUp8thGenMoves.length == 0) {
-        this.details.movesetGen = 7
-        levelUpMoves = levelUp7thGenMoves
-      } else {
-        this.details.movesetGen = 8
-        levelUpMoves = levelUp8thGenMoves
-      }
-      this.getDetailsMoves(levelUpMoves)
-    }, 3000);
-  }
-
-  getDetailsMoves(levelUpMoves: {move: {}, version: {}}[]) {
-    levelUpMoves.forEach((move: any) => {  
-      this.detailsMoveSub.sub = this.pokeService.getDetailsMove(move.move.url)
-      .subscribe((detMove: any) => {
-        this.detailsMoveSub.subscribed = true
-        this.details.levelUpMoveset.push({
-          name: detMove.name, 
-          type: detMove.type.name,
-          power: detMove.power,
-          damage: detMove.damage_class.name,
-          accuracy: detMove.accuracy,
-          level: move.version.level_learned_at
-        })
-      })
-    });
-    this.allSubs.push(this.detailsMoveSub)
-  }
-  
-  // moveset 8th gen
-  get8thGenMoveset(pokeIndex: number) {
-    let levelUp8thGenMoves: {move:{}, version: {}}[] = []
-    this.moves8thGenSub.sub = this.pokeService.getMoves(pokeIndex)
-    .subscribe((moves: any) => {
-      this.moves8thGenSub.subscribed = true
-      moves.forEach((move: any) => {
-        move.version_group_details.forEach((ver: any) => {
-          if(ver.move_learn_method.name == 'level-up' && 
-          ver.version_group.name == 'brilliant-diamond-and-shining-pearl' && 
-          ver.level_learned_at != 0) {
-            levelUp8thGenMoves.push({move: move.move, version: ver})
-          }
-        });
-      });
-    })
-    this.allSubs.push(this.moves8thGenSub)
-    return levelUp8thGenMoves
-  }
-
-  // moveset 7th gen
-  get7thGenMoveset(pokeIndex: number) {
-    let levelUp7thGenMoves: {move:{}, version: {}}[] = []
-    this.moves7thGenSub.sub = this.pokeService.getMoves(pokeIndex)
-    .subscribe((moves: any) => {
-      this.moves7thGenSub.subscribed = true
-      moves.forEach((move: any) => {
-        move.version_group_details.forEach((ver: any) => {
-          if(ver.move_learn_method.name == 'level-up' && 
-          ver.version_group.name == 'ultra-sun-ultra-moon' && 
-          ver.level_learned_at != 0) {
-            levelUp7thGenMoves.push({move: move.move, version: ver})
-          }
-        });
-      });
-    })
-    this.allSubs.push(this.moves7thGenSub)
-    return levelUp7thGenMoves
+  updatePokeId(evoID: number): void {
+    console.log('update ID - evo id = ',evoID)
+    this.pokeService.updateCurrentIdPoke(evoID)
   }
 
   getEvo(index: number): void {
@@ -228,16 +133,6 @@ export class DetailsPage {
     det.types.forEach((type: any) => {
       this.details.types.push(type.type.name)
     })
-  }
-
-  movesetOnClick(): void {
-    this.details.levelUpMoveset.sort((a: Move, b: Move) => a.level - b.level)
-    if(this.movesetFab.first.activated) {
-      this.movesetClicked = true
-    }
-    else {
-      this.movesetClicked = false
-    }
   }
 
   refreshPage(): void {

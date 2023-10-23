@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons>
-            <ion-back-button defaultHref="home"></ion-back-button>
+            <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
             <ion-title> 
                 <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" 
                 (click)="refreshPage()"> 
@@ -13,6 +13,7 @@
 </ion-header>
 
 <ion-content>
+
     <div class="content">
         <ion-card>
             <div class="card-header">
@@ -37,51 +38,17 @@
                 <ion-card-title class="center">
                     <ion-text class="ion-text-capitalize">Evolves to: </ion-text>
                 </ion-card-title>
-                <ion-item [routerLink]="'/details/'+details.evoID.toString()">
+                <ion-item [routerLink]="'/tabs/details/'+details.evoID.toString()" (click)="updatePokeId(details.evoID)">
                     <ion-avatar slot="start">
                         <img [src]="details.evoImg" style="background: #f2f2f2;">
                     </ion-avatar>
                     <ion-label class="ion-text-capitalize">
-                    <h2>{{ details.evoName | uppercase }}</h2>
-                    <p>#{{ details.evoID }}</p>
+                        <h2>{{ details.evoName | uppercase }}</h2>
+                        <p>#{{ details.evoID }}</p>
                     </ion-label>
                 </ion-item>
             </div>
-
-            <div class="movesets">
-                <ion-card-title class="center">
-                    <ion-text class="ion-text-capitalize" class="little-margin">
-                        Moveset ({{details.movesetGen}}th Gen)
-                    </ion-text>
-                    <ion-fab (click)="movesetOnClick()" class="my-fabs" #moveset>
-                        <ion-fab-button>
-                            <ion-icon name="add"></ion-icon>
-                        </ion-fab-button>
-                        <ion-fab-list side="end"></ion-fab-list>
-                    </ion-fab>
-                </ion-card-title>
-                <ion-grid class="grid-moveset" *ngIf="movesetClicked">
-                    <ion-row class="special-grid-row">
-                        <ion-col>NAME</ion-col>
-                        <ion-col>TYPE</ion-col>
-                        <ion-col>POWER</ion-col>
-                        <ion-col>DAMAGE</ion-col>
-                        <ion-col>ACCURACY</ion-col>
-                        <ion-col>LEVEL</ion-col>
-                    </ion-row>
-                    <ion-row class="grid-rows" *ngFor="let move of details.levelUpMoveset">
-                        <ion-item-divider>
-                            <ion-col class="ion-text-capitalize">{{ move.name}}</ion-col>
-                            <ion-col>{{move.type | uppercase}}</ion-col>
-                            <ion-col style="padding-left: 3%;">{{ move.power}}</ion-col>
-                            <ion-col style="padding-left: 3%;">{{ move.damage}}</ion-col>
-                            <ion-col style="padding-left: 3%;">{{ move.accuracy}}</ion-col>
-                            <ion-col style="padding-left: 3%;">{{ move.level}}</ion-col>
-                        </ion-item-divider>
-                    </ion-row>
-                </ion-grid>
-            </div>
-
         </ion-card>
     </div>
+
 </ion-content>

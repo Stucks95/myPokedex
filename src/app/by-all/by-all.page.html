@@ -1,11 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons>
-      <ion-back-button defaultHref="home"></ion-back-button>
-      <ion-button size="large" shape="round" fill="solid" color="tertiary"
-      (click)="refreshPage()"> 
-        All Pokemon
-      </ion-button>
+      <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
       <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" 
         [(ngModel)]="searchText"
         (ionInput)="isSearching()">
@@ -40,7 +36,7 @@
   <ng-template #searchPokemon>
     <!-- POKE LIST (u are searching pokemon) -->
     <ion-list *ngIf="!skeletonLoad">
-      <div class="poke-item" *ngFor="let pokemon of pokemons" 
+      <div class="poke-item" *ngFor="let pokemon of allPokemons | appFilter: searchText" 
       [routerLink]="'/tabs/details/'+pokemon.index.toString()">
         <div class="poke-avatar">
           <ion-avatar class="poke-img">
@@ -58,7 +54,7 @@
   <ng-template #noSearch>
     <!-- POKE LIST (no searching) -->
     <ion-list *ngIf="!skeletonLoad">
-      <div class="poke-item" *ngFor="let pokemon of pokemons" 
+      <div class="poke-item" *ngFor="let pokemon of allPokemons" 
       [routerLink]="'/details/'+pokemon.index.toString()">
         <div class="poke-avatar">
           <ion-avatar class="poke-img">

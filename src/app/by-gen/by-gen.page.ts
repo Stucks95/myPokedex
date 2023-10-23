@@ -1,7 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 interface pokeBaseInfo {
   index: number, 
@@ -15,8 +14,6 @@ interface pokeBaseInfo {
   styleUrls: ['./by-gen.page.scss'],
 })
 export class ByGenPage {
-
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll
 
   allSubs: {}[] = []
   subRegionPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
@@ -78,9 +75,8 @@ export class ByGenPage {
     this.allSubs.push(this.subRegionPokemon)
     setTimeout(() => {
       this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
-      console.log(this.pokemons)
       this.skeletonLoad = false
-    }, 2000);
+    }, 1000);
   }
 
   refreshPage(): void {

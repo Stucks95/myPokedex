@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons>
+        <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
+          <ion-title> 
+              <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" 
+              (click)="refreshPage()"> 
+                myPokedex v{{appVersion}}
+              </ion-button>
+          </ion-title>
+      </ion-buttons>
+      <ion-progress-bar type="indeterminate" color="light" *ngIf="progressLoad"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+    <div class="movesets" *ngIf="!progressLoad">
+        <ion-card-title class="center">
+            <ion-text class="ion-text-capitalize" class="little-margin">
+                Moveset {{movesetGen}}th Gen
+            </ion-text>
+        </ion-card-title>
+        <ion-grid class="grid-moveset">
+            <ion-row class="special-grid-row">
+                <ion-col size="3">NAME</ion-col>
+                <ion-col>TYPE</ion-col>
+                <ion-col>POWER</ion-col>
+                <ion-col>DAMAGE</ion-col>
+                <ion-col>ACCURACY</ion-col>
+                <ion-col>LEVEL</ion-col>
+            </ion-row>
+            <ion-row class="grid-rows" *ngFor="let move of levelUpMoveset">
+                <ion-item-divider>
+                    <ion-col size="3" class="ion-text-capitalize">{{ move.name}}</ion-col>
+                    <ion-col>{{move.type | uppercase}}</ion-col>
+                    <ion-col style="padding-left: 3%;">{{ move.power}}</ion-col>
+                    <ion-col style="padding-left: 3%;">{{ move.damage}}</ion-col>
+                    <ion-col style="padding-left: 3%;">{{ move.accuracy}}</ion-col>
+                    <ion-col style="padding-left: 3%;">{{ move.level}}</ion-col>
+                </ion-item-divider>
+            </ion-row>
+        </ion-grid>
+    </div>
+
+</ion-content>

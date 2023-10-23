@@ -15,6 +15,10 @@ const routes: Routes = [
         path: 'base-stat/:index',
         loadChildren: () => import('./base-stat/base-stat.module').then( m => m.BaseStatPageModule)
       },
+      {
+        path: 'moveset/:index',
+        loadChildren: () => import('./moveset/moveset.module').then( m => m.MovesetPageModule)
+      },
     ]
   },
   {
@@ -26,10 +30,6 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-/*   {
-    path: 'details/:index',
-    loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
-  }, */
   {
     path: 'by-all',
     loadChildren: () => import('./by-all/by-all.module').then( m => m.ByAllPageModule)
