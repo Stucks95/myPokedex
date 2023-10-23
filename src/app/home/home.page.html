@@ -1,6 +1,4 @@
-<!-- <ng-lottie *ngIf="!animationEnd" [options]="options"></ng-lottie> -->
-
-<ion-header *ngIf="animationEnd">
+<ion-header>
   <ion-toolbar color="primary">
     <ion-title> 
       <ion-button expand="block" shape="round" color="tertiary" size="large" (click)="refreshPage()"> 
@@ -10,7 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="animationEnd" #container>
+<ion-content #container>
 
   <ion-list>
     <ion-list-header>

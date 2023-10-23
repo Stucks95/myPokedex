@@ -22,13 +22,17 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'animation',
+    loadChildren: () => import('./animation/animation.module').then( m => m.AnimationPageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'animation',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
     path: 'by-all',
@@ -50,7 +54,6 @@ const routes: Routes = [
     path: 'by-type/:index',
     loadChildren: () => import('./by-type/by-type.module').then( m => m.ByTypePageModule)
   },
-
 
 ];
 

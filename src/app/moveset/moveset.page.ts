@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 interface Move {
   name: string, 
@@ -31,12 +32,11 @@ export class MovesetPage {
   moves7thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   detailsMoveSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
-  constructor(private pokeService: PokemonService, private route: ActivatedRoute) { }
+  constructor(private pokeService: PokemonService, private loadingCtrl: LoadingController) { }
 
   ngOnInit(): void {
-    //this.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
-    let urlHref = window.location.href
-    this.pokeIndex = +urlHref.substring(urlHref.lastIndexOf('/') + 1)
+    this.showLoading()
+    this.pokeIndex = this.pokeService.getCurrentPokeId()
     this.getMoves(this.pokeIndex)
   }
 
@@ -50,6 +50,15 @@ export class MovesetPage {
         objSub.sub.unsubscribe()
       }
     })
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...',
+      duration: 4000,
+    });
+
+    loading.present();
   }
 
   // get 8th or 7th gen moveset

@@ -25,11 +25,11 @@ export class PokemonService {
 
   constructor(private http: HttpClient) {}
 
-  updateCurrentIdPoke(pokeId: number): void {
+  updateCurrentPokeId(pokeId: number): void {
     this.currentPokeID = pokeId
   }
 
-  getCurrentIdPoke(): number {
+  getCurrentPokeId(): number {
     return this.currentPokeID
   }
 

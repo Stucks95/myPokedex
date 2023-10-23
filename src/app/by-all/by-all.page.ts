@@ -75,7 +75,7 @@ export class ByAllPage {
     })
     setTimeout(() => {
       this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
-      console.log(this.pokemons)
+      this.allPokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
       this.skeletonLoad = false
     }, 2000);
   }

@@ -53,6 +53,7 @@ export class DetailsPage {
 
   ngOnInit(): void {
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
+    this.pokeService.updateCurrentPokeId(this.details.pokeIndex)
     this.getDetails(this.details.pokeIndex)
     this.getEvo(this.details.pokeIndex)
   }
@@ -73,7 +74,7 @@ export class DetailsPage {
 
   updatePokeId(evoID: number): void {
     console.log('update ID - evo id = ',evoID)
-    this.pokeService.updateCurrentIdPoke(evoID)
+    this.pokeService.updateCurrentPokeId(evoID)
   }
 
   getEvo(index: number): void {

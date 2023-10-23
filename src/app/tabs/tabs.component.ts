@@ -16,16 +16,15 @@ export class TabsComponent  implements OnInit {
   ngOnInit(): void {
     let urlHref = window.location.href
     this.pokeIndex = +urlHref.substring(urlHref.lastIndexOf('/') + 1)
-    this.pokeService.updateCurrentIdPoke(this.pokeIndex)
+    this.pokeService.updateCurrentPokeId(this.pokeIndex)
   }
 
-  ngAfterViewInit(): void {
-    this.pokeIndex = this.pokeService.getCurrentIdPoke()
-    console.log(this.pokeIndex)
-  }
+/*   ngAfterContentChecked() {
+    console.log('ngAfterContentChecked')
+  } */
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', this.pokeIndex, changes)
+  ngDoCheck() {
+    this.pokeIndex = this.pokeService.getCurrentPokeId()
   }
 
 }

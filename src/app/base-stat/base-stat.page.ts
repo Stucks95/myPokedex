@@ -26,14 +26,9 @@ export class BaseStatPage {
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    //this.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
-    this.pokeIndex = this.pokeService.getCurrentIdPoke()
-    console.log('getCurrentIdPoke',this.pokeIndex)
+    this.pokeIndex = this.pokeService.getCurrentPokeId()
+    console.log('BASE STAT - getCurrentIdPoke',this.pokeIndex)
     this.getDetails(this.pokeIndex)
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('on changes', changes)
   }
 
   ngOnDestroy(): void {
@@ -51,6 +46,7 @@ export class BaseStatPage {
   getDetails(index: number): void {
     this.pokeDetailsSub.sub = this.pokeService.getPokeDetails(index)
     .subscribe((det: any) => {
+      console.log('det',det)
       this.pokeDetailsSub.subscribed = true
       this.getStats(det)
     })

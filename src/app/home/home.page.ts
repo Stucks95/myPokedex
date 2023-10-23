@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
-import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +7,6 @@ import { AnimationOptions } from 'ngx-lottie';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-  
-  options: AnimationOptions = {
-    path: '../../assets/animation_pokemon.json'
-  }
-  animationEnd: boolean = false
 
   appVersion: string = this.pokeService.appVersion
   offset: number
@@ -20,11 +14,15 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.animationEnd = true
-    // timeout for LOGO ANIMATION
-    /* setTimeout(() => {
-      this.animationEnd = true
-    }, 4000); */
+    this.playAudio();
+  }
+
+  playAudio() {
+    let audio = new Audio();
+    audio.src = "../../assets/pokémon_music_mix.mp3";
+    audio.volume = 0.5
+    audio.load();
+    audio.play();
   }
 
   refreshPage(): void {
