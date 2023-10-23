@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
 
+interface pokeBaseInfo {
+  index: number, 
+  name: string, 
+  image: string
+}
+
 @Component({
   selector: 'app-by-all',
   templateUrl: './by-all.page.html',
@@ -13,7 +19,7 @@ export class ByAllPage {
   subAllPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   
-  pokemons: { index: number, name: string, image: string }[]
+  pokemons: pokeBaseInfo[]
   allPokemons: { index: number, name: string, url: string, image: string }[]
 
   skeletonLoad: boolean = true
@@ -67,6 +73,11 @@ export class ByAllPage {
       this.subInitPokemon.subscribed = true
       this.pokemons = [...poke]
     })
+    setTimeout(() => {
+      this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
+      console.log(this.pokemons)
+      this.skeletonLoad = false
+    }, 2000);
   }
 
   refreshPage(): void {

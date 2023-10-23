@@ -3,6 +3,12 @@ import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
 import { IonInfiniteScroll } from '@ionic/angular';
 
+interface pokeBaseInfo {
+  index: number, 
+  name: string, 
+  image: string
+}
+
 @Component({
   selector: 'app-by-gen',
   templateUrl: './by-gen.page.html',
@@ -16,7 +22,7 @@ export class ByGenPage {
   subRegionPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   
-  pokemons: { index: number, name: string, url: string, image: string }[]
+  pokemons: pokeBaseInfo[]
   regions: { idGen: number, region: string }[]
   offset: number = 0
   skeletonLoad: boolean = true
@@ -61,6 +67,7 @@ export class ByGenPage {
   }
 
   loadGen(e: Event): void {
+    this.skeletonLoad = true
     let objGen: Object = (<HTMLInputElement>e.target).value
     let idGen: number = Object.values(objGen)[0]
     this.subRegionPokemon.sub = this.pokeService.getPokeByGeneration(idGen)
@@ -69,6 +76,11 @@ export class ByGenPage {
       this.pokemons = [...res]
     })
     this.allSubs.push(this.subRegionPokemon)
+    setTimeout(() => {
+      this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
+      console.log(this.pokemons)
+      this.skeletonLoad = false
+    }, 2000);
   }
 
   refreshPage(): void {

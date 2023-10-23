@@ -43,7 +43,7 @@
   <!-- POKE LIST -->
   <ion-list *ngIf="!skeletonLoad">
     <div class="poke-item" *ngFor="let pokemon of pokemons" 
-    [routerLink]="'/details/'+pokemon.index.toString()">
+    [routerLink]="'/tabs/details/'+pokemon.index.toString()">
       <div class="poke-avatar">
         <ion-avatar class="poke-img">
           <img [src]="pokemon.image">

@@ -4,6 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { IonSelect } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
+interface pokeBaseInfo {
+  index: number, 
+  name: string, 
+  image: string
+}
+
 @Component({
   selector: 'app-by-type',
   templateUrl: './by-type.page.html',
@@ -17,7 +23,7 @@ export class ByTypePage {
   subPokemonByType: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   subPokemonInfo: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
-  pokemons: {index: number, name: string, image: string}[] = []
+  pokemons: pokeBaseInfo[] = []
   lastPokeIndex: number = this.pokeService.totalPokemons
   pokeIndex: number
   types: {count: number, results: {name:string, url: string}[]} = {count: 0, results: []}
@@ -66,7 +72,7 @@ export class ByTypePage {
 
   loadNormalPokemon(): void {
     this.subPokemonByType.sub = this.pokeService.getPokemonByType("normal")
-    .subscribe((pokemons: any) => {
+    .subscribe((pokemons: pokeBaseInfo[]) => {
       this.subPokemonByType.subscribed = true
       pokemons.forEach((poke: any) => {
         this.subPokemonInfo.sub = this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
@@ -83,11 +89,12 @@ export class ByTypePage {
   }
 
   loadPokeByType(): void {
+    this.skeletonLoad = true
     this.pokemons = []
     let typeSelected = this.typeSelect.first.value
     
     this.subPokemonByType.sub = this.pokeService.getPokemonByType(typeSelected.name)
-    .subscribe((pokemons: any) => {
+    .subscribe((pokemons: pokeBaseInfo[]) => {
       this.subPokemonByType.subscribed = true
       pokemons.forEach((poke: any) => {
         this.subPokemonInfo.sub = this.pokeService.getPokemonInfo(poke.pokemon.name, this.lastPokeIndex)
@@ -101,6 +108,11 @@ export class ByTypePage {
     })
     this.allSubs.push(this.subPokemonByType)
     this.allSubs.push(this.subPokemonInfo)
+    setTimeout(() => {
+      this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
+      console.log(this.pokemons)
+      this.skeletonLoad = false
+    }, 2000);
   }
 
   refreshPage(): void {

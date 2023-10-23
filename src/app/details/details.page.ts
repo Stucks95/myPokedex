@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
@@ -13,11 +13,6 @@ interface Move {
   level: number
 }
 
-interface Stat {
-  name: string, 
-  base_stat: number
-}
-
 interface Gen {
   region: string, 
   id: number | null
@@ -30,10 +25,8 @@ interface Gen {
 })
 export class DetailsPage {
   @ViewChildren('moveset') movesetFab: QueryList<IonFabButton>
-  @ViewChildren('stats') statsFab: QueryList<IonFabButton>
 
   movesetClicked: boolean
-  statsClicked: boolean
   appVersion: string = this.pokeService.appVersion
 
   allSubs: {}[] = []
@@ -53,8 +46,6 @@ export class DetailsPage {
     homeSprite: string
     sprites: string[]
     types: string[]
-    stats: Stat[],
-    totStats: number | null
     evoName: string,
     evoID: number,
     evoImg: string,
@@ -68,8 +59,6 @@ export class DetailsPage {
     homeSprite: '',
     sprites: [],
     types: [],
-    stats: [],
-    totStats: null,
     evoName: '',
     evoID: 0,
     evoImg: '',
@@ -80,7 +69,6 @@ export class DetailsPage {
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.statsFab = new QueryList<IonFabButton>()
     this.movesetFab = new QueryList<IonFabButton>() 
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.getDetails(this.details.pokeIndex)
@@ -90,9 +78,9 @@ export class DetailsPage {
 
   ngAfterViewInit(): void {
     this.movesetFab.first.activated = false
-    this.statsFab.first.activated = true
+    //this.statsFab.first.activated = true
     this.movesetClicked = false
-    this.statsClicked = true
+    //this.statsClicked = true
   }
 
   ngOnDestroy(): void {
@@ -225,7 +213,6 @@ export class DetailsPage {
       this.details.gen = this.pokeService.findPokeGen(index)
       this.getSprites(det)
       this.getTypes(det)
-      this.getStats(det)
     })
     this.allSubs.push(this.pokeDetailsSub)
   }
@@ -241,23 +228,6 @@ export class DetailsPage {
     det.types.forEach((type: any) => {
       this.details.types.push(type.type.name)
     })
-  }
-
-  getStats(det: any): void {
-    det.stats.forEach((s: any) => {
-      let cleanName = s.stat.name.replace('-', ' ')
-      this.details.stats.push({name: cleanName, base_stat: s.base_stat})
-      this.details.totStats += s.base_stat 
-    })
-  }
-
-  statsOnClick() {
-    if(this.statsFab.first.activated) {
-      this.statsClicked = true
-    }
-    else {
-      this.statsClicked = false
-    }
   }
 
   movesetOnClick(): void {

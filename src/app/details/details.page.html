@@ -16,7 +16,7 @@
     <div class="content">
         <ion-card>
             <div class="card-header">
-                <ion-img alt="{{ details.name }}" src="{{ details.homeSprite }}" 
+                <ion-img [alt]="details.name" [src]="details.homeSprite" 
                 class="detail-img"></ion-img>
                 <ion-title class="ion-text-capitalize poke-title">{{ details.name }}</ion-title>
                 <ion-card-title>
@@ -46,34 +46,6 @@
                     <p>#{{ details.evoID }}</p>
                     </ion-label>
                 </ion-item>
-            </div>
-
-            <div class="stats">
-                <ion-card-title class="center">
-                    <ion-text class="ion-text-capitalize little-margin">Base Stats</ion-text>
-                    <ion-fab (click)="statsOnClick()" class="my-fabs" #stats>
-                        <ion-fab-button>
-                            <ion-icon name="add"></ion-icon>
-                        </ion-fab-button>
-                        <ion-fab-list side="end"></ion-fab-list>
-                    </ion-fab>
-                </ion-card-title>
-                <ion-grid class="grid-stats" *ngIf="statsClicked">
-                    <ion-row class="special-grid-row grid-rows-stats">
-                        <ion-col>TYPE</ion-col>
-                        <ion-col>POINTS</ion-col>
-                    </ion-row>
-                    <ion-row *ngFor="let stat of details.stats">
-                        <ion-item-divider class="grid-rows-stats">
-                            <ion-col>{{ stat.name | uppercase }}</ion-col>
-                            <ion-col>{{ stat.base_stat }}</ion-col>
-                        </ion-item-divider>
-                    </ion-row>
-                    <ion-row class="grid-rows-stats">
-                        <ion-col>TOTAL</ion-col>
-                        <ion-col>{{ details.totStats }}</ion-col>
-                    </ion-row>
-                </ion-grid>
             </div>
 
             <div class="movesets">

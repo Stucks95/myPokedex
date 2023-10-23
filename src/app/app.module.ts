@@ -9,13 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import player from 'lottie-web';
 import { LottieModule } from 'ngx-lottie';
+import { TabsComponent } from './tabs/tabs.component';
 
 export function playerFactory() {
     return player;
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TabsComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

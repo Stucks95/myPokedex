@@ -4,18 +4,18 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetailsPageRoutingModule } from './details-routing.module';
+import { BaseStatPageRoutingModule } from './base-stat-routing.module';
 
-import { DetailsPage } from './details.page';
+import { BaseStatPage } from './base-stat.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailsPageRoutingModule,
+    BaseStatPageRoutingModule
   ],
-  declarations: [DetailsPage],
-  exports: [DetailsPage]
+  declarations: [BaseStatPage],
+  exports: [BaseStatPage]
 })
-export class DetailsPageModule {}
+export class BaseStatPageModule {}

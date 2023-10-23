@@ -1,7 +1,22 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TabsComponent } from './tabs/tabs.component';
 
 const routes: Routes = [
+  {
+    path: 'tabs',
+    component: TabsComponent,
+    children: [
+      {
+        path: 'details/:index',
+        loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
+      },
+      {
+        path: 'base-stat/:index',
+        loadChildren: () => import('./base-stat/base-stat.module').then( m => m.BaseStatPageModule)
+      },
+    ]
+  },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
@@ -11,10 +26,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
+/*   {
     path: 'details/:index',
     loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
-  },
+  }, */
   {
     path: 'by-all',
     loadChildren: () => import('./by-all/by-all.module').then( m => m.ByAllPageModule)
@@ -35,6 +50,7 @@ const routes: Routes = [
     path: 'by-type/:index',
     loadChildren: () => import('./by-type/by-type.module').then( m => m.ByTypePageModule)
   },
+
 
 ];
 
