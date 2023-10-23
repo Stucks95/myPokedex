@@ -14,15 +14,6 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(private pokeService: PokemonService) {}
 
   ngOnInit(): void {
-    this.playAudio();
-  }
-
-  playAudio() {
-    let audio = new Audio();
-    audio.src = "../../assets/pokémon_music_mix.mp3";
-    audio.volume = 0.5
-    audio.load();
-    audio.play();
   }
 
   refreshPage(): void {

@@ -15,6 +15,6 @@ import { LottieModule } from 'ngx-lottie'
     IonicModule,
     HomePageRoutingModule,
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
