@@ -110,7 +110,6 @@ export class ByTypePage {
     this.allSubs.push(this.subPokemonInfo)
     setTimeout(() => {
       this.pokemons.sort((a: pokeBaseInfo, b: pokeBaseInfo) => a.index - b.index)
-      console.log(this.pokemons)
       this.skeletonLoad = false
     }, 2000);
   }

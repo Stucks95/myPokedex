@@ -2,11 +2,16 @@ import { Component, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
-import { IonFabButton } from '@ionic/angular';
 
 interface Gen {
   region: string, 
   id: number | null
+}
+
+interface Evo {
+  evo0: {name: string, id: number, img: string}, 
+  evo1: {name: string, id: number, img: string}[], 
+  evo2: {name: string, id: number, img: string}[]
 }
 
 @Component({
@@ -33,9 +38,7 @@ export class DetailsPage {
     homeSprite: string
     sprites: string[]
     types: string[]
-    evoName: string,
-    evoID: number,
-    evoImg: string,
+    evo: Evo
   } = {
     pokeIndex: null,
     name: '',
@@ -44,9 +47,7 @@ export class DetailsPage {
     homeSprite: '',
     sprites: [],
     types: [],
-    evoName: '',
-    evoID: 0,
-    evoImg: '',
+    evo: {evo0: {name: '', id: 0, img: ''}, evo1: [], evo2: []}
   }
 
   constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
@@ -79,32 +80,39 @@ export class DetailsPage {
 
   getEvo(index: number): void {
       this.evoSub.sub = this.pokeService.getEvolutions(index)
-      .subscribe((spec: any) => {
+      .subscribe((evo: any) => {
         this.evoSub.subscribed = true
-        this.specEvoSub.sub = spec.subscribe((evo: any) => {
+        this.specEvoSub.sub = evo.subscribe((poke: any) => {
           this.specEvoSub.subscribed = true
-          this.details.evoID = evo.id
-          // i'm in the intermediate pokemon's page
-          if(this.details.name == evo.evo1Name) {
-            this.details.evoName = evo.evo2Name
+
+          this.details.evo.evo0.name = poke.evo0[0].name
+          this.details.evo.evo0.id = poke.evo0[0].id
+          this.details.evo.evo0.img = this.pokeService.getPokeImage(poke.evo0[0].id)     
+          if(poke.evo1) {
+            console.log('poke.evo1',poke.evo1)
+            poke.evo1.forEach((p: any) => {
+              // EVO 1 pushing
+              this.details.evo.evo1.push(
+                {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
+              )
+            });
           }
-          // i'm in the last evo pokemon's page
-          else if(this.details.name == evo.evo2Name) {
-            this.details.evoName = ''
+          if(poke.evo2.length != 0) {
+            console.log('poke.evo2',poke.evo2)
+            poke.evo2.forEach((p: any) => {
+              // EVO 1 pushing
+              this.details.evo.evo2.push(
+                {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
+              )
+            });
           }
-          // i'm in the pre-evo pokemon's page
-          else {
-            this.details.evoName = evo.evo1Name
-          }
-          this.findPokeSub.sub = this.pokeService.findPokemon(this.details.evoName)
-          .subscribe((poke: any) => {
-            this.findPokeSub.subscribed = true
-            this.details.evoID = poke.id
-            this.details.evoImg = this.pokeService.getPokeImage(poke.id)
-          })
+          
         })
       }
     )
+    setTimeout(() => {
+      console.log('this.details.evo',this.details.evo)
+    }, 3000);
     this.allSubs.push(this.evoSub)
     this.allSubs.push(this.specEvoSub)
     this.allSubs.push(this.findPokeSub)

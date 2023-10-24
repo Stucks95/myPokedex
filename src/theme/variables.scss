@@ -3,6 +3,13 @@
 
 /** Ionic CSS Variables **/
 :root {
+  .audio-home {
+    padding-inline-start: calc(var(--ion-safe-area-left, 0) + 16px);
+    padding-top: 10px;
+    padding-right: calc(var(--ion-safe-area-left, 0) + 16px);
+    width: -webkit-fill-available;
+  }
+  
   .poke-item {
     display: flex;
     align-items: center;
@@ -75,9 +82,14 @@
     padding-bottom: 16px;
     font-size: large;
     font-weight: bold;
-    text-align: center;
-    justify-content: center;
-    display: flex;
+  }
+
+  .pre-evo-list {
+    margin-bottom: 10px;
+  }
+
+  .evo-list {
+    margin-bottom: 10px;
   }
 
   .center {
@@ -98,8 +110,9 @@
   .special-grid-row {
     background-color: #2A5C99;
     color: #ffffff;
-    padding: 8px;
+    padding: 5px;
     text-align: center;
+    font-size: 12px;
   }
 
   .grid-rows {
@@ -133,9 +146,9 @@
 
 /** item-divider **/
   ion-item-divider {
-    padding: 5px;
+    padding: 3px;
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   /** thumbnail **/

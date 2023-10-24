@@ -11,7 +11,7 @@
 <ion-content #container>
 
   <ion-list>
-    <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="0.5" [loop]="true" [autoplay]="true">
+    <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true" [autoplay]="autoPlay" class="audio-home" #pokeMusic>
       <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
     </audio>
     <ion-list-header>

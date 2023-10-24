@@ -105,23 +105,49 @@ export class PokemonService {
       map((spec: any) => {
       return this.http.get(spec.evolution_chain.url).pipe(
         map((evo: any) => {
-          var firstEvolveTo = evo.chain.evolves_to[0]
-          // 1 EVO Poke
-          if(firstEvolveTo) {
-            evo.evo1Name = evo.chain.evolves_to[0].species.name
-            evo.evo2Name = ''
-            var secondEvolveTo = evo.chain.evolves_to[0].evolves_to[0]
-            // 2 EVO Poke
-            if(secondEvolveTo) {
-              evo.evo2Name = evo.chain.evolves_to[0].evolves_to[0].species.name
-            }
+          let poke: {evo0: {name: string, id: number}[], evo1: {name: string, id: number}[], evo2: {name: string, id: number}[]}
+          = {evo0: [], evo1: [], evo2: []}
+
+          // finding id by substringing the url
+          let urlPokeEvo = evo.chain.species.url
+          let idString: string = urlPokeEvo.substring(urlPokeEvo.lastIndexOf('-species/') + 9)
+          let id0Evo: number = +idString.replace('/', '')
+          let evo0: {name: string, id: number} = {name: evo.chain.species.name, id: id0Evo}
+          poke.evo0.push({name: evo0.name, id: evo0.id})
+
+          if(evo.chain.evolves_to) {
+            evo.evolves_to = evo.chain.evolves_to
+            evo.evolves_to.forEach((el: any, i: number) => {
+              console.log('el', el)
+              let firstEvolveTo: any = el
+              // 1 EVO Poke
+              if(firstEvolveTo) {
+                // finding id by substringing the url
+                urlPokeEvo = firstEvolveTo.species.url
+                idString = urlPokeEvo.substring(urlPokeEvo.lastIndexOf('-species/') + 9)
+                let id1stEvo = +idString.replace('/', '')
+                poke.evo1.push({name: firstEvolveTo.species.name, id: id1stEvo})
+                poke.evo2 = []
+                let secondEvolveTo: any = el.evolves_to[0]
+                // 2 EVO Poke
+                if(secondEvolveTo) {
+                  console.log('secondEvolveTo', secondEvolveTo)
+                  urlPokeEvo = secondEvolveTo.species.url
+                  idString = urlPokeEvo.substring(urlPokeEvo.lastIndexOf('-species/') + 9)
+                  let id2ndEvo = +idString.replace('/', '')
+                  poke.evo2.push({name: secondEvolveTo.species.name, id: id2ndEvo})
+                }
+              }
+              // NO EVO Poke
+              else {
+                //poke.evo0.push({name: '', id: 0})
+                poke.evo1 = []
+                poke.evo2 = []
+              }
+            });
           }
-          // NO EVO Poke
-          else {
-            evo.evo1Name = ''
-            evo.evo2Name = ''
-          }
-          return evo
+
+          return poke
         })
       )}
     ))
