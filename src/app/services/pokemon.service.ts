@@ -5,6 +5,12 @@ import { map } from 'rxjs/operators';
 import pokeByGen from './pokeByGen.json';
 import { environment } from 'src/environments/environment.prod';
 
+interface Damage_Relations {
+  no_damage_from: {name: string}[], 
+  half_damage_from: {name: string}[], 
+  double_damage_from: {name: string}[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +28,7 @@ export class PokemonService {
   
   readonly totalPokemons: number = 905 // untill 8th gen
   currentPokeID: number
+  //dm_rel: Damage_Relations
 
   constructor(private http: HttpClient) {}
 
@@ -100,6 +107,87 @@ export class PokemonService {
     )
   }
 
+  getDamageRelationsByType(idType: number): Observable<Damage_Relations> {
+    let dm_rel: Damage_Relations = {
+      no_damage_from: [], 
+      half_damage_from: [], 
+      double_damage_from: []
+    }
+    return this.http.get(this.typesUrl+idType).pipe(
+      map((type: any) => {
+        dm_rel.no_damage_from = type.damage_relations.no_damage_from
+        dm_rel.half_damage_from = type.damage_relations.half_damage_from
+        dm_rel.double_damage_from = type.damage_relations.double_damage_from
+        return dm_rel
+      })
+    )
+  }
+
+  calculateDamageRelationsBy2Types(dm_rel: Damage_Relations[]): Damage_Relations {
+    let resDm_Rel: Damage_Relations = {no_damage_from: [], half_damage_from: [], double_damage_from: []}
+    let resultsDouble_dmg: {name: string}[] = []
+    let resultsHalf_dmg: {name: string}[] = []
+    let resultsNo_dmg: {name: string}[] = []
+    let allDouble_dmg: any[] = []
+    let allHalf_dmg: any[] = []
+
+    // catching all the double, half and no dmg
+    dm_rel[0].double_damage_from.forEach((dmg: any) => {
+      allDouble_dmg.push(dmg.name)
+    });
+    dm_rel[1].double_damage_from.forEach((dmg: any) => {
+      allDouble_dmg.push(dmg.name)
+    });
+    dm_rel[0].half_damage_from.forEach((dmg: any) => {
+      allHalf_dmg.push(dmg.name)
+    });
+    dm_rel[1].half_damage_from.forEach((dmg: any) => {
+      allHalf_dmg.push(dmg.name)
+    });
+    dm_rel[0].no_damage_from.forEach((dmg: any) => {
+      resultsNo_dmg.push({name: dmg.name})
+    });
+    dm_rel[1].no_damage_from.forEach((dmg: any) => {
+      resultsNo_dmg.push({name: dmg.name})
+    });
+
+    allDouble_dmg = [...new Set(allDouble_dmg)]
+    allHalf_dmg = [...new Set(allHalf_dmg)]
+
+    // cerco se tra tutti i tipi double dmg ci siano resistenze (1/2)
+    allDouble_dmg.forEach((double_dmg: any) => {
+      let isUnique: boolean = true
+      allHalf_dmg.forEach((half_dmg: any) => {
+        if(double_dmg == half_dmg) {
+          isUnique = false
+        }
+      })
+      if(isUnique) {
+        resultsDouble_dmg.push({name: double_dmg})
+      }
+    })
+    // cerco se tra tutti i tipi half dmg ci siano debolezze (2)
+    allHalf_dmg.forEach((half_dmg: any) => {
+      let isUnique: boolean = true
+      allDouble_dmg.forEach((double_dmg: any) => {
+        if(half_dmg == double_dmg) {
+          isUnique = false
+        }
+      })
+      if(isUnique) {
+        resultsHalf_dmg.push({name: half_dmg})
+      }
+    })
+    console.log('resultsDouble_dmg',resultsDouble_dmg)
+    console.log('resultsHalf_dmg',resultsHalf_dmg)
+    console.log('resultsHalf_dmg',resultsNo_dmg)
+    resDm_Rel.double_damage_from = resultsDouble_dmg
+    resDm_Rel.half_damage_from = resultsHalf_dmg
+    resDm_Rel.no_damage_from = resultsNo_dmg
+    
+    return resDm_Rel
+  }
+
   getEvolutions(index: number): Observable<any> {
     return this.getSpecies(index).pipe(
       map((spec: any) => {
@@ -118,7 +206,6 @@ export class PokemonService {
           if(evo.chain.evolves_to) {
             evo.evolves_to = evo.chain.evolves_to
             evo.evolves_to.forEach((el: any, i: number) => {
-              console.log('el', el)
               let firstEvolveTo: any = el
               // 1 EVO Poke
               if(firstEvolveTo) {
@@ -131,7 +218,6 @@ export class PokemonService {
                 let secondEvolveTo: any = el.evolves_to[0]
                 // 2 EVO Poke
                 if(secondEvolveTo) {
-                  console.log('secondEvolveTo', secondEvolveTo)
                   urlPokeEvo = secondEvolveTo.species.url
                   idString = urlPokeEvo.substring(urlPokeEvo.lastIndexOf('-species/') + 9)
                   let id2ndEvo = +idString.replace('/', '')
@@ -140,13 +226,11 @@ export class PokemonService {
               }
               // NO EVO Poke
               else {
-                //poke.evo0.push({name: '', id: 0})
                 poke.evo1 = []
                 poke.evo2 = []
               }
             });
           }
-
           return poke
         })
       )}

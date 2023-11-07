@@ -27,7 +27,6 @@ export class BaseStatPage {
 
   ngOnInit(): void {
     this.pokeIndex = this.pokeService.getCurrentPokeId()
-    console.log('BASE STAT - getCurrentIdPoke',this.pokeIndex)
     this.getDetails(this.pokeIndex)
   }
 
@@ -46,7 +45,6 @@ export class BaseStatPage {
   getDetails(index: number): void {
     this.pokeDetailsSub.sub = this.pokeService.getPokeDetails(index)
     .subscribe((det: any) => {
-      console.log('det',det)
       this.pokeDetailsSub.subscribed = true
       this.getStats(det)
     })

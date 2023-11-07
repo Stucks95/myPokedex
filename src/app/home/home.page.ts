@@ -22,7 +22,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.autoPlay = true
-    console.log('this.pokeMusic',this.pokeMusic)
   }
 
   refreshPage(): void {

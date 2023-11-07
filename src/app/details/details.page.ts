@@ -14,6 +14,17 @@ interface Evo {
   evo2: {name: string, id: number, img: string}[]
 }
 
+interface Type {
+  id: number,
+  name: string
+}
+
+interface Damage_Relations {
+  no_damage_from: {name: string}[], 
+  half_damage_from: {name: string}[], 
+  double_damage_from: {name: string}[]
+}
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.page.html',
@@ -29,6 +40,7 @@ export class DetailsPage {
   specEvoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   evoSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   findPokeSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
+  dmgRelationsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
   details: {
     pokeIndex: number | null
@@ -37,7 +49,8 @@ export class DetailsPage {
     description: string
     homeSprite: string
     sprites: string[]
-    types: string[]
+    types: Type[]
+    dm_rel: Damage_Relations
     evo: Evo
   } = {
     pokeIndex: null,
@@ -47,6 +60,7 @@ export class DetailsPage {
     homeSprite: '',
     sprites: [],
     types: [],
+    dm_rel: {no_damage_from: [], half_damage_from: [], double_damage_from: []},
     evo: {evo0: {name: '', id: 0, img: ''}, evo1: [], evo2: []}
   }
 
@@ -74,7 +88,6 @@ export class DetailsPage {
   }
 
   updatePokeId(evoID: number): void {
-    console.log('update ID - evo id = ',evoID)
     this.pokeService.updateCurrentPokeId(evoID)
   }
 
@@ -89,7 +102,6 @@ export class DetailsPage {
           this.details.evo.evo0.id = poke.evo0[0].id
           this.details.evo.evo0.img = this.pokeService.getPokeImage(poke.evo0[0].id)     
           if(poke.evo1) {
-            console.log('poke.evo1',poke.evo1)
             poke.evo1.forEach((p: any) => {
               // EVO 1 pushing
               this.details.evo.evo1.push(
@@ -98,7 +110,6 @@ export class DetailsPage {
             });
           }
           if(poke.evo2.length != 0) {
-            console.log('poke.evo2',poke.evo2)
             poke.evo2.forEach((p: any) => {
               // EVO 1 pushing
               this.details.evo.evo2.push(
@@ -111,7 +122,6 @@ export class DetailsPage {
       }
     )
     setTimeout(() => {
-      console.log('this.details.evo',this.details.evo)
     }, 3000);
     this.allSubs.push(this.evoSub)
     this.allSubs.push(this.specEvoSub)
@@ -139,9 +149,35 @@ export class DetailsPage {
   }
 
   getTypes(det:any): void {
+    let damage_relations: Damage_Relations[] = []
+    let countTypes: number = 0
     det.types.forEach((type: any) => {
-      this.details.types.push(type.type.name)
+      // finding id by substringing the url
+      let idTypeUrl: string = type.type.url
+      let idString: string = idTypeUrl.substring(idTypeUrl.lastIndexOf('type/') + 5)
+      let idType: number = +idString.replace('/', '')
+      this.details.types.push(
+      {
+        id: idType, name: type.type.name
+      })
+      // damage_relations for every type
+      this.dmgRelationsSub.sub = this.pokeService.getDamageRelationsByType(idType)
+      .subscribe((dm_rel: any) => {
+        this.dmgRelationsSub.subscribed = true
+        damage_relations.push({
+          no_damage_from: dm_rel.no_damage_from, 
+          half_damage_from: dm_rel.half_damage_from, 
+          double_damage_from: dm_rel.double_damage_from
+        })
+      })
+      countTypes++
     })
+    setTimeout(() => {
+      if(countTypes > 1) {
+        this.details.dm_rel = this.pokeService.calculateDamageRelationsBy2Types(damage_relations)
+        console.log('this.details.dm_rel', this.details.dm_rel)
+      }
+    }, 2000);
   }
 
   refreshPage(): void {

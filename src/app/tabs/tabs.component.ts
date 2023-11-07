@@ -20,7 +20,7 @@ export class TabsComponent  implements OnInit {
   }
 
 /*   ngAfterContentChecked() {
-    console.log('ngAfterContentChecked')
+    ('ngAfterContentChecked')
   } */
 
   ngDoCheck() {
