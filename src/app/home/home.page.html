@@ -10,27 +10,27 @@
 
 <ion-content #container>
 
-  <ion-list>
-    <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true" [autoplay]="autoPlay" class="audio-home" #pokeMusic>
-      <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
-    </audio>
-    <ion-list-header>
-      <h1>SEARCH POKEMON BY: </h1>
-    </ion-list-header>
-    <ion-item [routerLink]="'/by-gen'">
-      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
-        GENERATION
-      </ion-button>
+  <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" 
+  justify="space-between" class="toggle-dark-mode">
+    Dark Mode
+  </ion-toggle>
+  <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true" class="audio-home" #pokeMusic>
+    <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
+  </audio>
+
+  <ion-card #card>
+    <ion-card-content class="search-pokemon-by">SEARCH POKEMON BY </ion-card-content>
+  </ion-card>
+
+  <ion-list class="list-search">
+    <ion-item [routerLink]="'/by-gen'" class="home-page-item" #generationItem>
+      GENERATION
     </ion-item>
-    <ion-item [routerLink]="'/by-type'">
-      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
-        TYPE
-      </ion-button>
+    <ion-item [routerLink]="'/by-type'" class="home-page-item" #typeItem>
+      TYPE
     </ion-item>
-    <ion-item [routerLink]="'/by-all'">
-      <ion-button shape="round" expand="block" size="large" class="opt-buttons">
-        ALL
-      </ion-button>
+    <ion-item [routerLink]="'/by-all'" class="home-page-item" #allItem>
+      ALL
     </ion-item>
   </ion-list>
 

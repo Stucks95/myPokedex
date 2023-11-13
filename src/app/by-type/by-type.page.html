@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons>
-      <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
+      <ion-icon [routerLink]="'/home'" name="home" class="home-toolbar"></ion-icon>
       <ion-button size="large" shape="round" fill="solid" color="tertiary"> 
         Pokemon by Type
       </ion-button>
 
       <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="NORMAL" (ionChange)="loadPokeByType()" toggleIcon="add" #type_select>
+      placeholder="NORMAL" (ionChange)="loadPokeByType()" toggleIcon="add" class="top-select" #type_select>
         <ion-select-option *ngFor="let t of types.results" [value]="t">
           {{ t.name | uppercase }}
         </ion-select-option>

@@ -38,7 +38,7 @@
               </ion-item-divider>
           </ion-row>
       </ion-grid>
-      <ion-grid class="grid-stats">
+      <ion-grid class="grid-stats" *ngIf="dm_rel.no_damage_from.length !== 0">
           <ion-row class="special-grid-row grid-rows-stats">
               <ion-col>IMMUNITY TO</ion-col>
           </ion-row>

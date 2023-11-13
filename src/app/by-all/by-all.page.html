@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons>
-      <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
+      <ion-icon [routerLink]="'/home'" name="home" class="home-toolbar"></ion-icon>
       <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" 
         [(ngModel)]="searchText"
         (ionInput)="isSearching()">
