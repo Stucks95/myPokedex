@@ -40,6 +40,12 @@ export class PokemonService {
     return this.currentPokeID
   }
 
+  findIDByURL(idString: string) {
+    let idTypeUrl: string = idString
+    let idStr: string = idTypeUrl.substring(idTypeUrl.lastIndexOf('type/') + 5)
+    return +idStr.replace('/', '')
+  }
+
   getPokemons(offset: number, limit: number, first_index: number): Observable<Object> {
     return this.http.get(this.pokemonUrl+"?offset="+offset+"&limit="+limit)
     .pipe(
@@ -130,6 +136,7 @@ export class PokemonService {
     let resultsNo_dmg: {name: string}[] = []
     let allDouble_dmg: any[] = []
     let allHalf_dmg: any[] = []
+    let allNo_dmg: any[] = []
 
     // catching all the double, half and no dmg
     dm_rel[0].double_damage_from.forEach((dmg: any) => {
@@ -145,42 +152,55 @@ export class PokemonService {
       allHalf_dmg.push(dmg.name)
     });
     dm_rel[0].no_damage_from.forEach((dmg: any) => {
+      allNo_dmg.push(dmg.name)
       resultsNo_dmg.push({name: dmg.name})
     });
     dm_rel[1].no_damage_from.forEach((dmg: any) => {
+      allNo_dmg.push(dmg.name)
       resultsNo_dmg.push({name: dmg.name})
     });
 
     allDouble_dmg = [...new Set(allDouble_dmg)]
     allHalf_dmg = [...new Set(allHalf_dmg)]
+    allNo_dmg = [...new Set(allNo_dmg)]
 
-    // cerco se tra tutti i tipi double dmg ci siano resistenze (1/2)
+    // cerco se tra i tipi double dmg ci siano resistenze (1/2) o immunità (0)
     allDouble_dmg.forEach((double_dmg: any) => {
-      let isUnique: boolean = true
+      let isUniqueInHalfDmg: boolean = true
+      let isUniqueInNoDmg: boolean = true
       allHalf_dmg.forEach((half_dmg: any) => {
         if(double_dmg == half_dmg) {
-          isUnique = false
+          isUniqueInHalfDmg = false
         }
       })
-      if(isUnique) {
+      allNo_dmg.forEach((no_dmg: any) => {
+        if(double_dmg == no_dmg) {
+          isUniqueInNoDmg = false
+        }
+      })
+      if(isUniqueInHalfDmg && isUniqueInNoDmg) {
         resultsDouble_dmg.push({name: double_dmg})
       }
     })
-    // cerco se tra tutti i tipi half dmg ci siano debolezze (2)
+    // cerco se tra i tipi half dmg ci siano debolezze (2) o immunità (0)
     allHalf_dmg.forEach((half_dmg: any) => {
-      let isUnique: boolean = true
+      let isUniqueInDoubleDmg: boolean = true
+      let isUniqueInNoDmg: boolean = true
       allDouble_dmg.forEach((double_dmg: any) => {
         if(half_dmg == double_dmg) {
-          isUnique = false
+          isUniqueInDoubleDmg = false
         }
       })
-      if(isUnique) {
+      allNo_dmg.forEach((no_dmg: any) => {
+        if(half_dmg == no_dmg) {
+          isUniqueInNoDmg = false
+        }
+      })
+      if(isUniqueInDoubleDmg && isUniqueInNoDmg) {
         resultsHalf_dmg.push({name: half_dmg})
       }
     })
-    console.log('resultsDouble_dmg',resultsDouble_dmg)
-    console.log('resultsHalf_dmg',resultsHalf_dmg)
-    console.log('resultsHalf_dmg',resultsNo_dmg)
+    
     resDm_Rel.double_damage_from = resultsDouble_dmg
     resDm_Rel.half_damage_from = resultsHalf_dmg
     resDm_Rel.no_damage_from = resultsNo_dmg

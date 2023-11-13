@@ -16,7 +16,6 @@ interface Move {
 @Component({
   selector: 'app-moveset',
   templateUrl: './moveset.page.html',
-  styleUrls: ['./moveset.page.scss'],
 })
 export class MovesetPage {
 

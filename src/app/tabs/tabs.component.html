@@ -1,15 +1,19 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button [tab]="'details/'+pokeIndex">
-      <ion-icon name="home-outline"></ion-icon>
+      <ion-icon name="home-outline" style="height: 32px;"></ion-icon>
       Details
     </ion-tab-button>
+    <ion-tab-button [tab]="'weaknesses/'+pokeIndex">
+      <ion-icon name="shield-outline" style="height: 32px;"></ion-icon>
+      Weaknesses
+    </ion-tab-button>
     <ion-tab-button [tab]="'base-stat/'+pokeIndex">
-      <ion-icon name="stats-chart-outline"></ion-icon>
+      <ion-icon name="stats-chart-outline" style="height: 32px;"></ion-icon>
       Base Stat
     </ion-tab-button>
     <ion-tab-button [tab]="'moveset/'+pokeIndex">
-      <ion-icon name="move-outline"></ion-icon>
+      <ion-icon name="move-outline" style="height: 32px;"></ion-icon>
       Moveset
     </ion-tab-button>
   </ion-tab-bar>

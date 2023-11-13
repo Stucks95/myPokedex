@@ -4,7 +4,6 @@ import { AnimationOptions } from 'ngx-lottie';
 @Component({
   selector: 'app-animation',
   templateUrl: './animation.page.html',
-  styleUrls: ['./animation.page.scss'],
 })
 export class AnimationPage implements OnInit {
   

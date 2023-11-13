@@ -11,7 +11,6 @@ interface pokeBaseInfo {
 @Component({
   selector: 'app-by-all',
   templateUrl: './by-all.page.html',
-  styleUrls: ['./by-all.page.scss'],
 })
 export class ByAllPage {
 

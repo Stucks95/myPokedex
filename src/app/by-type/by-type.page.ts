@@ -13,7 +13,6 @@ interface pokeBaseInfo {
 @Component({
   selector: 'app-by-type',
   templateUrl: './by-type.page.html',
-  styleUrls: ['./by-type.page.scss'],
 })
 export class ByTypePage {
   @ViewChildren('type_select') typeSelect: QueryList<IonSelect>

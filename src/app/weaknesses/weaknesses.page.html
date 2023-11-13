@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+      <ion-buttons>
+        <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
+          <ion-title> 
+              <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" > 
+                myPokedex v{{appVersion}}
+              </ion-button>
+          </ion-title>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="content">
+    <!-- Weaknesses & Resistances -->
+    <div class="weaknesses-resistances">
+      <ion-card-title class="center">
+          <ion-text class="ion-text-capitalize little-margin">Weaknesses & Resistances</ion-text>
+      </ion-card-title>
+      <ion-grid class="grid-stats">
+          <ion-row class="special-grid-row grid-rows-stats">
+              <ion-col>WEAK TO</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let weaknesses of dm_rel.double_damage_from">
+              <ion-item-divider class="grid-rows-stats">
+                  <ion-col>{{ weaknesses.name | uppercase }}</ion-col>
+              </ion-item-divider>
+          </ion-row>
+      </ion-grid>
+      <ion-grid class="grid-stats">
+          <ion-row class="special-grid-row grid-rows-stats">
+              <ion-col>RESISTENT TO</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let resistances of dm_rel.half_damage_from">
+              <ion-item-divider class="grid-rows-stats">
+                  <ion-col>{{ resistances.name | uppercase }}</ion-col>
+              </ion-item-divider>
+          </ion-row>
+      </ion-grid>
+      <ion-grid class="grid-stats">
+          <ion-row class="special-grid-row grid-rows-stats">
+              <ion-col>IMMUNITY TO</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let immunities of dm_rel.no_damage_from">
+              <ion-item-divider class="grid-rows-stats">
+                  <ion-col>{{ immunities.name | uppercase }}</ion-col>
+              </ion-item-divider>
+          </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+</ion-content>

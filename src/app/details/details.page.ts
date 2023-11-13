@@ -19,16 +19,9 @@ interface Type {
   name: string
 }
 
-interface Damage_Relations {
-  no_damage_from: {name: string}[], 
-  half_damage_from: {name: string}[], 
-  double_damage_from: {name: string}[]
-}
-
 @Component({
   selector: 'app-details',
   templateUrl: './details.page.html',
-  styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage {
 
@@ -50,7 +43,6 @@ export class DetailsPage {
     homeSprite: string
     sprites: string[]
     types: Type[]
-    dm_rel: Damage_Relations
     evo: Evo
   } = {
     pokeIndex: null,
@@ -60,7 +52,6 @@ export class DetailsPage {
     homeSprite: '',
     sprites: [],
     types: [],
-    dm_rel: {no_damage_from: [], half_damage_from: [], double_damage_from: []},
     evo: {evo0: {name: '', id: 0, img: ''}, evo1: [], evo2: []}
   }
 
@@ -149,35 +140,16 @@ export class DetailsPage {
   }
 
   getTypes(det:any): void {
-    let damage_relations: Damage_Relations[] = []
     let countTypes: number = 0
     det.types.forEach((type: any) => {
       // finding id by substringing the url
-      let idTypeUrl: string = type.type.url
-      let idString: string = idTypeUrl.substring(idTypeUrl.lastIndexOf('type/') + 5)
-      let idType: number = +idString.replace('/', '')
+      let idType: number = this.pokeService.findIDByURL(type.type.url)
       this.details.types.push(
       {
         id: idType, name: type.type.name
       })
-      // damage_relations for every type
-      this.dmgRelationsSub.sub = this.pokeService.getDamageRelationsByType(idType)
-      .subscribe((dm_rel: any) => {
-        this.dmgRelationsSub.subscribed = true
-        damage_relations.push({
-          no_damage_from: dm_rel.no_damage_from, 
-          half_damage_from: dm_rel.half_damage_from, 
-          double_damage_from: dm_rel.double_damage_from
-        })
-      })
       countTypes++
     })
-    setTimeout(() => {
-      if(countTypes > 1) {
-        this.details.dm_rel = this.pokeService.calculateDamageRelationsBy2Types(damage_relations)
-        console.log('this.details.dm_rel', this.details.dm_rel)
-      }
-    }, 2000);
   }
 
   refreshPage(): void {

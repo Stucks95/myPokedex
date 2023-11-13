@@ -88,23 +88,6 @@
                 </div>
             </div>
 
-            <!-- WEAKNESSES and RESISTENTS -->
-            <div class="stats">
-                <ion-card-title class="center">
-                    <ion-text class="ion-text-capitalize little-margin">Weaknesses And Resistents</ion-text>
-                </ion-card-title>
-                <ion-grid class="grid-stats">
-                    <ion-row class="special-grid-row grid-rows-stats">
-                        <ion-col>WEAK TO</ion-col>
-                    </ion-row>
-                    <ion-row *ngFor="let weaknesses of details.dm_rel.double_damage_from">
-                        <ion-item-divider class="grid-rows-stats">
-                            <ion-col>{{ weaknesses.name | uppercase }}</ion-col>
-                        </ion-item-divider>
-                    </ion-row>
-                </ion-grid>
-            </div>
-
         </ion-card>
     </div>
 

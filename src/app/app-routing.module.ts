@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
       },
       {
+        path: 'weaknesses/:index',
+        loadChildren: () => import('./weaknesses/weaknesses.module').then( m => m.WeaknessesPageModule)
+      },
+      {
         path: 'base-stat/:index',
         loadChildren: () => import('./base-stat/base-stat.module').then( m => m.BaseStatPageModule)
       },

@@ -11,7 +11,6 @@ interface pokeBaseInfo {
 @Component({
   selector: 'app-by-gen',
   templateUrl: './by-gen.page.html',
-  styleUrls: ['./by-gen.page.scss'],
 })
 export class ByGenPage {
 

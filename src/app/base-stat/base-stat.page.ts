@@ -11,7 +11,6 @@ interface Stat {
 @Component({
   selector: 'app-base-stat',
   templateUrl: './base-stat.page.html',
-  styleUrls: ['./base-stat.page.scss'],
 })
 export class BaseStatPage {
 
@@ -23,7 +22,7 @@ export class BaseStatPage {
   allSubs: {}[] = []
   pokeDetailsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
-  constructor(private route: ActivatedRoute, private pokeService: PokemonService) {}
+  constructor(private pokeService: PokemonService) {}
 
   ngOnInit(): void {
     this.pokeIndex = this.pokeService.getCurrentPokeId()
