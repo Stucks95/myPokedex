@@ -72,12 +72,17 @@ export class PokemonService {
     return this.http.get(urlMove)
   }
 
-  getTypes(): Observable<{count: number, results: {name:string, url: string}[]}> {
-    let types: {count: number, results: {name:string, url: string}[]} = {count: 0, results: []}
+  getTypes(): Observable<{count: number, results: {name:string, url: string, img: string}[]}> {
+    let types: {count: number, results: {name:string, url: string, img: string}[]} = {count: 0, results: []}
     return this.http.get(this.typesUrl).pipe(
       map((res: any) => {
         types.count = res.count
-        types.results = res.results
+        //types.results = res.results
+        res.results.forEach((type: any) => {
+          types.results.push({
+            name: type.name, url: type.url, img: '../../assets/img/types/'+type.name+'.png'
+          })
+        });
         return types
     }))
   }

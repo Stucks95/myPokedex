@@ -85,11 +85,31 @@
     font-size: xx-large;
   }
 
+  .types-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3%;
+  }
+
+  .types-img {
+    display: flex;
+  }
+
+  .animation {
+    width: 100%;
+    padding: 20%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+
   .evo {
     padding-inline: 16px;
     padding-bottom: 16px;
     font-size: large;
     font-weight: bold;
+    padding-top: 10px;
   }
 
   .pre-evo-list {

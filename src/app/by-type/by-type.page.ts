@@ -1,8 +1,10 @@
+import { FormControl } from '@angular/forms';
 import { PokemonService } from './../services/pokemon.service';
 import { Component, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonSelect } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+
 
 interface pokeBaseInfo {
   index: number, 
@@ -17,6 +19,9 @@ interface pokeBaseInfo {
 export class ByTypePage {
   @ViewChildren('type_select') typeSelect: QueryList<IonSelect>
 
+  toppings = new FormControl('');
+  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
   allSubs: {}[] = []
   subTypes: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   subPokemonByType: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
@@ -26,7 +31,7 @@ export class ByTypePage {
   lastPokeIndex: number = this.pokeService.totalPokemons
   appVersion: string = this.pokeService.appVersion
   pokeIndex: number
-  types: {count: number, results: {name:string, url: string}[]} = {count: 0, results: []}
+  types: {count: number, results: {name:string, url: string, img:string}[]} = {count: 0, results: []}
   customPopoverOptions = {
     header: 'Types',
   }
@@ -66,6 +71,7 @@ export class ByTypePage {
     .subscribe((types: any) => {
       this.subTypes.subscribed = true
       this.types = types
+      console.log('this.types',this.types)
     })
     this.allSubs.push(this.subTypes)
   }

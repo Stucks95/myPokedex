@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,8 @@ interface Evo {
 
 interface Type {
   id: number,
-  name: string
+  name: string,
+  img: string
 }
 
 @Component({
@@ -36,7 +37,7 @@ export class DetailsPage {
   dmgRelationsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
   details: {
-    pokeIndex: number | null
+    pokeIndex: number
     name: string
     gen: Gen,
     description: string
@@ -45,7 +46,7 @@ export class DetailsPage {
     types: Type[]
     evo: Evo
   } = {
-    pokeIndex: null,
+    pokeIndex: 0,
     name: '',
     gen: {region: '', id: null},
     description: '',
@@ -60,11 +61,13 @@ export class DetailsPage {
   ngOnInit(): void {
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.pokeService.updateCurrentPokeId(this.details.pokeIndex)
+    
+  }
+
+  ngAfterViewInit(): void {
     this.getDetails(this.details.pokeIndex)
     this.getEvo(this.details.pokeIndex)
   }
-
-  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribeAll()
@@ -123,17 +126,9 @@ export class DetailsPage {
       this.details.name = det.name
       this.details.homeSprite = det.sprites.other.home.front_default
       this.details.gen = this.pokeService.findPokeGen(index)
-      this.getSprites(det)
       this.getTypes(det)
     })
     this.allSubs.push(this.pokeDetailsSub)
-  }
-
-  getSprites(det: any): void {
-    this.details.sprites[0] = det.sprites.front_default
-    this.details.sprites[1] = det.sprites.back_default
-    this.details.sprites[2] = det.sprites.front_shiny
-    this.details.sprites[3] = det.sprites.back_shiny
   }
 
   getTypes(det:any): void {
@@ -143,10 +138,15 @@ export class DetailsPage {
       let idType: number = this.pokeService.findIDByURL(type.type.url)
       this.details.types.push(
       {
-        id: idType, name: type.type.name
+        id: idType, 
+        name: type.type.name, 
+        img: '../../assets/img/types/'+type.type.name+'.png'
       })
       countTypes++
     })
+    setTimeout(() => {
+      console.log('this.details.types',this.details.types)
+    }, 2000);
   }
 
   refreshPage(): void {

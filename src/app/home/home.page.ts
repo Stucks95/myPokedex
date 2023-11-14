@@ -73,7 +73,6 @@ export class HomePage implements OnInit, OnDestroy {
       .fromTo('opacity', '0.2', '1')
 
     titleAnimation.play()
-    console.log('gen_item, type_item, all_item', this.gen_item, this.type_item, this.all_item)
     generationItemAnimation.play()
     typeItemAnimation.play()
     allItemAnimation.play()

@@ -17,11 +17,12 @@
                 <ion-img [alt]="details.name" [src]="details.homeSprite" 
                 class="detail-img"></ion-img>
                 <ion-title class="ion-text-capitalize poke-title">{{ details.name }}</ion-title>
-                <ion-card-title>
+                <ion-card-title class="types-card">
                     <ion-text class="ion-text-capitalize">Type: </ion-text>
-                    <ion-text *ngFor="let type of details.types;" class="ion-text-uppercase">
-                        {{ type.name }}
-                    </ion-text>
+                    <div class="types-img" *ngIf="details.types.length !== 0">
+                        <ion-img *ngFor="let type of details.types" [src]="type.img" 
+                        style="padding: 10px; max-width: 180px;"></ion-img>
+                    </div>
                 </ion-card-title>
                 <ion-card-title>
                     <ion-text class="ion-text-capitalize">Gen: {{details.gen.id}}</ion-text>

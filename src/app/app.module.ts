@@ -11,6 +11,8 @@ import player from 'lottie-web';
 import { LottieModule } from 'ngx-lottie';
 import { TabsComponent } from './tabs/tabs.component';
 
+
+
 export function playerFactory() {
     return player;
 }
@@ -18,11 +20,11 @@ export function playerFactory() {
 @NgModule({
   declarations: [AppComponent, TabsComponent],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     IonicModule.forRoot(), 
     AppRoutingModule, 
     HttpClientModule,
-    LottieModule.forRoot({player: playerFactory})
+    LottieModule.forRoot({player: playerFactory}),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
