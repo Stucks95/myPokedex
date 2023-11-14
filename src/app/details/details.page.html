@@ -1,13 +1,11 @@
-<ion-header>
+<ion-header [translucent]="true">
     <ion-toolbar color="primary">
-        <ion-buttons>
-            <ion-icon [routerLink]="'/home'" name="home" style="padding: 3%; font-size: 25px;"></ion-icon>
-            <ion-title> 
-                <ion-button id="title-btn" expand="block" shape="round" color="tertiary" size="large" > 
-                  myPokedex v{{appVersion}}
-                </ion-button>
-            </ion-title>
-        </ion-buttons>
+      <ion-item>
+          <ion-icon [routerLink]="'/home'" name="home" style="padding: 2%; font-size: 25px;"></ion-icon>
+          <ion-title class="header-title"> 
+              myPokedex v{{appVersion}}
+          </ion-title>
+      </ion-item>
     </ion-toolbar>
 </ion-header>
 
@@ -82,6 +80,24 @@
                             <ion-label class="ion-text-capitalize">
                                 <h2>{{ evo.name | uppercase }}</h2>
                                 <p>#{{ evo.id }}</p>
+                            </ion-label>
+                        </ion-item>
+                    </div>
+                </div>
+
+                <!-- THIRD STADIUM -->
+                <div *ngIf="details.pokeIndex === details.evo.evo2[0].id">
+                    <!-- PRE EVO -->
+                    <div class="pre-evo-list">
+                        <ion-text class="ion-text-capitalize">From: </ion-text>
+                        <ion-item [routerLink]="'/tabs/details/'+details.evo.evo1[0].id.toString()" 
+                        (click)="updatePokeId(details.evo.evo1[0].id)">
+                            <ion-avatar slot="start">
+                                <img [src]="details.evo.evo1[0].img" style="background: #f2f2f2;">
+                            </ion-avatar>
+                            <ion-label class="ion-text-capitalize">
+                                <h2>{{ details.evo.evo1[0].name | uppercase }}</h2>
+                                <p>#{{ details.evo.evo1[0].id }}</p>
                             </ion-label>
                         </ion-item>
                     </div>

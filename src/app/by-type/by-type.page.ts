@@ -1,5 +1,5 @@
+import { PokemonService } from './../services/pokemon.service';
 import { Component, ViewChildren, QueryList } from '@angular/core';
-import { PokemonService } from '../services/pokemon.service';
 import { ActivatedRoute } from '@angular/router';
 import { IonSelect } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -24,6 +24,7 @@ export class ByTypePage {
 
   pokemons: pokeBaseInfo[] = []
   lastPokeIndex: number = this.pokeService.totalPokemons
+  appVersion: string = this.pokeService.appVersion
   pokeIndex: number
   types: {count: number, results: {name:string, url: string}[]} = {count: 0, results: []}
   customPopoverOptions = {

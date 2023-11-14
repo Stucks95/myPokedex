@@ -1,19 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-icon [routerLink]="'/home'" name="home" class="home-toolbar"></ion-icon>
-      <ion-button size="large" shape="round" fill="solid" color="tertiary"> 
-        Pokemon by Gen
-      </ion-button>
+    <ion-item>
+      <ion-icon [routerLink]="'/home'" name="home" style="font-size: 60px;"></ion-icon>
+      <ion-title class="header-title"> 
+          myPokedex v{{appVersion}}
+      </ion-title>
 
       <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="KANTO" (ionChange)="loadGen($event)" toggleIcon="add" class="top-select">
+      placeholder="1° - KANTO" (ionChange)="loadGen($event)" toggleIcon="add" class="top-select">
         <ion-select-option *ngFor="let r of regions" [value]="r">
-          {{ r.region | uppercase }}
+          {{ r.idGen }}° - {{ r.region | uppercase }}
         </ion-select-option>
       </ion-select>
-
-    </ion-buttons>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 

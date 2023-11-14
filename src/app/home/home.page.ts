@@ -8,10 +8,11 @@ import { AnimationController, IonCard, IonItem } from '@ionic/angular';
 })
 export class HomePage implements OnInit, OnDestroy {
   @ViewChild('pokeMusic') pokeMusic: QueryList<AudioBuffer>
-  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
-  @ViewChild(IonItem, { read: ElementRef }) generationItem: ElementRef<HTMLIonItemElement>;
-  @ViewChild(IonItem, { read: ElementRef }) typeItem: ElementRef<HTMLIonItemElement>;
-  @ViewChild(IonItem, { read: ElementRef }) allItem: ElementRef<HTMLIonItemElement>;
+  @ViewChild(IonCard, { read: ElementRef }) card_title: ElementRef<HTMLIonCardElement>
+
+  @ViewChild('gen_item', { read: ElementRef }) gen_item: ElementRef<HTMLIonItemElement>
+  @ViewChild('type_item', { read: ElementRef }) type_item: ElementRef<HTMLIonItemElement>
+  @ViewChild('all_item', { read: ElementRef }) all_item: ElementRef<HTMLIonItemElement>
 
 
   themeToggle: boolean = false;
@@ -41,7 +42,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngAfterViewInit(): void {
     const titleAnimation = this.titleAnimationCtrl
       .create()
-      .addElement(this.card.nativeElement)
+      .addElement(this.card_title.nativeElement)
       .duration(1500)
       .iterations(Infinity)
       .direction('alternate')
@@ -49,7 +50,7 @@ export class HomePage implements OnInit, OnDestroy {
     
     const generationItemAnimation = this.generationAnimationCtrl
       .create()
-      .addElement(this.generationItem.nativeElement)
+      .addElement(this.gen_item.nativeElement)
       .duration(1500)
       .iterations(1)
       .fromTo('transform', 'translateX(100px)', 'translateX(0px)')
@@ -57,7 +58,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     const typeItemAnimation = this.typeAnimationCtrl
       .create()
-      .addElement(this.typeItem.nativeElement)
+      .addElement(this.type_item.nativeElement)
       .duration(1500)
       .iterations(1)
       .fromTo('transform', 'translateX(-100px)', 'translateX(0px)')
@@ -65,15 +66,16 @@ export class HomePage implements OnInit, OnDestroy {
 
     const allItemAnimation = this.allAnimationCtrl
       .create()
-      .addElement(this.allItem.nativeElement)
+      .addElement(this.all_item.nativeElement)
       .duration(1500)
       .iterations(1)
       .fromTo('transform', 'translateX(0px)', 'translateX(0px)')
       .fromTo('opacity', '0.2', '1')
 
     titleAnimation.play()
-    //generationItemAnimation.play()
-    //typeItemAnimation.play()
+    console.log('gen_item, type_item, all_item', this.gen_item, this.type_item, this.all_item)
+    generationItemAnimation.play()
+    typeItemAnimation.play()
     allItemAnimation.play()
 
   }

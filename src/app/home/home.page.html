@@ -1,15 +1,12 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title> 
-      <ion-button expand="block" shape="round" color="tertiary" size="large" (click)="refreshPage()"> 
-        myPokedex v{{appVersion}}
-      </ion-button>
-    </ion-title>
+    <ion-item style="font-size: xx-large" class="ion-text-center">
+      myPokedex v{{appVersion}}
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content #container>
-
   <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" 
   justify="space-between" class="toggle-dark-mode">
     Dark Mode
@@ -18,18 +15,18 @@
     <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
   </audio>
 
-  <ion-card #card>
+  <ion-card #card_title>
     <ion-card-content class="search-pokemon-by">SEARCH POKEMON BY </ion-card-content>
   </ion-card>
 
   <ion-list class="list-search">
-    <ion-item [routerLink]="'/by-gen'" class="home-page-item" #generationItem>
+    <ion-item [routerLink]="'/by-gen'" class="home-page-item" id="gen_item" #gen_item>
       GENERATION
     </ion-item>
-    <ion-item [routerLink]="'/by-type'" class="home-page-item" #typeItem>
+    <ion-item [routerLink]="'/by-type'" class="home-page-item" id="type_item" #type_item>
       TYPE
     </ion-item>
-    <ion-item [routerLink]="'/by-all'" class="home-page-item" #allItem>
+    <ion-item [routerLink]="'/by-all'" class="home-page-item" id="all_item" #all_item>
       ALL
     </ion-item>
   </ion-list>

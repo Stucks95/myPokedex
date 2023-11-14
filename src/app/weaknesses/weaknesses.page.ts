@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
+import { LoadingController } from '@ionic/angular';
 
 interface Damage_Relations {
   no_damage_from: {name: string}[], 
@@ -23,14 +24,16 @@ export class WeaknessesPage {
   pokeIndex: number
   dm_rel: Damage_Relations = {no_damage_from: [], half_damage_from: [], double_damage_from: []}
   types: Type[] = []
+  progressLoad: boolean = true
   
   allSubs: {}[] = []
   dmgRelationsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   pokeDetailsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   
-  constructor(private pokeService: PokemonService) {}
+  constructor(private pokeService: PokemonService, private loadingCtrl: LoadingController) {}
 
   ngOnInit() {
+    this.showLoading()
     this.pokeIndex = this.pokeService.getCurrentPokeId()
     this.getDetails(this.pokeIndex)
   }
@@ -45,6 +48,15 @@ export class WeaknessesPage {
         objSub.sub.unsubscribe()
       }
     })
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...',
+      duration: 2500,
+    });
+
+    loading.present();
   }
 
   getDetails(index: number): void {
@@ -87,6 +99,7 @@ export class WeaknessesPage {
         this.dm_rel = this.pokeService.calculateDamageRelationsBy2Types(damage_relations)
         console.log('this.dm_rel', this.dm_rel)
       }
+      this.progressLoad = false
     }, 2000);
   }
 

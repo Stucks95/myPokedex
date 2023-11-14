@@ -83,37 +83,34 @@ export class DetailsPage {
   }
 
   getEvo(index: number): void {
-      this.evoSub.sub = this.pokeService.getEvolutions(index)
-      .subscribe((evo: any) => {
-        this.evoSub.subscribed = true
-        this.specEvoSub.sub = evo.subscribe((poke: any) => {
-          this.specEvoSub.subscribed = true
+    this.evoSub.sub = this.pokeService.getEvolutions(index)
+    .subscribe((evo: any) => {
+      this.evoSub.subscribed = true
+      this.specEvoSub.sub = evo.subscribe((poke: any) => {
+        this.specEvoSub.subscribed = true
 
-          this.details.evo.evo0.name = poke.evo0[0].name
-          this.details.evo.evo0.id = poke.evo0[0].id
-          this.details.evo.evo0.img = this.pokeService.getPokeImage(poke.evo0[0].id)     
-          if(poke.evo1) {
-            poke.evo1.forEach((p: any) => {
-              // EVO 1 pushing
-              this.details.evo.evo1.push(
-                {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
-              )
-            });
-          }
-          if(poke.evo2.length != 0) {
-            poke.evo2.forEach((p: any) => {
-              // EVO 1 pushing
-              this.details.evo.evo2.push(
-                {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
-              )
-            });
-          }
-          
-        })
-      }
-    )
-    setTimeout(() => {
-    }, 3000);
+        this.details.evo.evo0.name = poke.evo0[0].name
+        this.details.evo.evo0.id = poke.evo0[0].id
+        this.details.evo.evo0.img = this.pokeService.getPokeImage(poke.evo0[0].id)     
+        if(poke.evo1) {
+          poke.evo1.forEach((p: any) => {
+            // EVO 1 pushing
+            this.details.evo.evo1.push(
+              {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
+            )
+          });
+        }
+        if(poke.evo2.length != 0) {
+          poke.evo2.forEach((p: any) => {
+            // EVO 1 pushing
+            this.details.evo.evo2.push(
+              {name: p.name, id: p.id, img: this.pokeService.getPokeImage(p.id)}
+            )
+          });
+        }
+        
+      })
+    })
     this.allSubs.push(this.evoSub)
     this.allSubs.push(this.specEvoSub)
     this.allSubs.push(this.findPokeSub)

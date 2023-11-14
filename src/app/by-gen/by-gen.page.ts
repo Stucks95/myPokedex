@@ -19,6 +19,7 @@ export class ByGenPage {
   subInitPokemon: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   
   pokemons: pokeBaseInfo[]
+  appVersion: string = this.pokeService.appVersion
   regions: { idGen: number, region: string }[]
   offset: number = 0
   skeletonLoad: boolean = true
