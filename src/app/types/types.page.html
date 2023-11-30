@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-item>
+      <ion-icon [routerLink]="'/home'" name="home" style="padding: 2%; font-size: 25px;"></ion-icon>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- list-types -->
+  <div class="list-types">
+
+    <ion-card-title class="center">
+        <ion-text class="ion-text-capitalize little-margin types-title"> LIST OF TYPES </ion-text>
+    </ion-card-title>
+
+    <ion-grid [fixed]="true">
+      <ion-row *ngFor="let type of types">
+        <ion-col>{{type.name}}</ion-col>
+        <ion-col>
+          <ion-img [alt]="type.name" [src]="type.img" class="detail-img"></ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+</ion-content>

@@ -12,7 +12,6 @@ import { LottieModule } from 'ngx-lottie';
 import { TabsComponent } from './tabs/tabs.component';
 
 
-
 export function playerFactory() {
     return player;
 }

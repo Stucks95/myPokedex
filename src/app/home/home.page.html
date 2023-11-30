@@ -15,19 +15,29 @@
     <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
   </audio>
 
-  <ion-card #card_title>
-    <ion-card-content class="search-pokemon-by">SEARCH POKEMON BY </ion-card-content>
+  <ion-card #card_search_by>
+    <ion-card-content class="home-card-titles">SEARCH POKEMON BY </ion-card-content>
   </ion-card>
 
-  <ion-list class="list-search">
-    <ion-item [routerLink]="'/by-gen'" class="home-page-item" id="gen_item" #gen_item>
-      GENERATION
+  <ion-list class="home-list">
+    <ion-item [routerLink]="'/by-gen'" style="padding: 3%;" #gen_item>
+      <ion-button shape="round" class="home-buttons">GENERATION</ion-button>
     </ion-item>
-    <ion-item [routerLink]="'/by-type'" class="home-page-item" id="type_item" #type_item>
-      TYPE
+    <ion-item [routerLink]="'/by-type'" style="padding: 3%;" #type_item>
+      <ion-button shape="round" class="home-buttons"> TYPE </ion-button>
     </ion-item>
-    <ion-item [routerLink]="'/by-all'" class="home-page-item" id="all_item" #all_item>
-      ALL
+    <ion-item [routerLink]="'/by-all'" style="padding: 3%;" #all_item>
+      <ion-button shape="round" class="home-buttons"> ALL </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-card #card_info>
+    <ion-card-content class="home-card-titles"> INFO ABOUT </ion-card-content>
+  </ion-card>
+
+  <ion-list class="home-list">
+    <ion-item [routerLink]="'/types'" style="padding: 3%;" #types_item>
+      <ion-button shape="round" class="home-buttons"> TYPES </ion-button>
     </ion-item>
   </ion-list>
 

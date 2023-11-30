@@ -175,15 +175,27 @@
     text-align: center;
 }
 
-.search-pokemon-by {
+.home-card-titles {
   font-size: x-large;
   display: flex;
   justify-content: center;
 }
 
-.list-search {
+.home-list {
   display: grid;
   justify-content: center;
+}
+
+.home-buttons {
+  margin: 0px;
+  font-size: larger;
+  text-align: center;
+  display: contents;
+}
+
+.types-title {
+  font-size: x-large;
+  padding: 2%;
 }
 
 .home-page-item {

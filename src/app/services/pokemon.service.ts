@@ -16,19 +16,17 @@ interface Damage_Relations {
 })
 export class PokemonService {
 
-  // ENDPOINT API
   readonly appVersion: string = environment.version
+
+  // ENDPOINT API
   readonly baseUrl: string = "https://pokeapi.co/api/v2"
   readonly pokemonUrl: string = "https://pokeapi.co/api/v2/pokemon/"
   readonly typesUrl: string = "https://pokeapi.co/api/v2/type/" // + id or name
-  readonly moveUrl: string = "https://pokeapi.co/api/v2/move/"
   readonly imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
   readonly speciesUrl: string = "https://pokeapi.co/api/v2/pokemon-species"  // u can find species, description ecc..
-  readonly evolutionUrl: string = "https://pokeapi.co/api/v2/evolution-chain"
   
   readonly totalPokemons: number = 905 // untill 8th gen
   currentPokeID: number
-  //dm_rel: Damage_Relations
 
   constructor(private http: HttpClient) {}
 
@@ -77,12 +75,13 @@ export class PokemonService {
     return this.http.get(this.typesUrl).pipe(
       map((res: any) => {
         types.count = res.count
-        //types.results = res.results
         res.results.forEach((type: any) => {
-          types.results.push({
-            name: type.name, url: type.url, img: '../../assets/img/types/'+type.name+'.png'
-          })
-        });
+          if(type.name != 'unknown' && type.name != 'shadow') {
+            types.results.push({
+              name: type.name, url: type.url, img: '../../assets/img/types/'+type.name+'.png'
+            })
+          }
+        })
         return types
     }))
   }

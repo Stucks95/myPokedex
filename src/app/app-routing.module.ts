@@ -57,7 +57,11 @@ const routes: Routes = [
   {
     path: 'by-type/:index',
     loadChildren: () => import('./by-type/by-type.module').then( m => m.ByTypePageModule)
+  },  {
+    path: 'types',
+    loadChildren: () => import('./types/types.module').then( m => m.TypesPageModule)
   },
+
 
 ];
 

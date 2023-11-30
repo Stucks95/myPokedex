@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
-import { AnimationController, IonCard, IonItem } from '@ionic/angular';
+import { AnimationController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +8,13 @@ import { AnimationController, IonCard, IonItem } from '@ionic/angular';
 })
 export class HomePage implements OnInit, OnDestroy {
   @ViewChild('pokeMusic') pokeMusic: QueryList<AudioBuffer>
-  @ViewChild(IonCard, { read: ElementRef }) card_title: ElementRef<HTMLIonCardElement>
+  @ViewChild('card_search_by', { read: ElementRef }) card_search_by: ElementRef<HTMLIonCardElement>
+  @ViewChild('card_info', { read: ElementRef }) card_info: ElementRef<HTMLIonCardElement>
 
   @ViewChild('gen_item', { read: ElementRef }) gen_item: ElementRef<HTMLIonItemElement>
   @ViewChild('type_item', { read: ElementRef }) type_item: ElementRef<HTMLIonItemElement>
   @ViewChild('all_item', { read: ElementRef }) all_item: ElementRef<HTMLIonItemElement>
-
+  @ViewChild('types_item', { read: ElementRef }) types_item: ElementRef<HTMLIonItemElement>
 
   themeToggle: boolean = false;
   appVersion: string = this.pokeService.appVersion
@@ -21,7 +22,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   constructor(
     private pokeService: PokemonService, 
-    private titleAnimationCtrl: AnimationController,
+    private searchByAnimationCtrl: AnimationController,
+    private infoAnimationCtrl: AnimationController,
     private generationAnimationCtrl: AnimationController,
     private typeAnimationCtrl: AnimationController,
     private allAnimationCtrl: AnimationController,
@@ -29,20 +31,24 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.pokeMusic = new QueryList<AudioBuffer>()
-    // Use matchMedia to check the user preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // Initialize the dark theme based on the initial value
-    this.initializeDarkTheme(prefersDark.matches);
-
-    // Listen for changes to the prefers-color-scheme media query
-    prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches));
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
+    this.initializeDarkTheme(prefersDark.matches)
+    prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches))
   }
 
   ngAfterViewInit(): void {
-    const titleAnimation = this.titleAnimationCtrl
+    const searchByAnimation = this.searchByAnimationCtrl
       .create()
-      .addElement(this.card_title.nativeElement)
+      .addElement(this.card_search_by.nativeElement)
+      .duration(1500)
+      .iterations(Infinity)
+      .direction('alternate')
+      .fromTo('background', 'blue', 'var(--background)')
+    
+    const infoAnimation = this.infoAnimationCtrl
+      .create()
+      .addElement(this.card_info.nativeElement)
       .duration(1500)
       .iterations(Infinity)
       .direction('alternate')
@@ -72,11 +78,12 @@ export class HomePage implements OnInit, OnDestroy {
       .fromTo('transform', 'translateX(0px)', 'translateX(0px)')
       .fromTo('opacity', '0.2', '1')
 
-    titleAnimation.play()
-    generationItemAnimation.play()
-    typeItemAnimation.play()
-    allItemAnimation.play()
+    searchByAnimation.play()
+    infoAnimation.play()
 
+    //generationItemAnimation.play()
+    //typeItemAnimation.play()
+    //allItemAnimation.play()
   }
 
   // Check/uncheck the toggle and update the theme based on isDark
@@ -86,8 +93,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   // Listen for the toggle check/uncheck to toggle the dark theme
-  toggleChange(ev: { detail: { checked: any; }; }) {
-    this.toggleDarkTheme(ev.detail.checked);
+  toggleChange(e: { detail: { checked: any; }; }) {
+    this.toggleDarkTheme(e.detail.checked);
   }
 
   // Add or remove the "dark" class on the document body
