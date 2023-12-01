@@ -2,12 +2,6 @@ import { Component } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Subscription } from 'rxjs';
 
-interface Damage_Relations {
-  no_damage_from: {name: string}[], 
-  half_damage_from: {name: string}[], 
-  double_damage_from: {name: string}[]
-}
-
 interface Type {
   id: number,
   name: string,
@@ -20,11 +14,11 @@ interface Type {
 })
 export class TypesPage {
 
+  appVersion: string = this.pokeService.appVersion
   allSubs: {}[] = []
   subTypes: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
   subDmRel: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
 
-  dmRelByTypes: Damage_Relations[] = []
   types: Type[] = []
   countTypes: number = 0
 
@@ -49,23 +43,7 @@ export class TypesPage {
           name: elType.name, 
           img: '../../assets/img/types/'+elType.name+'.png'
         })
-
-        // finding damage relation by every type
-        this.subDmRel.sub = this.pokeService.getDamageRelationsByType(idType)
-        .subscribe((res: any) => {
-          this.subDmRel.subscribed = true
-          this.dmRelByTypes.push({
-            no_damage_from: res.no_damage_from, 
-            half_damage_from: res.half_damage_from,
-            double_damage_from: res.double_damage_from
-          })
-        })
       })
-
-      setTimeout(() => {
-        console.log('this.dmRelByTypes',this.dmRelByTypes)
-      }, 4000);
-      
     })
   }
 

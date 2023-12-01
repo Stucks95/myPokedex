@@ -1,12 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" style="padding: 2%; font-size: 25px;"></ion-icon>
+      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
+      <ion-title class="header-title"> 
+        myPokedex v{{appVersion}}
+      </ion-title>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <!-- list-types -->
   <div class="list-types">
 
@@ -15,11 +19,10 @@
     </ion-card-title>
 
     <ion-grid [fixed]="true">
-      <ion-row *ngFor="let type of types">
-        <ion-col>{{type.name}}</ion-col>
-        <ion-col>
-          <ion-img [alt]="type.name" [src]="type.img" class="detail-img"></ion-img>
-        </ion-col>
+      <ion-row *ngFor="let type of types" class="types-rows">
+          <ion-col [routerLink]="'/type/'+type.id">
+            <ion-img [alt]="type.name" [src]="type.img" class="detail-img"></ion-img>
+          </ion-col>
       </ion-row>
     </ion-grid>
 

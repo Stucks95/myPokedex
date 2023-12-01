@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" style="font-size: 60px;"></ion-icon>
+      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
       <ion-title class="header-title"> 
           myPokedex v{{appVersion}}
       </ion-title>
@@ -21,16 +21,16 @@
   <!-- SKELETON FX -->
   <ion-list *ngIf="skeletonLoad">
     <div class="poke-item" *ngFor="let i of skeletonArray">
-      <div class="poke-avatar">
-        <ion-avatar class="poke-img">
+      <div>
+        <ion-avatar>
           <ion-skeleton-text animated></ion-skeleton-text>
         </ion-avatar>
       </div>
       <ion-label class="skeleton-label">
-        <p class="poke-name">
+        <p style="font-size: large; padding-left: 10%;">
           <ion-skeleton-text animated></ion-skeleton-text>
         </p>
-        <p class="poke-index">
+        <p style="padding-left: 10%;">
           <ion-skeleton-text animated></ion-skeleton-text>
         </p>
       </ion-label>
@@ -41,14 +41,10 @@
   <ion-list *ngIf="!skeletonLoad">
     <div class="poke-item" *ngFor="let pokemon of pokemons" 
     [routerLink]="'/tabs/details/'+pokemon.index.toString()">
-      <div class="poke-avatar">
-        <ion-avatar class="poke-img">
-          <img [src]="pokemon.image">
-        </ion-avatar>
-      </div>
-      <ion-label class="ion-text-capitalize">
-        <p class="poke-name">{{ pokemon.name }}</p>
-        <p class="poke-index">#{{ pokemon.index }}</p>
+      <ion-img [src]="pokemon.image"></ion-img>
+      <ion-label class="ion-text-capitalize" style="display: flex; justify-content: center;">
+        <p style="font-size: large; padding-left: 10%;">{{ pokemon.name }}</p>
+        <p style="padding-left: 10%;">#{{ pokemon.index }}</p>
       </ion-label>
     </div>
   </ion-list>

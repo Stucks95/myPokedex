@@ -61,7 +61,6 @@ export class DetailsPage {
   ngOnInit(): void {
     this.details.pokeIndex = Number (this.route.snapshot.paramMap.get('index'))
     this.pokeService.updateCurrentPokeId(this.details.pokeIndex)
-    
   }
 
   ngAfterViewInit(): void {

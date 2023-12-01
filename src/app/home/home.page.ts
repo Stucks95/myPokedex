@@ -14,9 +14,9 @@ export class HomePage implements OnInit, OnDestroy {
   @ViewChild('gen_item', { read: ElementRef }) gen_item: ElementRef<HTMLIonItemElement>
   @ViewChild('type_item', { read: ElementRef }) type_item: ElementRef<HTMLIonItemElement>
   @ViewChild('all_item', { read: ElementRef }) all_item: ElementRef<HTMLIonItemElement>
-  @ViewChild('types_item', { read: ElementRef }) types_item: ElementRef<HTMLIonItemElement>
+  @ViewChild('weaknesses_item', { read: ElementRef }) weaknesses_item: ElementRef<HTMLIonItemElement>
 
-  themeToggle: boolean = false;
+  themeToggle: boolean = false
   appVersion: string = this.pokeService.appVersion
   volume: number = 0.6
 
@@ -27,6 +27,7 @@ export class HomePage implements OnInit, OnDestroy {
     private generationAnimationCtrl: AnimationController,
     private typeAnimationCtrl: AnimationController,
     private allAnimationCtrl: AnimationController,
+    private weaknessesCtrl: AnimationController,
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +35,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
     this.initializeDarkTheme(prefersDark.matches)
-    prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches))
+    //prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkTheme(mediaQuery.matches))
   }
 
   ngAfterViewInit(): void {
@@ -76,25 +77,29 @@ export class HomePage implements OnInit, OnDestroy {
       .duration(1500)
       .iterations(1)
       .fromTo('transform', 'translateX(0px)', 'translateX(0px)')
-      .fromTo('opacity', '0.2', '1')
+      .fromTo('opacity', '0.1', '1')
+
+    const weaknessesItem = this.weaknessesCtrl
+      .create()
+      .addElement(this.weaknesses_item.nativeElement)
+      .duration(1500)
+      .iterations(1)
+      .fromTo('transform', 'translateX(0px)', 'translateX(0px)')
+      .fromTo('opacity', '0.1', '1')
 
     searchByAnimation.play()
     infoAnimation.play()
 
-    //generationItemAnimation.play()
-    //typeItemAnimation.play()
-    //allItemAnimation.play()
+    generationItemAnimation.play()
+    typeItemAnimation.play()
+    allItemAnimation.play()
+    weaknessesItem.play()
   }
 
   // Check/uncheck the toggle and update the theme based on isDark
   initializeDarkTheme(isDark: boolean) {
     this.themeToggle = isDark;
     this.toggleDarkTheme(isDark);
-  }
-
-  // Listen for the toggle check/uncheck to toggle the dark theme
-  toggleChange(e: { detail: { checked: any; }; }) {
-    this.toggleDarkTheme(e.detail.checked);
   }
 
   // Add or remove the "dark" class on the document body

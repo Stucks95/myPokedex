@@ -53,7 +53,7 @@ export class WeaknessesPage {
   async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Loading...',
-      duration: 2500,
+      duration: 1000,
     });
 
     loading.present();
@@ -100,7 +100,7 @@ export class WeaknessesPage {
         console.log('this.dm_rel', this.dm_rel)
       }
       this.progressLoad = false
-    }, 2000);
+    }, 1000)
   }
 
 }

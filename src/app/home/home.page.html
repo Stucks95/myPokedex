@@ -7,10 +7,6 @@
 </ion-header>
 
 <ion-content #container>
-  <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" 
-  justify="space-between" class="toggle-dark-mode">
-    Dark Mode
-  </ion-toggle>
   <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true" class="audio-home" #pokeMusic>
     <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
   </audio>
@@ -36,8 +32,8 @@
   </ion-card>
 
   <ion-list class="home-list">
-    <ion-item [routerLink]="'/types'" style="padding: 3%;" #types_item>
-      <ion-button shape="round" class="home-buttons"> TYPES </ion-button>
+    <ion-item [routerLink]="'/types'" style="padding: 3%;" #weaknesses_item>
+      <ion-button shape="round" class="home-buttons"> WEAKNESSES </ion-button>
     </ion-item>
   </ion-list>
 

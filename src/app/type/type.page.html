@@ -1,16 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
+      <ion-back-button defaultHref="types"></ion-back-button>
       <ion-title class="header-title"> 
-          myPokedex v{{appVersion}}
+        myPokedex v{{appVersion}}
       </ion-title>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="content" *ngIf="!progressLoad">
+  <div class="type-page">
     
     <!-- Weaknesses & Resistances -->
     <div class="weaknesses-resistances">
@@ -23,7 +23,7 @@
           </ion-row>
           <ion-row *ngFor="let weaknesses of dm_rel.double_damage_from">
               <ion-item-divider class="grid-rows-stats">
-                <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="type-img"></ion-img>
+                  <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="type-img"></ion-img>
               </ion-item-divider>
           </ion-row>
       </ion-grid>
@@ -48,6 +48,6 @@
           </ion-row>
       </ion-grid>
     </div>
-  </div>
 
+  </div>
 </ion-content>
