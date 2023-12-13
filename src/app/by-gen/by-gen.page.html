@@ -1,51 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
-      <ion-title class="header-title"> 
-          myPokedex v{{appVersion}}
-      </ion-title>
 
-      <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" 
-      placeholder="1° - KANTO" (ionChange)="loadGen($event)" toggleIcon="add" class="top-select">
-        <ion-select-option *ngFor="let r of regions" [value]="r">
-          {{ r.idGen }}° - {{ r.region | uppercase }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <ion-title class="fs-title inline-flex"> 
+        myPokedex v{{appVersion}}
+    </ion-title>
+    <ion-img class="width-2_5 ml-0_7 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+    <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+
+    <ion-select color="dark" class="bygen-select" [interfaceOptions]="customPopoverOptions" 
+    interface="popover" placeholder="1° - KANTO" (ionChange)="loadGen($event)" toggleIcon="add">
+      <ion-select-option *ngFor="let r of regions" [value]="r">
+        {{ r.idGen }}° - {{ r.region | uppercase }}
+      </ion-select-option>
+    </ion-select>
+      
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
   <!-- SKELETON FX -->
-  <ion-list *ngIf="skeletonLoad">
-    <div class="poke-item" *ngFor="let i of skeletonArray">
-      <div>
-        <ion-avatar>
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-avatar>
-      </div>
-      <ion-label class="skeleton-label">
-        <p style="font-size: large; padding-left: 10%;">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </p>
-        <p style="padding-left: 10%;">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </p>
+  <ion-list *ngIf="skeletonLoad" class="p-0_8">
+    <div class="pokemon" *ngFor="let i of skeletonArray">
+      <ion-img class="poke-img">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-img>
+      <ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
       </ion-label>
     </div>
   </ion-list>
 
   <!-- POKE LIST -->
-  <ion-list *ngIf="!skeletonLoad">
-    <div class="poke-item" *ngFor="let pokemon of pokemons" 
-    [routerLink]="'/tabs/details/'+pokemon.index.toString()">
-      <ion-img [src]="pokemon.image"></ion-img>
-      <ion-label class="ion-text-capitalize" style="display: flex; justify-content: center;">
-        <p style="font-size: large; padding-left: 10%;">{{ pokemon.name }}</p>
-        <p style="padding-left: 10%;">#{{ pokemon.index }}</p>
-      </ion-label>
+  <ion-list *ngIf="!skeletonLoad" class="p-0_8">
+    <div class="pokemon" *ngFor="let pokemon of pokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
+      <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
+      <p class="ion-text-capitalize">{{ pokemon.name }} #{{ pokemon.index }}</p>
     </div>
   </ion-list>
 

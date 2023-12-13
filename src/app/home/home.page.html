@@ -1,40 +1,54 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-item style="font-size: xx-large" class="ion-text-center">
+    <ion-title class="fs-title inline-flex">
       myPokedex v{{appVersion}}
-    </ion-item>
+    </ion-title>
+    <ion-img class="width-2_5 ml-0_7 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
   </ion-toolbar>
 </ion-header>
 
-<ion-content #container>
-  <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true" class="audio-home" #pokeMusic>
-    <a href="../../assets/pokémon_music_mix.mp3"> Poke Music </a>
-  </audio>
+<ion-content #container class="fade-intro">
+  <!-- TO REFRESH -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-  <ion-card #card_search_by>
-    <ion-card-content class="home-card-titles">SEARCH POKEMON BY </ion-card-content>
-  </ion-card>
+  <div class="pokeMusic">
+    <audio controls src="../../assets/pokémon_music_mix.mp3" [volume]="volume" [loop]="true"
+    class="mt-1 ml-1 w80" #pokeMusic>
+      <a href="../../assets/pokémon_music_mix.mp3"></a>
+    </audio>
+    <div class="textMusic">
+      <ion-title>MUSIC</ion-title>
+    </div>
+  </div>
 
-  <ion-list class="home-list">
-    <ion-item [routerLink]="'/by-gen'" style="padding: 3%;" #gen_item>
-      <ion-button shape="round" class="home-buttons">GENERATION</ion-button>
-    </ion-item>
-    <ion-item [routerLink]="'/by-type'" style="padding: 3%;" #type_item>
-      <ion-button shape="round" class="home-buttons"> TYPE </ion-button>
-    </ion-item>
-    <ion-item [routerLink]="'/by-all'" style="padding: 3%;" #all_item>
-      <ion-button shape="round" class="home-buttons"> ALL </ion-button>
-    </ion-item>
-  </ion-list>
+  <div id="home-menu" class="ml-1 mr-1">
+    <ion-card class="card-menu" #card_search_by>
+      <ion-card-content class="flex justify-center fs-card">SEARCH POKEMON BY</ion-card-content>
+    </ion-card>
 
-  <ion-card #card_info>
-    <ion-card-content class="home-card-titles"> INFO ABOUT </ion-card-content>
-  </ion-card>
+    <ion-list>
+      <ion-item [routerLink]="'/by-gen'" #gen_item>
+        <ion-title class="text-center">GENERATION</ion-title> 
+      </ion-item>
+      <ion-item [routerLink]="'/by-type'" #type_item>
+        <ion-title class="text-center">TYPE</ion-title> 
+      </ion-item>
+      <ion-item [routerLink]="'/by-all'" #all_item>
+        <ion-title class="text-center">ALL</ion-title> 
+      </ion-item>
+    </ion-list>
 
-  <ion-list class="home-list">
-    <ion-item [routerLink]="'/types'" style="padding: 3%;" #weaknesses_item>
-      <ion-button shape="round" class="home-buttons"> WEAKNESSES </ion-button>
-    </ion-item>
-  </ion-list>
+    <ion-card class="card-menu" #card_info>
+      <ion-card-content class="flex justify-center fs-card"> INFO ABOUT </ion-card-content>
+    </ion-card>
+
+    <ion-list>
+      <ion-item [routerLink]="'/types'" #weaknesses_item>
+        <ion-title class="text-center">WEAKNESSES</ion-title> 
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>

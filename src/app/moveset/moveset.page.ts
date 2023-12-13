@@ -24,7 +24,7 @@ export class MovesetPage {
   pokeIndex: number
   appVersion: string = this.pokeService.appVersion
   progressLoad: boolean = true
-  skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10]
+  skeletonArray: number[] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
   allSubs: {}[] = []
   moves8thGenSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}

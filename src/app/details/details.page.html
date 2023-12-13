@@ -1,36 +1,28 @@
 <ion-header [translucent]="true">
     <ion-toolbar color="primary">
-      <ion-item>
-          <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
-          <ion-title class="header-title"> 
-              myPokedex v{{appVersion}}
-          </ion-title>
-      </ion-item>
+        <ion-title class="fs-title inline-flex"> 
+            myPokedex v{{appVersion}}
+        </ion-title>
+        <ion-img class="width-2_5 ml-0_7 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+        <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-    <div class="content">
-        <ion-card>
-            <div class="card-header">
-                <ion-img [alt]="details.name" [src]="details.homeSprite" 
-                class="detail-img"></ion-img>
-                <ion-title class="ion-text-capitalize poke-title">{{ details.name }}</ion-title>
-                <ion-card-title class="types-card">
-                    <ion-text class="ion-text-capitalize">Type: </ion-text>
-                    <div class="types-img" *ngIf="details.types.length !== 0">
-                        <ion-img *ngFor="let type of details.types" [src]="type.img" 
-                        style="padding: 10px; max-width: 180px;"></ion-img>
-                    </div>
-                </ion-card-title>
-                <ion-card-title>
-                    <ion-text class="ion-text-capitalize">Gen: {{details.gen.id}}</ion-text>
-                </ion-card-title>
-                <ion-card-title>
-                    <ion-text class="ion-text-capitalize">Region: {{details.gen.region}}</ion-text>
-                </ion-card-title>
+    <ion-card class="m2">
+        <ion-card-content>
+            <ion-img [alt]="details.name" [src]="details.homeSprite" 
+            class="detail-img"></ion-img>
+            <h1 class="">{{ details.name }}</h1>
+            <ion-text class="ion-text-capitalize">Type: </ion-text>
+            <div class="types-img" *ngIf="details.types.length !== 0">
+                <ion-img *ngFor="let type of details.types" [src]="type.img" 
+                style="padding: 10px; max-width: 180px;"></ion-img>
             </div>
+            <ion-text class="ion-text-capitalize">Gen: {{details.gen.id}}</ion-text>
+            <ion-text class="ion-text-capitalize">Region: {{details.gen.region}}</ion-text>
+        </ion-card-content>
+    </ion-card>
 
             <!-- EVO 1 EXIST ? -->
             <div class="evo" *ngIf="details.evo.evo1.length !== 0">
@@ -104,8 +96,4 @@
                     </div>
                 </div>
             </div>
-
-        </ion-card>
-    </div>
-
 </ion-content>
