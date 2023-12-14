@@ -1,50 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
-      <ion-title class="header-title"> 
+      <ion-title class="fs-title inline-flex"> 
           myPokedex v{{appVersion}}
       </ion-title>
-    </ion-item>
+      <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+      <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="content" *ngIf="!progressLoad">
+  <div class="center grid">
     
     <!-- Weaknesses & Resistances -->
-    <div class="weaknesses-resistances">
-      <ion-card-title class="center">
-          <ion-text class="ion-text-capitalize little-margin">Weaknesses & Resistances</ion-text>
+    <div class="m2 max-typeimg-size" *ngIf="!progressLoad">
+      <ion-card-title class="center mb-1">
+          <ion-text class="fs-title">Weaknesses & Resistances</ion-text>
       </ion-card-title>
-      <ion-grid class="grid-stats">
-          <ion-row class="special-grid-row grid-rows-stats">
+      <ion-grid class="grid-borders">
+          <ion-row class="fs-card">
               <ion-col>WEAK TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let weaknesses of dm_rel.double_damage_from">
-              <ion-item-divider class="grid-rows-stats">
-                <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="type-img"></ion-img>
-              </ion-item-divider>
+            <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="mb-0_5"></ion-img>
           </ion-row>
       </ion-grid>
-      <ion-grid class="grid-stats">
-          <ion-row class="special-grid-row grid-rows-stats">
+      <ion-grid class="grid-borders">
+          <ion-row class="fs-card">
               <ion-col>RESISTENT TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let resistances of dm_rel.half_damage_from">
-              <ion-item-divider class="grid-rows-stats">
-                <ion-img [alt]="resistances.name" [src]="'../../assets/img/types/'+resistances.name+'.png'" class="type-img"></ion-img>
-              </ion-item-divider>
+            <ion-img [alt]="resistances.name" [src]="'../../assets/img/types/'+resistances.name+'.png'" class="mb-0_5"></ion-img>
           </ion-row>
       </ion-grid>
-      <ion-grid class="grid-stats" *ngIf="dm_rel.no_damage_from.length !== 0">
-          <ion-row class="special-grid-row grid-rows-stats">
+      <ion-grid class="grid-borders" *ngIf="dm_rel.no_damage_from.length !== 0">
+          <ion-row class="fs-card">
               <ion-col>IMMUNITY TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let immunities of dm_rel.no_damage_from">
-              <ion-item-divider class="grid-rows-stats">
-                <ion-img [alt]="immunities.name" [src]="'../../assets/img/types/'+immunities.name+'.png'" class="type-img"></ion-img>
-              </ion-item-divider>
+            <ion-img [alt]="immunities.name" [src]="'../../assets/img/types/'+immunities.name+'.png'" class="mb-0_5"></ion-img>
           </ion-row>
       </ion-grid>
     </div>

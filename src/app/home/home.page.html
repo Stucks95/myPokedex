@@ -3,7 +3,7 @@
     <ion-title class="fs-title inline-flex">
       myPokedex v{{appVersion}}
     </ion-title>
-    <ion-img class="width-2_5 ml-0_7 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+    <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
   </ion-toolbar>
 </ion-header>
 
@@ -25,28 +25,28 @@
 
   <div id="home-menu" class="ml-1 mr-1">
     <ion-card class="card-menu" #card_search_by>
-      <ion-card-content class="flex justify-center fs-card">SEARCH POKEMON BY</ion-card-content>
+      <ion-card-content class="flex center fs-card">SEARCH POKEMON BY</ion-card-content>
     </ion-card>
 
     <ion-list>
       <ion-item [routerLink]="'/by-gen'" #gen_item>
-        <ion-title class="text-center">GENERATION</ion-title> 
+        <ion-title class="center">GENERATION</ion-title> 
       </ion-item>
       <ion-item [routerLink]="'/by-type'" #type_item>
-        <ion-title class="text-center">TYPE</ion-title> 
+        <ion-title class="center">TYPE</ion-title> 
       </ion-item>
       <ion-item [routerLink]="'/by-all'" #all_item>
-        <ion-title class="text-center">ALL</ion-title> 
+        <ion-title class="center">ALL</ion-title> 
       </ion-item>
     </ion-list>
 
     <ion-card class="card-menu" #card_info>
-      <ion-card-content class="flex justify-center fs-card"> INFO ABOUT </ion-card-content>
+      <ion-card-content class="flex center fs-card"> INFO ABOUT </ion-card-content>
     </ion-card>
 
     <ion-list>
       <ion-item [routerLink]="'/types'" #weaknesses_item>
-        <ion-title class="text-center">WEAKNESSES</ion-title> 
+        <ion-title class="center">WEAKNESSES</ion-title> 
       </ion-item>
     </ion-list>
   </div>
