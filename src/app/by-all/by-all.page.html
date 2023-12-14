@@ -33,7 +33,7 @@
   <ng-template #searchPokemon>
     <!-- POKE LIST (u are searching pokemon) -->
     <ion-list *ngIf="!skeletonLoad" class="p-0_8">
-      <div class="pokemon" *ngFor="let pokemon of allPokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
+      <div class="pokemon" *ngFor="let pokemon of allPokemons | appFilter: searchText" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
         <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
         <p class="ion-text-capitalize">{{ pokemon.name }} #{{ pokemon.index }}</p>
       </div>

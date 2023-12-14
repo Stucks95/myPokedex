@@ -46,7 +46,7 @@
   }
 
   .max-typeimg-size {
-    max-width: 20em;
+    max-width: 18em;
   }
 
   .m2 {
@@ -63,6 +63,10 @@
 
   .mt-1 {
     margin-top: 1em;
+  }
+
+  .mt-2 {
+    margin-top: 2em;
   }
 
   .mb-1 {
@@ -123,6 +127,10 @@
     display: flex;
   }
 
+  .block {
+    display: block;
+  }
+
   .inline-flex {
     display: inline-flex;
   }
@@ -150,7 +158,7 @@
   }
 
   .grid-borders {
-    border: #cccccc 0.3em solid;
+    border: #cccccc 0.2em solid;
     border-radius: 1.5em;
   }
 
@@ -182,6 +190,17 @@
     justify-content: center;
     color: #cccccc;
     margin: 0.6em;
+  }
+
+  .animation {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 2em;
+  }
+
+  lottie-player {
+    display: block;
+    margin : 0 auto;
   }
 
   .textMusic {
