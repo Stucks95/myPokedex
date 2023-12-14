@@ -1,39 +1,38 @@
 <ion-header [translucent]="true">
     <ion-toolbar color="primary">
-      <ion-item>
-          <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
-          <ion-title class="header-title"> 
-              myPokedex v{{appVersion}}
-          </ion-title>
-      </ion-item>
+        <ion-title class="fs-title inline-flex"> 
+            myPokedex v{{appVersion}}
+        </ion-title>
+        <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+        <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
     </ion-toolbar>
-</ion-header>
+  </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="grid center">
     
-    <div class="movesets" *ngIf="!progressLoad">
-        <ion-card-title class="center">
+    <div class="mt-1 m1" *ngIf="!progressLoad">
+        <ion-card-title>
             <ion-text class="ion-text-capitalize" class="little-margin">
                 Moveset {{movesetGen}}th Gen
             </ion-text>
         </ion-card-title>
-        <ion-grid class="grid-moveset">
-            <ion-row class="special-grid-row">
-                <ion-col size="3">NAME</ion-col>
-                <ion-col>TYPE</ion-col>
-                <ion-col>POWER</ion-col>
-                <ion-col>DAMAGE</ion-col>
-                <ion-col>ACCURACY</ion-col>
-                <ion-col>LEVEL</ion-col>
+        <ion-grid class="grid-borders mt-1">
+            <ion-row style="font-size: 0.6em;">
+                <ion-col style="padding: 0.3em;">NAME</ion-col>
+                <ion-col style="padding: 0.3em;">TYPE</ion-col>
+                <ion-col style="padding: 0.3em;">POWER</ion-col>
+                <ion-col style="padding: 0.3em;">DAMAGE</ion-col>
+                <ion-col style="padding: 0.3em;">ACCURACY</ion-col>
+                <ion-col style="padding: 0.3em;">LEVEL</ion-col>
             </ion-row>
-            <ion-row class="grid-rows" *ngFor="let move of levelUpMoveset">
+            <ion-row class="ion-text-capitalize" *ngFor="let move of levelUpMoveset">
                 <ion-item-divider>
-                    <ion-col size="3" class="ion-text-capitalize">{{ move.name}}</ion-col>
-                    <ion-col>{{move.type | uppercase}}</ion-col>
-                    <ion-col style="padding-left: 3%;">{{ move.power}}</ion-col>
-                    <ion-col style="padding-left: 3%;">{{ move.damage}}</ion-col>
-                    <ion-col style="padding-left: 3%;">{{ move.accuracy}}</ion-col>
-                    <ion-col style="padding-left: 3%;">{{ move.level}}</ion-col>
+                    <ion-col class="col-movest">{{move.name}}</ion-col>
+                    <ion-col class="col-movest">{{move.type | uppercase}}</ion-col>
+                    <ion-col class="col-movest">{{move.power}}</ion-col>
+                    <ion-col class="col-movest">{{move.damage}}</ion-col>
+                    <ion-col class="col-movest">{{move.accuracy}}</ion-col>
+                    <ion-col class="col-movest">{{move.level}}</ion-col>
                 </ion-item-divider>
             </ion-row>
         </ion-grid>

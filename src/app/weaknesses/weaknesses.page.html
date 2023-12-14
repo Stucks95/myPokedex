@@ -18,7 +18,7 @@
       </ion-card-title>
       <ion-grid class="grid-borders">
           <ion-row class="fs-card">
-              <ion-col>WEAK TO</ion-col>
+              <ion-col class="mb-0_5">WEAK TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let weaknesses of dm_rel.double_damage_from">
             <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="mb-0_5"></ion-img>
@@ -26,7 +26,7 @@
       </ion-grid>
       <ion-grid class="grid-borders">
           <ion-row class="fs-card">
-              <ion-col>RESISTENT TO</ion-col>
+              <ion-col class="mb-0_5">RESISTENT TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let resistances of dm_rel.half_damage_from">
             <ion-img [alt]="resistances.name" [src]="'../../assets/img/types/'+resistances.name+'.png'" class="mb-0_5"></ion-img>
@@ -34,7 +34,7 @@
       </ion-grid>
       <ion-grid class="grid-borders" *ngIf="dm_rel.no_damage_from.length !== 0">
           <ion-row class="fs-card">
-              <ion-col>IMMUNITY TO</ion-col>
+              <ion-col class="mb-0_5">IMMUNITY TO</ion-col>
           </ion-row>
           <ion-row *ngFor="let immunities of dm_rel.no_damage_from">
             <ion-img [alt]="immunities.name" [src]="'../../assets/img/types/'+immunities.name+'.png'" class="mb-0_5"></ion-img>

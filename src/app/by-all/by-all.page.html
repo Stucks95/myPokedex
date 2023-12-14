@@ -1,32 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-item>
-      <ion-icon [routerLink]="'/home'" name="home" class="home-icon"></ion-icon>
-      <ion-searchbar animated="true" placeholder="Search Pokemon" [debounce]="1000" 
-        [(ngModel)]="searchText"
-        (ionInput)="isSearching()">
-      </ion-searchbar>
-    </ion-item>
+   
+    <ion-title class="fs-title inline-flex"> 
+      myPokedex v{{appVersion}}
+    </ion-title>
+    <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+    <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+
+    <ion-searchbar class="m-0_5 pr-1" animated="true" placeholder="Search Pokemon" [debounce]="1000" 
+      [(ngModel)]="searchText" (ionInput)="isSearching()">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="grid center">
 
   <!-- SKELETON FX -->
-  <ion-list *ngIf="skeletonLoad">
-    <div class="poke-item" *ngFor="let i of skeletonArray">
-      <div>
-        <ion-avatar>
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-avatar>
-      </div>
-      <ion-label class="skeleton-label">
-        <p style="font-size: large; padding-left: 10%;">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </p>
-        <p style="padding-left: 10%;">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </p>
+  <ion-list *ngIf="skeletonLoad" class="p-0_8">
+    <div class="pokemon" *ngFor="let i of skeletonArray">
+      <ion-img class="poke-img">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-img>
+      <ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
       </ion-label>
     </div>
   </ion-list>
@@ -35,28 +32,20 @@
 
   <ng-template #searchPokemon>
     <!-- POKE LIST (u are searching pokemon) -->
-    <ion-list *ngIf="!skeletonLoad">
-      <div class="poke-item" *ngFor="let pokemon of allPokemons | appFilter: searchText" 
-      [routerLink]="'/tabs/details/'+pokemon.index.toString()">
-        <ion-img [src]="pokemon.image"></ion-img>
-        <ion-label class="ion-text-capitalize" style="display: flex; justify-content: center;">
-          <p style="font-size: large; padding-left: 10%;">{{ pokemon.name }}</p>
-          <p style="padding-left: 10%;">#{{ pokemon.index }}</p>
-        </ion-label>
+    <ion-list *ngIf="!skeletonLoad" class="p-0_8">
+      <div class="pokemon" *ngFor="let pokemon of allPokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
+        <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
+        <p class="ion-text-capitalize">{{ pokemon.name }} #{{ pokemon.index }}</p>
       </div>
     </ion-list>
   </ng-template>
 
   <ng-template #noSearch>
     <!-- POKE LIST (no searching) -->
-    <ion-list *ngIf="!skeletonLoad">
-      <div class="poke-item" *ngFor="let pokemon of allPokemons" 
-      [routerLink]="'/tabs/details/'+pokemon.index.toString()">
-        <ion-img [src]="pokemon.image"></ion-img>
-        <ion-label class="ion-text-capitalize" style="display: flex; justify-content: center;">
-          <p style="font-size: large; padding-left: 10%;">{{ pokemon.name }}</p>
-          <p style="padding-left: 10%;">#{{ pokemon.index }}</p>
-        </ion-label>
+    <ion-list *ngIf="!skeletonLoad" class="p-0_8">
+      <div class="pokemon" *ngFor="let pokemon of allPokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
+        <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
+        <p class="ion-text-capitalize">{{ pokemon.name }} #{{ pokemon.index }}</p>
       </div>
     </ion-list>
   </ng-template>

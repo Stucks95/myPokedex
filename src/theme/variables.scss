@@ -20,6 +20,10 @@
     color: #121212;
   }
 
+  ion-item-divider {
+    padding: 0em;
+  }
+
   ion-header ion-toolbar:first-of-type {
     padding-top: 0.5em;
   }
@@ -51,6 +55,10 @@
 
   .m1 {
     margin: 1em;
+  }
+
+  .m-0_5 {
+    margin: 0.5em;
   }
 
   .mt-1 {
@@ -89,6 +97,14 @@
     padding: 0.8em;
   }
 
+  .pr-0_5 {
+    padding-right: 0.5em;
+  }
+
+  .pr-1 {
+    padding-right: 1em;
+  }
+
   .fs-title {
     font-size: 1.4em;
     padding-left: 0.3em;
@@ -96,6 +112,11 @@
 
   .fs-card {
     font-size: 1.2em;
+  }
+
+  .col-movest {
+    font-size: 0.6em;
+    padding: 0.3em;
   }
 
   .flex {
@@ -129,8 +150,8 @@
   }
 
   .grid-borders {
-    border: #cccccc 0.5em solid;
-    border-radius: 2em;
+    border: #cccccc 0.3em solid;
+    border-radius: 1.5em;
   }
 
   .w80 {
@@ -138,7 +159,7 @@
     max-width: 500px;
   }
 
-  .bygen-select {
+  .top-select {
     font-weight: bold;
     font-size: 1.2em;
     background-color: #cccccc;
@@ -178,8 +199,8 @@
   /* Media Query for Laptops and Desktops */
   @media (min-width: 1025px) {
     .ion-page, ion-tab-bar {
-      margin-left: 15%;
-      margin-right: 15%;
+      margin-left: 10%;
+      margin-right: 10%;
     }
   }
 
