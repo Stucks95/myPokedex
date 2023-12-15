@@ -17,7 +17,7 @@
         <ion-text class="fs-title">LIST OF TYPES</ion-text>
     </ion-card-title>
 
-    <ion-grid [fixed]="true" class="grid-borders mt-1">
+    <ion-grid class="grid-borders mt-1 grid center">
       <ion-row *ngFor="let type of types">
           <ion-col [routerLink]="'/type/'+type.id">
             <ion-img [alt]="type.name" [src]="type.img" class="max-typeimg-size"></ion-img>
