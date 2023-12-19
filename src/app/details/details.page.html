@@ -12,7 +12,8 @@
     <ion-card class="m2">
         <ion-card-content>
             <ion-img [alt]="details.name" [src]="details.homeSprite" class="max-pokeimg-size mb-0_5 inline-flex"></ion-img>
-            <h1 class="ion-text-capitalize">{{ details.name }}</h1>
+            <h1 class="ion-text-capitalize">{{details.name}}</h1>
+            <h2>INDEX: {{details.pokeIndex}}</h2>
             <ion-text class="ion-text-capitalize fs-card">Type: </ion-text>
             <div class="inline-flex" *ngIf="details.types.length !== 0">
                 <ion-img *ngFor="let type of details.types" [src]="type.img" class="m1 max-typeimg-size"></ion-img>
@@ -36,7 +37,6 @@
                 </ion-avatar>
                 <ion-label class="ion-text-capitalize">
                     <h2>{{ evo.name | uppercase }}</h2>
-                    <p>#{{ evo.id }}</p>
                 </ion-label>
             </ion-item>
         </div>
@@ -55,7 +55,6 @@
                 </ion-avatar>
                 <ion-label class="ion-text-capitalize">
                     <h2>{{ details.evo.evo0.name | uppercase }}</h2>
-                    <p>#{{ details.evo.evo0.id }}</p>
                 </ion-label>
             </ion-item>
             <!-- EVO -->
@@ -67,7 +66,6 @@
                 </ion-avatar>
                 <ion-label class="ion-text-capitalize">
                     <h2>{{ evo.name | uppercase }}</h2>
-                    <p>#{{ evo.id }}</p>
                 </ion-label>
             </ion-item>
         </div>
@@ -83,7 +81,6 @@
                 </ion-avatar>
                 <ion-label class="ion-text-capitalize">
                     <h2>{{ details.evo.evo1[0].name | uppercase }}</h2>
-                    <p>#{{ details.evo.evo1[0].id }}</p>
                 </ion-label>
             </ion-item>
         </div>

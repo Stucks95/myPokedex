@@ -22,11 +22,10 @@
   <!-- SKELETON FX -->
   <ion-list *ngIf="skeletonLoad" class="p-0_8">
     <div class="pokemon" *ngFor="let i of skeletonArray">
-      <ion-img class="poke-img">
+      <ion-avatar class="poke-img mb-0_5">
         <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-img>
+      </ion-avatar>
       <ion-label>
-        <ion-skeleton-text animated></ion-skeleton-text>
         <ion-skeleton-text animated></ion-skeleton-text>
       </ion-label>
     </div>
@@ -36,7 +35,7 @@
   <ion-list *ngIf="!skeletonLoad" class="p-0_8">
     <div class="pokemon" *ngFor="let pokemon of pokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
       <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
-      <p class="ion-text-capitalize">{{ pokemon.name }} #{{ pokemon.index }}</p>
+      <p class="ion-text-capitalize">{{pokemon.name}}</p>
     </div>
   </ion-list>
 

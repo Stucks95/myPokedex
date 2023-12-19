@@ -84,7 +84,7 @@ export class MovesetPage {
     this.moves8thGenSub.sub = this.pokeService.getMoves(pokeIndex)
     .subscribe((moves: any) => {
       this.moves8thGenSub.subscribed = true
-      console.log('moves',moves)
+      //console.log('moves',moves)
       moves.forEach((move: any) => {
         move.version_group_details.forEach((ver: any) => {
           if(ver.move_learn_method.name == 'level-up' && 

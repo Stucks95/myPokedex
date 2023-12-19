@@ -63,12 +63,12 @@ export class WeaknessesPage {
     this.pokeDetailsSub.sub = this.pokeService.getPokeDetails(index)
     .subscribe((det: any) => {
       this.pokeDetailsSub.subscribed = true
-      this.getTypes(det)
+      this.getDamageRelations(det)
     })
     this.allSubs.push(this.pokeDetailsSub)
   }
 
-  getTypes(det:any): void {
+  getDamageRelations(det:any): void {
     let damage_relations: Damage_Relations[] = []
     let countTypes: number = 0
     det.types.forEach((type: any) => {
@@ -92,12 +92,13 @@ export class WeaknessesPage {
     })
     setTimeout(() => {
       if(countTypes == 1) {
-        this.dm_rel = damage_relations[0]
-        console.log('this.dm_rel', this.dm_rel)
+        //this.dm_rel = damage_relations[0]
+        //console.log('this.dm_rel', this.dm_rel)
       }
       if(countTypes > 1) {
-        this.dm_rel = this.pokeService.calculateDamageRelationsBy2Types(damage_relations)
-        console.log('this.dm_rel', this.dm_rel)
+        this.pokeService.calcDamageRelationsBy2Types(damage_relations)
+        //this.dm_rel = this.pokeService.calcDamageRelationsBy2Types(damage_relations)
+        //console.log('this.dm_rel', this.dm_rel)
       }
       this.progressLoad = false
     }, 1000)
