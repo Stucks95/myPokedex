@@ -1,10 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-      <ion-title class="fs-title inline-flex"> 
+      <ion-title class="fs-title inline-flex" style="padding-right: 0;"> 
           myPokedex v{{appVersion}}
       </ion-title>
-      <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
-      <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+      <ion-img class="pokeball-img ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+      <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 mt-0_2 fs-title float-right"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -15,17 +15,17 @@
         <ion-text class="fs-title">Base Stats</ion-text>
     </ion-card-title>
     <ion-grid class="grid-borders mt-1">
-        <ion-row>
+        <ion-row class="fs-stats">
             <ion-col>TYPE</ion-col>
             <ion-col>POINTS</ion-col>
         </ion-row>
         <ion-row *ngFor="let stat of stats">
-            <ion-item-divider>
-                <ion-col>{{stat.name | uppercase }}</ion-col>
+            <ion-item-divider class="fs-stats">
+                <ion-col>{{stat.name | uppercase}}</ion-col>
                 <ion-col>{{stat.base_stat}}</ion-col>
             </ion-item-divider>
         </ion-row>
-        <ion-row class="pr-0_5">
+        <ion-row class="pr-0_5 fs-stats">
             <ion-col>TOTAL</ion-col>
             <ion-col>{{totStats}}</ion-col>
         </ion-row>

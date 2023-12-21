@@ -1,10 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar color="primary">
-        <ion-title class="fs-title inline-flex"> 
+        <ion-title class="fs-title inline-flex" style="padding-right: 0;"> 
             myPokedex v{{appVersion}}
         </ion-title>
-        <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
-        <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+        <ion-img class="pokeball-img ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+        <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 mt-0_2 fs-title float-right"></ion-icon>
     </ion-toolbar>
 </ion-header>
 
@@ -26,63 +26,47 @@
     </ion-card>
 
     <!-- EVO 1 EXIST ? -->
-    <div class="evo m2" *ngIf="details.evo.evo1.length !== 0">
+    <div class="m2 flex center" *ngIf="details.evo.evo1.length !== 0">
         <!-- FIRST STADIUM -->
         <div *ngIf="details.pokeIndex === details.evo.evo0.id">
-            <ion-text class="ion-text-capitalize">Evolves To: </ion-text>
-            <ion-item *ngFor="let evo of details.evo.evo1" [routerLink]="'/tabs/details/'+evo.id.toString()" 
+            <ion-text class="fs-card">Evolves To: </ion-text>
+            <div class="evo-borders" *ngFor="let evo of details.evo.evo1" [routerLink]="'/tabs/details/'+evo.id.toString()" 
             (click)="updatePokeId(evo.id)">
-                <ion-avatar slot="start">
-                    <img [src]="evo.img" style="background: #f2f2f2;">
-                </ion-avatar>
-                <ion-label class="ion-text-capitalize">
-                    <h2>{{ evo.name | uppercase }}</h2>
-                </ion-label>
-            </ion-item>
+                <ion-img class="evo-img mr-0_5" [src]="evo.img"></ion-img>
+                <ion-text class="fs-card">{{evo.name | uppercase}}</ion-text>
+            </div>
         </div>
     </div>
 
     <!-- EVO 2 EXIST ? -->
-    <div class="evo m2" *ngIf="details.evo.evo2.length !== 0">
+    <div class="m2 flex center" *ngIf="details.evo.evo2.length !== 0">
         <!-- SECOND STADIUM -->
         <div *ngIf="details.pokeIndex === details.evo.evo1[0].id">
             <!-- PRE EVO -->
-            <ion-text class="ion-text-capitalize">From: </ion-text>
-            <ion-item [routerLink]="'/tabs/details/'+details.evo.evo0.id.toString()" 
+            <ion-text class="fs-card">From: </ion-text>
+            <div class="flex center evo-borders" [routerLink]="'/tabs/details/'+details.evo.evo0.id.toString()" 
             (click)="updatePokeId(details.evo.evo0.id)">
-                <ion-avatar slot="start">
-                    <img [src]="details.evo.evo0.img" style="background: #f2f2f2;">
-                </ion-avatar>
-                <ion-label class="ion-text-capitalize">
-                    <h2>{{ details.evo.evo0.name | uppercase }}</h2>
-                </ion-label>
-            </ion-item>
+                <ion-img class="evo-img mr-0_5" [src]="details.evo.evo0.img"></ion-img>
+                <ion-text class="fs-card">{{details.evo.evo0.name | uppercase}}</ion-text>
+            </div>
             <!-- EVO -->
-            <ion-text class="ion-text-capitalize">Evolves To: </ion-text>
-            <ion-item *ngFor="let evo of details.evo.evo2" [routerLink]="'/tabs/details/'+evo.id.toString()" 
+            <ion-text class="fs-card">Evolves To: </ion-text>
+            <div class="flex center evo-borders" *ngFor="let evo of details.evo.evo2" [routerLink]="'/tabs/details/'+evo.id.toString()" 
             (click)="updatePokeId(evo.id)">
-                <ion-avatar slot="start">
-                    <img [src]="evo.img" style="background: #f2f2f2;">
-                </ion-avatar>
-                <ion-label class="ion-text-capitalize">
-                    <h2>{{ evo.name | uppercase }}</h2>
-                </ion-label>
-            </ion-item>
+                <ion-img class="evo-img mr-0_5" [src]="evo.img"></ion-img>
+                <ion-text class="fs-card">{{evo.name | uppercase}}</ion-text>
+            </div>
         </div>
 
         <!-- THIRD STADIUM -->
-        <div class="evo m2" *ngIf="details.pokeIndex === details.evo.evo2[0].id">
+        <div *ngIf="details.pokeIndex === details.evo.evo2[0].id">
             <!-- PRE EVO -->
-            <ion-text class="ion-text-capitalize">From: </ion-text>
-            <ion-item [routerLink]="'/tabs/details/'+details.evo.evo1[0].id.toString()" 
+            <ion-text class="fs-card">From: </ion-text>
+            <div class="flex center evo-borders" [routerLink]="'/tabs/details/'+details.evo.evo1[0].id.toString()" 
             (click)="updatePokeId(details.evo.evo1[0].id)">
-                <ion-avatar slot="start">
-                    <img [src]="details.evo.evo1[0].img">
-                </ion-avatar>
-                <ion-label class="ion-text-capitalize">
-                    <h2>{{ details.evo.evo1[0].name | uppercase }}</h2>
-                </ion-label>
-            </ion-item>
+                <ion-img class="evo-img mr-0_5" [src]="details.evo.evo1[0].img"></ion-img>
+                <ion-text class="fs-card">{{details.evo.evo1[0].name | uppercase}}</ion-text>
+            </div>
         </div>
     </div>
 

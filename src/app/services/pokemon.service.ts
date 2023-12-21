@@ -11,6 +11,14 @@ interface Damage_Relations {
   double_damage_from: {name: string}[]
 }
 
+interface Weaknesses_Resistances_2Types {
+  x4: string[], 
+  x2: string[], 
+  x0_5: string[],
+  x0_25: string[],
+  x0: string[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -133,70 +141,78 @@ export class PokemonService {
     )
   }
 
-  calcDamageRelationsBy2Types(dm_rel: Damage_Relations[]): void {
-    let resDm_Rel: Damage_Relations = {no_damage_from: [], half_damage_from: [], double_damage_from: []}
-    let x4: any[] = []; let x2: any[]= [] // Weaknesses 
-    let x1: any[]= []
-    let x0_5: any[] = []; let x0_25: any[] = [] // Resistances
-    let x0: any[] = [] // Immunities
+  calcDamageRelationsBy2Types(dm_rel: Damage_Relations[]): Weaknesses_Resistances_2Types {
+    let results: Weaknesses_Resistances_2Types = {
+      x4: [], x2: [], x0_5: [], x0_25: [], x0: [] 
+    }
+    let x4: string[] = []; let x2: string[]= [] // Weaknesses 
+    let x1: string[] = []
+    let x0_5: string[] = []; let x0_25: string[] = [] // Resistances
+    let x0: string[] = [] // Immunities
 
-    console.log('dm_rel', dm_rel)
+    // pushing all the immunities
+    dm_rel[0].no_damage_from.forEach((noDM1stType: {name:string}) => {
+      x0.push(noDM1stType.name)
+    })
+    dm_rel[1].no_damage_from.forEach((noDM2ndType: {name:string}) => {
+      x0.push(noDM2ndType.name)
+    })
     
     // double_damage_from - BY 1st TYPE - Weaknesses
     dm_rel[0].double_damage_from.forEach((doubleDM1stType: {name:string}) => {
       let pushed: boolean = false
       // doubleDM x doubleDM = 4
-      dm_rel[1].double_damage_from.forEach((doubleDM2stType: {name:string}) => {
-        if(doubleDM1stType.name == doubleDM2stType.name) {
-          x4.push(doubleDM1stType)
+      dm_rel[1].double_damage_from.forEach((doubleDM2ndType: {name:string}) => {
+        if(doubleDM1stType.name == doubleDM2ndType.name) {
+          x4.push(doubleDM1stType.name)
           pushed = true
         }
       })
       // doubleDM x halfDM = 1
-      dm_rel[1].half_damage_from.forEach((halfDM2stType: {name:string}) => {
-        if(doubleDM1stType.name == halfDM2stType.name) {
-          x1.push(doubleDM1stType)
+      dm_rel[1].half_damage_from.forEach((halfDM2ndType: {name:string}) => {
+        if(doubleDM1stType.name == halfDM2ndType.name) {
+          x1.push(doubleDM1stType.name)
           pushed = true
         }
       })
       // doubleDM x noDM = 0
-      dm_rel[1].no_damage_from.forEach((noDM2stType: {name:string}) => {
-        if(doubleDM1stType.name == noDM2stType.name) {
-          x0.push(doubleDM1stType)
+      dm_rel[1].no_damage_from.forEach((noDM2ndType: {name:string}) => {
+        if(doubleDM1stType.name == noDM2ndType.name) {
+          x0.push(doubleDM1stType.name)
           pushed = true
         }
       })
       if(!pushed) {
-        x2.push(doubleDM1stType)
+        x2.push(doubleDM1stType.name)
       }
     })
 
-    // double_damage_from - BY 2st TYPE - Weaknesses
-    dm_rel[1].double_damage_from.forEach((doubleDM2stType: {name:string}) => {
+    // double_damage_from - BY 2nd TYPE - Weaknesses
+    dm_rel[1].double_damage_from.forEach((doubleDM2ndType: {name:string}) => {
       let pushed: boolean = false
       // doubleDM x doubleDM = 4
       dm_rel[0].double_damage_from.forEach((doubleDM1stType: {name:string}) => {
-        if(doubleDM2stType.name == doubleDM1stType.name) {
-          x4.push(doubleDM2stType)
+        if(doubleDM2ndType.name == doubleDM1stType.name) {
+          x4.push(doubleDM2ndType.name)
           pushed = true
         }
       })
       // doubleDM x halfDM = 1
       dm_rel[0].half_damage_from.forEach((halfDM1stType: {name:string}) => {
-        if(doubleDM2stType.name == halfDM1stType.name) {
-          x1.push(doubleDM2stType)
+        if(doubleDM2ndType.name == halfDM1stType.name) {
+          x1.push(doubleDM2ndType.name)
           pushed = true
         }
       })
       // doubleDM x noDM = 0
       dm_rel[0].no_damage_from.forEach((noDM1stType: {name:string}) => {
-        if(doubleDM2stType.name == noDM1stType.name) {
-          x0.push(doubleDM2stType)
+        if(doubleDM2ndType.name == noDM1stType.name) {
+          x0.push(doubleDM2ndType.name)
           pushed = true
         }
       })
       if(!pushed) {
-        x2.push(doubleDM2stType)
+        x2.push(doubleDM2ndType.name)
       }
     })
 
@@ -204,35 +220,68 @@ export class PokemonService {
     dm_rel[0].half_damage_from.forEach((halfDM1stType: {name:string}) => {
       let pushed: boolean = false
       // halfDM x doubleDM = 1
-      dm_rel[1].double_damage_from.forEach((doubleDM2stType: {name:string}) => {
-        if(halfDM1stType.name == doubleDM2stType.name) {
-          x1.push(halfDM1stType)
+      dm_rel[1].double_damage_from.forEach((doubleDM2ndType: {name:string}) => {
+        if(halfDM1stType.name == doubleDM2ndType.name) {
+          x1.push(halfDM1stType.name)
           pushed = true
         }
       })
       // halfDM x halfDM = 0_25
-      dm_rel[1].half_damage_from.forEach((halfDM2stType: {name:string}) => {
-        if(halfDM1stType.name == halfDM2stType.name) {
-          x0_25.push(halfDM1stType)
+      dm_rel[1].half_damage_from.forEach((halfDM2ndType: {name:string}) => {
+        if(halfDM1stType.name == halfDM2ndType.name) {
+          x0_25.push(halfDM1stType.name)
           pushed = true
         }
       })
       // halfDM x noDM = 0
-      dm_rel[1].no_damage_from.forEach((noDM2stType: {name:string}) => {
-        if(halfDM1stType.name == noDM2stType.name) {
-          x0.push(halfDM1stType)
+      dm_rel[1].no_damage_from.forEach((noDM2ndType: {name:string}) => {
+        if(halfDM1stType.name == noDM2ndType.name) {
+          x0.push(halfDM1stType.name)
           pushed = true
         }
       })
       if(!pushed) {
-        x0_5.push(halfDM1stType)
+        x0_5.push(halfDM1stType.name)
       }
     })
 
-    // !! MANCA -> half_damage_from - BY 2st TYPE - Resistances
+    //half_damage_from - BY 2nd TYPE - Resistances
+    dm_rel[1].half_damage_from.forEach((halfDM2ndType: {name:string}) => {
+      let pushed: boolean = false
+      // halfDM x doubleDM = 1
+      dm_rel[0].double_damage_from.forEach((doubleDM1stType: {name:string}) => {
+        if(halfDM2ndType.name == doubleDM1stType.name) {
+          x1.push(halfDM2ndType.name)
+          pushed = true
+        }
+      })
+      // halfDM x halfDM = 0_25
+      dm_rel[0].half_damage_from.forEach((halfDM1stType: {name:string}) => {
+        if(halfDM2ndType.name == halfDM1stType.name) {
+          x0_25.push(halfDM2ndType.name)
+          pushed = true
+        }
+      })
+      // halfDM x noDM = 0
+      dm_rel[0].no_damage_from.forEach((noDM1stType: {name:string}) => {
+        if(halfDM2ndType.name == noDM1stType.name) {
+          x0.push(halfDM2ndType.name)
+          pushed = true
+        }
+      })
+      if(!pushed) {
+        x0_5.push(halfDM2ndType.name)
+      }
+    })
 
-    console.log('x4, x2, x1', [...new Set(x4)], [...new Set(x2)], [...new Set(x1)])
-    console.log('x0_5, x0_25, x0', [...new Set(x0_5)], [...new Set(x0_25)], [...new Set(x0)])
+    results.x4 = [...new Set(x4)]
+    results.x2 = [...new Set(x2)]
+    results.x0_5 = [...new Set(x0_5)]
+    results.x0_25 = [...new Set(x0_25)]
+    results.x0 = [...new Set(x0)]
+    console.log('results',results)
+
+    return results
   }
 
   calculateDamageRelationsBy2Types(dm_rel: Damage_Relations[]): void {

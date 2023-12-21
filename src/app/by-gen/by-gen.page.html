@@ -1,11 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
 
-    <ion-title class="fs-title inline-flex"> 
+    <ion-title class="fs-title inline-flex" style="padding-right: 0;"> 
         myPokedex v{{appVersion}}
     </ion-title>
-    <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
-    <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+    <ion-img class="pokeball-img ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+    <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 mt-0_2 fs-title float-right"></ion-icon>
 
     <ion-select color="dark" class="top-select" [interfaceOptions]="customPopoverOptions" 
     interface="popover" placeholder="1° - KANTO" (ionChange)="loadGen($event)" toggleIcon="add">
@@ -20,7 +20,7 @@
 <ion-content [fullscreen]="true" class="grid center">
 
   <!-- SKELETON FX -->
-  <ion-list *ngIf="skeletonLoad" class="p-0_8">
+  <ion-list *ngIf="skeletonLoad">
     <div class="pokemon" *ngFor="let i of skeletonArray">
       <ion-avatar class="poke-img mb-0_5">
         <ion-skeleton-text animated></ion-skeleton-text>
@@ -32,7 +32,7 @@
   </ion-list>
 
   <!-- POKE LIST -->
-  <ion-list *ngIf="!skeletonLoad" class="p-0_8">
+  <ion-list *ngIf="!skeletonLoad">
     <div class="pokemon" *ngFor="let pokemon of pokemons" [routerLink]="'/tabs/details/'+pokemon.index.toString()">
       <ion-img class="poke-img" [src]="pokemon.image"></ion-img>
       <p class="ion-text-capitalize">{{pokemon.name}}</p>

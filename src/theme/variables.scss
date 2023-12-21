@@ -37,16 +37,33 @@
     color: #cccccc;
   }
 
-  .card-menu:hover {
-    background-color: #3b7cee;
+  .evo-img {
+    width: 8em;
+  }
+
+  .evo-borders {
+    border: #cccccc 0.2em solid;
+    border-radius: 1.5em;
+    padding: 0.5em;
+  }
+
+  .evo-borders:hover {
+    background-color: #e6e6e6;
+    transform: translateX(-5px) scale(0.95);
+    color: #000
+  }
+
+  .home-options:hover {
+    background-color: #4c8dff;
+    transform: translateX(-5px) scale(0.95)
   }
 
   .max-pokeimg-size {
-    max-width: 32em;
+    max-width: 31em;
   }
 
   .max-typeimg-size {
-    max-width: 18em;
+    max-width: 16em;
   }
 
   .m2 {
@@ -63,6 +80,10 @@
 
   .mt-1 {
     margin-top: 1em;
+  }
+
+  .mt-0_2 {
+    margin-top: 0.2em;
   }
 
   .mt-2 {
@@ -111,11 +132,19 @@
 
   .fs-title {
     font-size: 1.4em;
-    padding-left: 0.3em;
+    padding-left: 0.4em;
+  }
+
+  .fs-stats {
+    font-size: 1em;
   }
 
   .fs-card {
-    font-size: 1.25em;
+    font-size: 1.3em;
+  }
+
+  .home-options {
+    font-size: 1.3em;
   }
 
   .col-movest {
@@ -139,7 +168,7 @@
     display: grid;
   }
 
-  .w2 {
+  .pokeball-img {
     width: 2em;
   }
 
@@ -218,8 +247,59 @@
   /* Media Query for Laptops and Desktops */
   @media (min-width: 1025px) {
     .ion-page, ion-tab-bar {
-      margin-left: 10%;
-      margin-right: 10%;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .pokeball-img {
+      width: 2.5em;
+    }
+
+    .max-pokeimg-size {
+      max-width: 35em;
+    }
+  
+    .max-typeimg-size {
+      max-width: 18em;
+    }
+
+    .fs-title {
+      font-size: 2em;
+      padding-left: 0.5em;
+    }
+  
+    .fs-card {
+      font-size: 1.8em;
+    }
+
+    .fs-stats {
+      font-size: 1.6em;
+    }
+
+    .home-options {
+      font-size: 1.8em;
+    }
+  
+    .col-movest {
+      font-size: 0.8em;
+      padding: 0.3em;
+    }
+
+    .top-select {
+      font-weight: bold;
+      font-size: 1.5em;
+      background-color: #cccccc;
+      border-radius: 35px;
+      margin-left: 0.5em;
+      padding-left: 1em;
+      margin-bottom: 0.5em;
+      margin-top: 0.5em;
+      color: #121212;
+      display: table-caption;
+    }
+
+    .poke-img {
+      width: 11em;
     }
   }
 

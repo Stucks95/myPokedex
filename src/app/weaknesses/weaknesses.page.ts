@@ -3,10 +3,18 @@ import { Subscription } from 'rxjs';
 import { PokemonService } from '../services/pokemon.service';
 import { LoadingController } from '@ionic/angular';
 
-interface Damage_Relations {
+interface Weaknesses_Resistances_1Types {
   no_damage_from: {name: string}[], 
   half_damage_from: {name: string}[], 
   double_damage_from: {name: string}[]
+}
+
+interface Weaknesses_Resistances_2Types {
+  x4: string[], 
+  x2: string[], 
+  x0_5: string[],
+  x0_25: string[],
+  x0: string[]
 }
 
 interface Type {
@@ -22,9 +30,11 @@ export class WeaknessesPage {
 
   appVersion: string = this.pokeService.appVersion
   pokeIndex: number
-  dm_rel: Damage_Relations = {no_damage_from: [], half_damage_from: [], double_damage_from: []}
+  weak_res1type: Weaknesses_Resistances_1Types = {no_damage_from: [], half_damage_from: [], double_damage_from: []}
+  weak_res2types: Weaknesses_Resistances_2Types = {x4: [], x2: [], x0_5: [], x0_25: [], x0: []}
   types: Type[] = []
   progressLoad: boolean = true
+  countTypes: number = 0
   
   allSubs: {}[] = []
   dmgRelationsSub: {sub: Subscription | null, subscribed: boolean} = {sub: null, subscribed: false}
@@ -69,8 +79,8 @@ export class WeaknessesPage {
   }
 
   getDamageRelations(det:any): void {
-    let damage_relations: Damage_Relations[] = []
-    let countTypes: number = 0
+    let damage_relations: Weaknesses_Resistances_1Types[] = []
+    this.countTypes = 0
     det.types.forEach((type: any) => {
       // finding id by substringing the url
       let idType: number = this.pokeService.findIDByURL(type.type.url)
@@ -88,20 +98,20 @@ export class WeaknessesPage {
           double_damage_from: dm_rel.double_damage_from
         })
       })
-      countTypes++
+      this.countTypes++
     })
     setTimeout(() => {
-      if(countTypes == 1) {
-        //this.dm_rel = damage_relations[0]
+      if(this.countTypes == 1) {
+        this.weak_res1type = damage_relations[0]
         //console.log('this.dm_rel', this.dm_rel)
       }
-      if(countTypes > 1) {
-        this.pokeService.calcDamageRelationsBy2Types(damage_relations)
+      if(this.countTypes > 1) {
+        this.weak_res2types = this.pokeService.calcDamageRelationsBy2Types(damage_relations)
         //this.dm_rel = this.pokeService.calcDamageRelationsBy2Types(damage_relations)
         //console.log('this.dm_rel', this.dm_rel)
       }
       this.progressLoad = false
-    }, 1000)
+    }, 1500)
   }
 
 }

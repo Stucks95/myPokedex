@@ -1,46 +1,114 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-      <ion-title class="fs-title inline-flex"> 
+      <ion-title class="fs-title inline-flex" style="padding-right: 0;"> 
           myPokedex v{{appVersion}}
       </ion-title>
-      <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
-      <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 fs-title float-right"></ion-icon>
+      <ion-img class="pokeball-img ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+      <ion-icon [routerLink]="'/home'" name="home" class="mr-0_6 mt-0_2 fs-title float-right"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="center grid">
     
-    <!-- Weaknesses & Resistances -->
-    <div class="m2 max-typeimg-size" *ngIf="!progressLoad">
-      <ion-card-title class="center mb-1">
-          <ion-text class="fs-title">Weaknesses & Resistances</ion-text>
-      </ion-card-title>
-      <ion-grid class="grid-borders">
+    <ng-template *ngIf="countTypes === 1; then oneType else twoTypes"></ng-template>
+
+    <!-- CASE OF 1 TYPE -->
+    <ng-template #oneType>
+      <div class="m2 max-typeimg-size" *ngIf="!progressLoad">
+        <ion-card-title class="center flex mb-1">
+            <ion-text class="fs-title">Weaknesses & Resistances</ion-text>
+        </ion-card-title>
+        <ion-grid class="grid-borders" *ngIf="weak_res1type.double_damage_from.length !== 0">
           <ion-row class="fs-card">
               <ion-col class="mb-0_5">WEAK TO</ion-col>
           </ion-row>
-          <ion-row *ngFor="let weaknesses of dm_rel.double_damage_from">
-            <ion-img [alt]="weaknesses.name" [src]="'../../assets/img/types/'+weaknesses.name+'.png'" class="mb-0_5"></ion-img>
-          </ion-row>
-      </ion-grid>
-      <ion-grid class="grid-borders">
           <ion-row class="fs-card">
-              <ion-col class="mb-0_5">RESISTENT TO</ion-col>
+            <ion-col class="mb-0_5">2x</ion-col>
           </ion-row>
-          <ion-row *ngFor="let resistances of dm_rel.half_damage_from">
-            <ion-img [alt]="resistances.name" [src]="'../../assets/img/types/'+resistances.name+'.png'" class="mb-0_5"></ion-img>
+          <ion-row *ngFor="let weakX2 of weak_res1type.double_damage_from">
+            <ion-img [alt]="weakX2.name" [src]="'../../assets/img/types/'+weakX2.name+'.png'" class="mb-0_5"></ion-img>
           </ion-row>
-      </ion-grid>
-      <ion-grid class="grid-borders" *ngIf="dm_rel.no_damage_from.length !== 0">
+        </ion-grid>
+        <ion-grid class="grid-borders" *ngIf="weak_res1type.half_damage_from.length !== 0">
           <ion-row class="fs-card">
-              <ion-col class="mb-0_5">IMMUNITY TO</ion-col>
+            <ion-col class="mb-0_5">RESISTENT TO</ion-col>
           </ion-row>
-          <ion-row *ngFor="let immunities of dm_rel.no_damage_from">
-            <ion-img [alt]="immunities.name" [src]="'../../assets/img/types/'+immunities.name+'.png'" class="mb-0_5"></ion-img>
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">1/2x</ion-col>
           </ion-row>
-      </ion-grid>
-    </div>
+          <ion-row *ngFor="let resX0_5 of weak_res1type.half_damage_from">
+            <ion-img [alt]="resX0_5.name" [src]="'../../assets/img/types/'+resX0_5.name+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+        </ion-grid>
+        <ion-grid class="grid-borders" *ngIf="weak_res1type.no_damage_from.length !== 0">
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">IMMUNITIES</ion-col>
+          </ion-row>
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">0x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let immunity of weak_res1type.no_damage_from">
+            <ion-img [alt]="immunity.name" [src]="'../../assets/img/types/'+immunity.name+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ng-template>
+
+    <!-- CASE OF 2 TYPES -->
+    <ng-template #twoTypes>
+      <div class="m2 max-typeimg-size" *ngIf="!progressLoad">
+        <ion-card-title class="center flex mb-1">
+            <ion-text class="fs-title">Weaknesses & Resistances</ion-text>
+        </ion-card-title>
+        <ion-grid class="grid-borders">
+          <ion-row class="fs-card">
+              <ion-col class="mb-0_5">WEAK TO</ion-col>
+          </ion-row>
+          <ion-row class="fs-card" *ngIf="weak_res2types.x4.length !== 0">
+            <ion-col class="mb-0_5">4x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let weakX4 of weak_res2types.x4">
+            <ion-img [alt]="weakX4" [src]="'../../assets/img/types/'+weakX4+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+          <ion-row class="fs-card" *ngIf="weak_res2types.x2.length !== 0">
+            <ion-col class="mb-0_5">2x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let weakX2 of weak_res2types.x2">
+            <ion-img [alt]="weakX2" [src]="'../../assets/img/types/'+weakX2+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+        </ion-grid>
+        <ion-grid class="grid-borders">
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">RESISTENT TO</ion-col>
+          </ion-row>
+          <ion-row class="fs-card" *ngIf="weak_res2types.x0_5.length !== 0">
+            <ion-col class="mb-0_5">1/2x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let resX0_5 of weak_res2types.x0_5">
+            <ion-img [alt]="resX0_5" [src]="'../../assets/img/types/'+resX0_5+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+          <ion-row class="fs-card" *ngIf="weak_res2types.x0_25.length !== 0">
+            <ion-col class="mb-0_5">1/4x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let resX0_25 of weak_res2types.x0_25">
+            <ion-img [alt]="resX0_25" [src]="'../../assets/img/types/'+resX0_25+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+        </ion-grid>
+        <ion-grid class="grid-borders" *ngIf="weak_res2types.x0.length !== 0">
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">IMMUNITIES</ion-col>
+          </ion-row>
+          <ion-row class="fs-card">
+            <ion-col class="mb-0_5">0x</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let immunity of weak_res2types.x0">
+            <ion-img [alt]="immunity" [src]="'../../assets/img/types/'+immunity+'.png'" class="mb-0_5"></ion-img>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ng-template>
+
   </div>
 
 </ion-content>

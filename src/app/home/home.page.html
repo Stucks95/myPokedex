@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title class="fs-title inline-flex">
+    <ion-title class="fs-title inline-flex" style="padding-right: 0;" style="padding-right: 0;">
       myPokedex v{{appVersion}}
     </ion-title>
-    <ion-img class="w2 ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
+    <ion-img class="pokeball-img ml-0_5 float-left" src="../../assets/img/animation_pokeball.gif"></ion-img>
   </ion-toolbar>
 </ion-header>
 
@@ -30,13 +30,13 @@
 
     <ion-list>
       <ion-item [routerLink]="'/by-gen'" #gen_item>
-        <ion-title class="center">GENERATION</ion-title> 
+        <ion-title class="center home-options">GENERATION</ion-title> 
       </ion-item>
       <ion-item [routerLink]="'/by-type'" #type_item>
-        <ion-title class="center">TYPE</ion-title> 
+        <ion-title class="center home-options">TYPE</ion-title> 
       </ion-item>
       <ion-item [routerLink]="'/by-all'" #all_item>
-        <ion-title class="center">ALL</ion-title> 
+        <ion-title class="center home-options">ALL</ion-title> 
       </ion-item>
     </ion-list>
 
@@ -46,7 +46,7 @@
 
     <ion-list>
       <ion-item [routerLink]="'/types'" #weaknesses_item>
-        <ion-title class="center">WEAKNESSES</ion-title> 
+        <ion-title class="center home-options">WEAKNESSES</ion-title> 
       </ion-item>
     </ion-list>
   </div>
